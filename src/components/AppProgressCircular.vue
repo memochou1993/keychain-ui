@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <v-progress-circular
+      :width="3"
+      color="primary"
+      indeterminate
+    />
+  </div>
+</template>
