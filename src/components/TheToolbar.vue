@@ -12,7 +12,7 @@
         Keychain
       </v-toolbar-title>
       <v-spacer />
-      <TheToolbarSearch />
+      <KeySearch />
       <v-toolbar-items>
         <v-btn
           icon
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import TheToolbarSearch from '@/components/TheToolbarSearch.vue';
+import KeySearch from '@/components/KeySearch.vue';
 
 export default {
   components: {
-    TheToolbarSearch,
+    KeySearch,
   },
 };
 </script>

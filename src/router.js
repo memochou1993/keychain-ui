@@ -13,8 +13,8 @@ export default new Router({
     },
     {
       path: '/:user',
-      name: 'users.index',
-      component: () => import('@/views/User/Index.vue'),
+      name: 'users.home',
+      component: () => import('@/views/User/Home.vue'),
     },
   ],
 });

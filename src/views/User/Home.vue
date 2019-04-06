@@ -5,14 +5,9 @@
       wrap
     >
       <v-flex
-        xs12
+        md8
+        offset-md2
       >
-        <KeyDialog
-          v-if="unlockDialog"
-          :selectedKey="selectedKey"
-          @setSelectedKey="setSelectedKey"
-          @setUnlockDialog="setUnlockDialog"
-        />
         <AppProgressLinear
           :loading="loading"
           :error="error"
@@ -79,6 +74,7 @@
             >
               <AppNoData
                 :noData="noData"
+                item="keys"
               />
             </template>
           </v-data-table>
@@ -93,6 +89,12 @@
             @input="onPageChange()"
           />
         </div>
+        <KeyDialog
+          v-if="unlockDialog"
+          :selectedKey="selectedKey"
+          @setSelectedKey="setSelectedKey"
+          @setUnlockDialog="setUnlockDialog"
+        />
       </v-flex>
     </v-layout>
   </div>
@@ -126,20 +128,18 @@ export default {
           text: '', value: '', align: 'center', sortable: false,
         },
       ],
+      keys: [],
+      pages: 1,
+      paginate: 10,
+      page: 1,
       loading: false,
       noData: false,
       error: null,
-      paginate: 10,
-      page: 1,
       selectedKey: null,
       unlockDialog: false,
     };
   },
   computed: {
-    ...mapState('key', [
-      'keys',
-      'pages',
-    ]),
     ...mapState([
       'refresh',
       'query',
@@ -173,7 +173,9 @@ export default {
           paginate: this.paginate,
         },
       })
-        .then(({ data }) => {
+        .then(({ data, meta }) => {
+          this.setKeys(data);
+          this.setPages(meta.last_page);
           this.setNoData(data.length === 0);
         })
         .catch((error) => {
@@ -185,6 +187,12 @@ export default {
             this.setLoading(false);
           }, 1000);
         });
+    },
+    setKeys(keys) {
+      this.keys = keys;
+    },
+    setPages(pages) {
+      this.pages = pages;
     },
     setLoading(loading) {
       this.loading = loading;

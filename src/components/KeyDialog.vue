@@ -60,7 +60,7 @@ export default {
           password: this.password,
         },
       })
-        .then(({ data }) => {
+        .then(() => {
           this.setDialog(false);
         })
         .catch((error) => {

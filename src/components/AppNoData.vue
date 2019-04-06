@@ -5,7 +5,7 @@
     <div
       v-if="noData"
     >
-      No keys found.
+      No {{ item }} found.
     </div>
     <AppProgressCircular
       v-else
@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    item: {
+      type: String,
+      required: true,
     },
   },
 };

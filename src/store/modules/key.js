@@ -4,23 +4,13 @@ import qs from 'qs';
 export default {
   namespaced: true,
   state: {
-    keys: [],
-    key: null,
-    pages: 1,
+    //
   },
   mutations: {
-    setKeys(state, keys) {
-      state.keys = keys;
-    },
-    setKey(state, key) {
-      state.key = key;
-    },
-    setPages(state, pages) {
-      state.pages = pages;
-    },
+    //
   },
   actions: {
-    fetchKeys({ commit }, { params }) {
+    fetchKeys(context, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -28,8 +18,6 @@ export default {
           params,
         })
           .then(({ data }) => {
-            commit('setKeys', data.data);
-            commit('setPages', data.meta.last_page);
             resolve(data);
           })
           .catch((error) => {
