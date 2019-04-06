@@ -2,29 +2,22 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="500px"
+      max-width="400px"
     >
       <v-card>
-        <v-card-title>
-          Dialog
-        </v-card-title>
-        <v-card-actions>
-          <v-btn
-            flat
-            color="primary"
-            @click="setDialog(false)"
-          >
-            Close
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            flat
-            color="primary"
-            @click="unlock()"
-          >
-            Unlock
-          </v-btn>
-        </v-card-actions>
+        <v-card-text>
+          <v-form>
+            <v-text-field
+              v-model="password"
+              :type="show ? 'text' : 'password'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              name="input"
+              label="Password"
+              autocomplete
+              @click:append="show = !show"
+            />
+          </v-form>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -35,6 +28,8 @@ export default {
   data() {
     return {
       dialog: true,
+      password: '',
+      show: false,
     };
   },
   watch: {

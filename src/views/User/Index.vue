@@ -33,7 +33,7 @@
                 class="text-xs-left"
               >
                 <div
-                  v-if="display(props.item)"
+                  v-if="isVisible(props.item)"
                 >
                   {{ props.item.content }}
                 </div>
@@ -53,7 +53,7 @@
                   @click="toggleVisibility(props.item)"
                 >
                   <v-icon
-                    v-if="display(props.item)"
+                    v-if="isVisible(props.item)"
                   >
                     mdi-eye
                   </v-icon>
@@ -124,22 +124,24 @@ export default {
           text: '', value: '', align: 'center', sortable: false,
         },
       ],
-      keys: [],
       loading: false,
       noData: false,
       error: null,
-      pages: 1,
       paginate: 10,
       page: 1,
-      visibleKeys: [],
       unlockDialog: false,
     };
   },
   computed: {
+    ...mapState('key', [
+      'keys',
+      'pages',
+    ]),
     ...mapState([
-      'unlock',
       'refresh',
       'query',
+      'unlockedKeys',
+      'visibleKeys',
     ]),
   },
   watch: {
@@ -170,8 +172,6 @@ export default {
       })
         .then(({ data, meta }) => {
           setTimeout(() => {
-            this.setKeys(data);
-            this.setPages(meta.last_page);
             this.setNoData(data.length === 0);
           }, 250);
         })
@@ -184,12 +184,6 @@ export default {
             this.setLoading(false);
           }, 1000);
         });
-    },
-    setKeys(keys) {
-      this.keys = keys;
-    },
-    setPages(pages) {
-      this.pages = pages;
     },
     setLoading(loading) {
       this.loading = loading;
@@ -204,23 +198,23 @@ export default {
       this.unlockDialog = unlockDialog;
     },
     setVisibleKeys(visibleKeys) {
-      this.visibleKeys = visibleKeys;
+      this.$store.dispatch('setVisibleKeys', visibleKeys);
     },
     toggleVisibility(key) {
-      if (!this.unlock) {
+      if (!this.unlockedKeys.includes(key.id)) {
         this.setUnlockDialog(true);
         return false;
       }
       if (this.visibleKeys.includes(key.id)) {
         return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));
       }
-      return this.visibleKeys.push(key.id);
+      return this.setVisibleKeys(this.visibleKeys.concat(key.id));
     },
-    display(key) {
+    isVisible(key) {
       if (!key.password) {
         return true;
       }
-      if (!this.unlock) {
+      if (!this.unlockedKeys.includes(key.id)) {
         return false;
       }
       return this.visibleKeys.includes(key.id);
