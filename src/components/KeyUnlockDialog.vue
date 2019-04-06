@@ -16,6 +16,7 @@
               :loading="loading"
               :append-icon="isVisible ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password"
+              autofocus
               autocomplete
               @click:append="isVisible = !isVisible"
             />

@@ -89,7 +89,7 @@
             @input="onPageChange()"
           />
         </div>
-        <KeyDialog
+        <KeyUnlockDialog
           v-if="unlockDialog"
           :selectedKey="selectedKey"
           @setSelectedKey="setSelectedKey"
@@ -104,13 +104,13 @@
 import { mapState } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
-import KeyDialog from '@/components/KeyDialog.vue';
+import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
 
 export default {
   components: {
     AppProgressLinear,
     AppNoData,
-    KeyDialog,
+    KeyUnlockDialog,
   },
   data() {
     return {
