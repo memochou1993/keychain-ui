@@ -7,6 +7,10 @@
       <v-flex
         xs12
       >
+        <KeyDialog
+          v-if="unlockDialog"
+          @setUnlockDialog="setUnlockDialog"
+        />
         <AppProgressLinear
           :loading="loading"
           :error="error"
@@ -45,8 +49,8 @@
                 <v-btn
                   :disabled="!props.item.password"
                   icon
-                  class="secondary--text text--darken-1"
-                  @click="onVisibilityChange(props.item)"
+                  class="primary--text text--lighten-2"
+                  @click="toggleVisibility(props.item)"
                 >
                   <v-icon
                     v-if="display(props.item)"
@@ -96,11 +100,13 @@
 import { mapState } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
+import KeyDialog from '@/components/KeyDialog.vue';
 
 export default {
   components: {
     AppProgressLinear,
     AppNoData,
+    KeyDialog,
   },
   data() {
     return {
@@ -125,13 +131,13 @@ export default {
       pages: 1,
       paginate: 10,
       page: 1,
-      show: false,
-      unlock: false,
       visibleKeys: [],
+      unlockDialog: false,
     };
   },
   computed: {
     ...mapState([
+      'unlock',
       'refresh',
       'query',
     ]),
@@ -194,10 +200,17 @@ export default {
     setError(error) {
       this.error = error;
     },
+    setUnlockDialog(unlockDialog) {
+      this.unlockDialog = unlockDialog;
+    },
     setVisibleKeys(visibleKeys) {
       this.visibleKeys = visibleKeys;
     },
-    onVisibilityChange(key) {
+    toggleVisibility(key) {
+      if (!this.unlock) {
+        this.setUnlockDialog(true);
+        return false;
+      }
       if (this.visibleKeys.includes(key.id)) {
         return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));
       }
@@ -206,6 +219,9 @@ export default {
     display(key) {
       if (!key.password) {
         return true;
+      }
+      if (!this.unlock) {
+        return false;
       }
       return this.visibleKeys.includes(key.id);
     },
