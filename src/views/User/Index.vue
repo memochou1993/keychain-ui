@@ -28,14 +28,37 @@
               <td
                 class="text-xs-left"
               >
-                ••••••••••••
+                <div
+                  v-if="display(props.item)"
+                >
+                  {{ props.item.content }}
+                </div>
+                <div
+                  v-else
+                >
+                  ••••••••••••
+                </div>
               </td>
               <td
                 class="text-xs-center"
               >
-                <v-icon>
-                  mdi-eye-off
-                </v-icon>
+                <v-btn
+                  :disabled="!props.item.password"
+                  icon
+                  class="secondary--text text--darken-1"
+                  @click="onVisibilityChange(props.item)"
+                >
+                  <v-icon
+                    v-if="display(props.item)"
+                  >
+                    mdi-eye
+                  </v-icon>
+                  <v-icon
+                    v-else
+                  >
+                    mdi-eye-off
+                  </v-icon>
+                </v-btn>
               </td>
               <td
                 class="text-xs-center"
@@ -103,6 +126,8 @@ export default {
       paginate: 10,
       page: 1,
       show: false,
+      unlock: false,
+      visibleKeys: [],
     };
   },
   computed: {
@@ -125,13 +150,10 @@ export default {
     this.fetchKeys();
   },
   methods: {
-    initializeData() {
-      this.setLoading(false);
+    fetchKeys() {
+      this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
-    },
-    fetchKeys() {
-      this.initializeData();
       this.$store.dispatch('key/fetchKeys', {
         params: {
           q: this.query,
@@ -154,7 +176,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 500);
+          }, 1000);
         });
     },
     setKeys(keys) {
@@ -171,6 +193,21 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setVisibleKeys(visibleKeys) {
+      this.visibleKeys = visibleKeys;
+    },
+    onVisibilityChange(key) {
+      if (this.visibleKeys.includes(key.id)) {
+        return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));
+      }
+      return this.visibleKeys.push(key.id);
+    },
+    display(key) {
+      if (!key.password) {
+        return true;
+      }
+      return this.visibleKeys.includes(key.id);
     },
     onPageChange() {
       this.fetchKeys();
