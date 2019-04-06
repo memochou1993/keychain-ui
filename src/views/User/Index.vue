@@ -9,6 +9,8 @@
       >
         <KeyDialog
           v-if="unlockDialog"
+          :selectedKey="selectedKey"
+          @setSelectedKey="setSelectedKey"
           @setUnlockDialog="setUnlockDialog"
         />
         <AppProgressLinear
@@ -129,6 +131,7 @@ export default {
       error: null,
       paginate: 10,
       page: 1,
+      selectedKey: null,
       unlockDialog: false,
     };
   },
@@ -170,10 +173,8 @@ export default {
           paginate: this.paginate,
         },
       })
-        .then(({ data, meta }) => {
-          setTimeout(() => {
-            this.setNoData(data.length === 0);
-          }, 250);
+        .then(({ data }) => {
+          this.setNoData(data.length === 0);
         })
         .catch((error) => {
           this.setNoData(true);
@@ -194,6 +195,9 @@ export default {
     setError(error) {
       this.error = error;
     },
+    setSelectedKey(key) {
+      this.selectedKey = key;
+    },
     setUnlockDialog(unlockDialog) {
       this.unlockDialog = unlockDialog;
     },
@@ -202,6 +206,7 @@ export default {
     },
     toggleVisibility(key) {
       if (!this.unlockedKeys.includes(key.id)) {
+        this.setSelectedKey(key);
         this.setUnlockDialog(true);
         return false;
       }

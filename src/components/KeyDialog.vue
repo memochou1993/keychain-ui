@@ -2,19 +2,22 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="400px"
+      max-width="400"
     >
       <v-card>
         <v-card-text>
-          <v-form>
+          <v-form
+            @submit.prevent="unlock()"
+          >
             <v-text-field
               v-model="password"
-              :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              name="input"
+              :type="isVisible ? 'text' : 'password'"
+              :error="!!error"
+              :loading="loading"
+              :append-icon="isVisible ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password"
               autocomplete
-              @click:append="show = !show"
+              @click:append="isVisible = !isVisible"
             />
           </v-form>
         </v-card-text>
@@ -25,25 +28,65 @@
 
 <script>
 export default {
+  props: {
+    selectedKey: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       dialog: true,
       password: '',
-      show: false,
+      isVisible: false,
+      loading: false,
+      error: null,
     };
   },
   watch: {
     dialog(value) {
+      this.$emit('setSelectedKey', null);
       this.$emit('setUnlockDialog', value);
     },
   },
   methods: {
+    fetchKey() {
+      this.setLoading(true);
+      this.setError(null);
+      this.$store.dispatch('key/fetchKey', {
+        key: this.selectedKey,
+        params: {
+          with: 'user',
+          password: this.password,
+        },
+      })
+        .then(({ data }) => {
+          this.setDialog(false);
+        })
+        .catch((error) => {
+          this.setPassword('');
+          this.setError(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 250);
+        });
+    },
+    setLoading(loading) {
+      this.loading = loading;
+    },
+    setError(error) {
+      this.error = error;
+    },
     setDialog(dialog) {
       this.dialog = dialog;
     },
+    setPassword(password) {
+      this.password = password;
+    },
     unlock() {
-      this.setDialog(false);
-      this.$store.dispatch('setUnlock', true);
+      this.fetchKey();
     },
   },
 };
