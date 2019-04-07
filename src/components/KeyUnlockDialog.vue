@@ -55,7 +55,7 @@ export default {
       this.setLoading(true);
       this.setError(null);
       this.$store.dispatch('key/fetchKey', {
-        key: this.selectedKey,
+        selectedkey: this.selectedKey,
         params: {
           with: 'user',
           password: this.password,

@@ -21,6 +21,14 @@
             mdi-plus
           </v-icon>
         </v-btn>
+        <v-btn
+          icon
+          @click="setRefresh"
+        >
+          <v-icon>
+            mdi-refresh
+          </v-icon>
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -32,6 +40,11 @@ import KeySearch from '@/components/KeySearch.vue';
 export default {
   components: {
     KeySearch,
+  },
+  methods: {
+    setRefresh() {
+      this.$store.dispatch('setRefresh', true);
+    },
   },
 };
 </script>

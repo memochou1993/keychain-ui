@@ -64,9 +64,9 @@
               <td
                 class="text-xs-center"
               >
-                <v-icon>
-                  mdi-dots-horizontal
-                </v-icon>
+                <KeyMenu
+                  :selectedKey="props.item"
+                />
               </td>
             </template>
             <template
@@ -86,7 +86,7 @@
             v-if="pages > 1"
             v-model="page"
             :length="pages"
-            @input="onPageChange()"
+            @input="onPageChange"
           />
         </div>
         <KeyUnlockDialog
@@ -105,21 +105,23 @@ import { mapState } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
+import KeyMenu from '@/components/KeyMenu.vue';
 
 export default {
   components: {
     AppProgressLinear,
     AppNoData,
     KeyUnlockDialog,
+    KeyMenu,
   },
   data() {
     return {
       headers: [
         {
-          text: 'Key', value: 'name', align: 'left', sortable: false,
+          text: 'Title', value: 'name', align: 'left', sortable: false,
         },
         {
-          text: 'Value', value: 'content', align: 'left', sortable: false,
+          text: 'Content', value: 'content', align: 'left', sortable: false,
         },
         {
           text: '', value: '', align: 'center', sortable: false,
@@ -128,8 +130,6 @@ export default {
           text: '', value: '', align: 'center', sortable: false,
         },
       ],
-      keys: [],
-      pages: 1,
       paginate: 10,
       page: 1,
       loading: false,
@@ -140,6 +140,10 @@ export default {
     };
   },
   computed: {
+    ...mapState('key', [
+      'keys',
+      'pages',
+    ]),
     ...mapState([
       'refresh',
       'query',
@@ -154,6 +158,7 @@ export default {
     refresh(value) {
       if (value) {
         this.fetchKeys();
+        this.setRefresh(false);
       }
     },
   },
@@ -167,15 +172,13 @@ export default {
       this.setError(null);
       this.$store.dispatch('key/fetchKeys', {
         params: {
-          q: this.query,
           page: this.page,
           with: 'user',
           paginate: this.paginate,
+          q: this.query,
         },
       })
-        .then(({ data, meta }) => {
-          this.setKeys(data);
-          this.setPages(meta.last_page);
+        .then(({ data }) => {
           this.setNoData(data.length === 0);
         })
         .catch((error) => {
@@ -188,12 +191,6 @@ export default {
           }, 1000);
         });
     },
-    setKeys(keys) {
-      this.keys = keys;
-    },
-    setPages(pages) {
-      this.pages = pages;
-    },
     setLoading(loading) {
       this.loading = loading;
     },
@@ -202,6 +199,9 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setRefresh(refresh) {
+      this.$store.dispatch('setRefresh', refresh);
     },
     setSelectedKey(key) {
       this.selectedKey = key;
