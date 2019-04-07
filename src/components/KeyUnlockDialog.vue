@@ -7,7 +7,7 @@
       <v-card>
         <v-card-text>
           <v-form
-            @submit.prevent="unlock()"
+            @submit.prevent="unlock"
           >
             <v-text-field
               v-model="password"
@@ -71,7 +71,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 250);
+          }, 500);
         });
     },
     setLoading(loading) {

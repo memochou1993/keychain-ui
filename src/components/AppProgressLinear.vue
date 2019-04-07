@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-progress-linear
-      height="2"
       :color="color"
       :indeterminate="loading"
+      height="2"
       class="my-0"
     />
   </div>

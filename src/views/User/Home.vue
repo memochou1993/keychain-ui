@@ -216,7 +216,7 @@ export default {
       if (!this.unlockedKeys.includes(key.id)) {
         this.setSelectedKey(key);
         this.setUnlockDialog(true);
-        return false;
+        return true;
       }
       if (this.visibleKeys.includes(key.id)) {
         return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));

@@ -16,7 +16,7 @@ export default {
     },
   },
   actions: {
-    fetchKeys(context, { params }) {
+    fetchKeys({ commit }, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -25,8 +25,8 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              context.commit('setKeys', data.data);
-              context.commit('setPages', data.meta.last_page);
+              commit('setKeys', data.data);
+              commit('setPages', data.meta.last_page);
             }, 250);
             resolve(data);
           })
@@ -52,7 +52,7 @@ export default {
           });
       });
     },
-    deleteKey({ state, commit, rootState }, { selectedkey }) {
+    destroyKey({ state, commit, rootState }, { selectedkey }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',

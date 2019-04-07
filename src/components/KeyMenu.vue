@@ -23,7 +23,7 @@
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          @click="deleteKey"
+          @click="destroyKey"
         >
           <v-list-tile-title>
             Delete
@@ -43,8 +43,8 @@ export default {
     },
   },
   methods: {
-    deleteKey() {
-      this.$store.dispatch('key/deleteKey', {
+    destroyKey() {
+      this.$store.dispatch('key/destroyKey', {
         selectedkey: this.selectedKey,
       });
     },
