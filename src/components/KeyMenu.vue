@@ -26,7 +26,7 @@
           @click="destroyKey"
         >
           <v-list-tile-title>
-            Delete
+            Remove
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
