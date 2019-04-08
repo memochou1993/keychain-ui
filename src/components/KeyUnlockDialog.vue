@@ -50,8 +50,7 @@ export default {
   watch: {
     dialog(value) {
       if (!value) {
-        this.setSelectedKey(null);
-        this.setUnlockDialog(false);
+        this.initializeData();
       }
     },
   },
@@ -67,8 +66,7 @@ export default {
         },
       })
         .then(() => {
-          this.setSelectedKey(null);
-          this.setUnlockDialog(false);
+          this.initializeData();
         })
         .catch((error) => {
           this.setError(error);
@@ -85,6 +83,12 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setUnlockKey(unlockKey) {
+      this.$store.dispatch('key/setUnlockKey', unlockKey);
+    },
+    setEditKey(editKey) {
+      this.$store.dispatch('key/setEditKey', editKey);
     },
     setSelectedKey(selectedKey) {
       this.$store.dispatch('key/setSelectedKey', selectedKey);
@@ -105,6 +109,12 @@ export default {
     },
     unlock() {
       this.fetchKey();
+    },
+    initializeData() {
+      this.setUnlockKey(false);
+      this.setEditKey(false);
+      this.setSelectedKey(null);
+      this.setUnlockDialog(false);
     },
   },
 };

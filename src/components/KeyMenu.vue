@@ -19,9 +19,11 @@
       <v-list
         dense
       >
-        <v-list-tile>
+        <v-list-tile
+          @click="editKey"
+        >
           <v-list-tile-title>
-            Details
+            Edit
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
@@ -37,6 +39,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: {
     selectedKey: {
@@ -44,7 +48,32 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapState('key', [
+      'unlockedKeys',
+    ]),
+  },
   methods: {
+    setEditKey(editKey) {
+      this.$store.dispatch('key/setEditKey', editKey);
+    },
+    setEditDialog(editDialog) {
+      this.$store.dispatch('key/setEditDialog', editDialog);
+    },
+    setSelectedKey(selectedKey) {
+      this.$store.dispatch('key/setSelectedKey', selectedKey);
+    },
+    setUnlockDialog(unlockDialog) {
+      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
+    },
+    editKey() {
+      this.setEditKey(true);
+      this.setSelectedKey(this.selectedKey);
+      if (!this.unlockedKeys.includes(this.selectedKey.id)) {
+        return this.setUnlockDialog(true);
+      }
+      return this.setEditDialog(true);
+    },
     destroyKey() {
       this.$store.dispatch('key/destroyKey', {
         selectedkey: this.selectedKey,

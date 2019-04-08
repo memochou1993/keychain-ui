@@ -47,7 +47,7 @@
                   :disabled="!props.item.password"
                   icon
                   class="primary--text text--lighten-2"
-                  @click="toggleVisibility(props.item)"
+                  @click="unlockKey(props.item)"
                 >
                   <v-icon
                     v-if="isVisible(props.item)"
@@ -92,6 +92,9 @@
         <KeyUnlockDialog
           v-if="unlockDialog"
         />
+        <KeyEditDialog
+          v-if="editDialog"
+        />
       </v-flex>
     </v-layout>
   </div>
@@ -102,6 +105,7 @@ import { mapState } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
+import KeyEditDialog from '@/components/KeyEditDialog.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
 
 export default {
@@ -109,6 +113,7 @@ export default {
     AppProgressLinear,
     AppNoData,
     KeyUnlockDialog,
+    KeyEditDialog,
     KeyMenu,
   },
   data() {
@@ -141,6 +146,7 @@ export default {
       'unlockedKeys',
       'visibleKeys',
       'unlockDialog',
+      'editDialog',
     ]),
     ...mapState([
       'refresh',
@@ -199,8 +205,8 @@ export default {
     setRefresh(refresh) {
       this.$store.dispatch('setRefresh', refresh);
     },
-    setUnlockDialog(unlockDialog) {
-      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
+    setUnlockKey(unlockKey) {
+      this.$store.dispatch('key/setUnlockKey', unlockKey);
     },
     setVisibleKeys(visibleKeys) {
       this.$store.dispatch('key/setVisibleKeys', visibleKeys);
@@ -208,7 +214,11 @@ export default {
     setSelectedKey(selectedKey) {
       this.$store.dispatch('key/setSelectedKey', selectedKey);
     },
-    toggleVisibility(key) {
+    setUnlockDialog(unlockDialog) {
+      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
+    },
+    unlockKey(key) {
+      this.setUnlockKey(true);
       if (!this.unlockedKeys.includes(key.id)) {
         this.setSelectedKey(key);
         this.setUnlockDialog(true);

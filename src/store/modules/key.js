@@ -5,18 +5,31 @@ export default {
   namespaced: true,
   state: {
     keys: [],
+    key: null,
     pages: 1,
+    unlockKey: false,
+    editKey: false,
     unlockedKeys: [],
     visibleKeys: [],
     selectedKey: null,
     unlockDialog: false,
+    editDialog: false,
   },
   mutations: {
     setKeys(state, keys) {
       state.keys = keys;
     },
+    setKey(state, key) {
+      state.key = key;
+    },
     setPages(state, pages) {
       state.pages = pages;
+    },
+    setUnlockKey(state, unlockKey) {
+      state.unlockKey = unlockKey;
+    },
+    setEditKey(state, editKey) {
+      state.editKey = editKey;
     },
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
@@ -29,6 +42,9 @@ export default {
     },
     setUnlockDialog(state, unlockDialog) {
       state.unlockDialog = unlockDialog;
+    },
+    setEditDialog(state, editDialog) {
+      state.editDialog = editDialog;
     },
   },
   actions: {
@@ -59,8 +75,14 @@ export default {
           data: qs.stringify(params),
         })
           .then(({ data }) => {
+            commit('setKey', data.data);
             commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
-            commit('setVisibleKeys', state.visibleKeys.concat(data.data.id));
+            if (state.unlockKey) {
+              commit('setVisibleKeys', state.visibleKeys.concat(data.data.id));
+            }
+            if (state.editKey) {
+              commit('setEditDialog', true);
+            }
             resolve(data);
           })
           .catch((error) => {
@@ -88,6 +110,12 @@ export default {
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);
     },
+    setUnlockKey({ commit }, unlockKey) {
+      commit('setUnlockKey', unlockKey);
+    },
+    setEditKey({ commit }, editKey) {
+      commit('setEditKey', editKey);
+    },
     setVisibleKeys({ commit }, visibleKeys) {
       commit('setVisibleKeys', visibleKeys);
     },
@@ -96,6 +124,9 @@ export default {
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);
+    },
+    setEditDialog({ commit }, editDialog) {
+      commit('setEditDialog', editDialog);
     },
   },
 };
