@@ -11,14 +11,15 @@
           >
             <v-text-field
               v-model="password"
-              :type="isVisible ? 'text' : 'password'"
+              :type="'password'"
               :error="!!error"
               :loading="loading"
-              :append-icon="isVisible ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="capsLock ? 'mdi-format-letter-case-upper' : 'mdi-format-letter-case-lower'"
               label="Password"
               autofocus
               autocomplete
-              @click:append="isVisible = !isVisible"
+              @keyup="detectCapsLock"
+              @keydown="detectCapsLock"
             />
           </v-form>
         </v-card-text>
@@ -39,9 +40,9 @@ export default {
     return {
       dialog: true,
       password: '',
-      isVisible: false,
       loading: false,
       error: null,
+      capsLock: false,
     };
   },
   watch: {
@@ -83,11 +84,19 @@ export default {
     setDialog(dialog) {
       this.dialog = dialog;
     },
+    setCapsLock(capsLock) {
+      this.capsLock = capsLock;
+    },
     setPassword(password) {
       this.password = password;
     },
     unlock() {
       this.fetchKey();
+    },
+    detectCapsLock(event) {
+      if (this.capsLock !== event.getModifierState('CapsLock')) {
+        this.setCapsLock(event.getModifierState('CapsLock'));
+      }
     },
   },
 };

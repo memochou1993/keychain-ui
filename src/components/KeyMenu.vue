@@ -16,7 +16,9 @@
           </v-icon>
         </v-btn>
       </template>
-      <v-list>
+      <v-list
+        dense
+      >
         <v-list-tile>
           <v-list-tile-title>
             Details
