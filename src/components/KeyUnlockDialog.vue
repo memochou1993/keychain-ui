@@ -71,8 +71,8 @@ export default {
           this.setUnlockDialog(false);
         })
         .catch((error) => {
-          this.setPassword('');
           this.setError(error);
+          this.setPassword('');
         })
         .finally(() => {
           setTimeout(() => {

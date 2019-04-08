@@ -153,8 +153,8 @@ export default {
     },
     refresh(value) {
       if (value) {
-        this.setRefresh(false);
         this.fetchKeys();
+        this.setRefresh(false);
       }
     },
   },
