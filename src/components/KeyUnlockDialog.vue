@@ -14,7 +14,7 @@
               :type="'password'"
               :error="!!error"
               :loading="loading"
-              :append-icon="capsLock ? 'mdi-format-letter-case-upper' : 'mdi-format-letter-case-lower'"
+              :append-icon="`mdi-format-letter-case-${capsLock ? 'upper' : 'lower'}`"
               label="Password"
               autofocus
               autocomplete
@@ -29,26 +29,30 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  props: {
-    selectedKey: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       dialog: true,
-      password: '',
       loading: false,
       error: null,
+      password: '',
       capsLock: false,
     };
   },
+  computed: {
+    ...mapState('key', [
+      'selectedKey',
+      'unlockDialog',
+    ]),
+  },
   watch: {
     dialog(value) {
-      this.$emit('setSelectedKey', null);
-      this.$emit('setUnlockDialog', value);
+      if (!value) {
+        this.setSelectedKey(null);
+        this.setUnlockDialog(false);
+      }
     },
   },
   methods: {
@@ -63,11 +67,11 @@ export default {
         },
       })
         .then(() => {
-          this.setDialog(false);
+          this.setSelectedKey(null);
+          this.setUnlockDialog(false);
         })
         .catch((error) => {
           this.setPassword('');
-          console.log(error);
           this.setError(error);
         })
         .finally(() => {
@@ -82,22 +86,25 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setDialog(dialog) {
-      this.dialog = dialog;
+    setSelectedKey(selectedKey) {
+      this.$store.dispatch('key/setSelectedKey', selectedKey);
     },
-    setCapsLock(capsLock) {
-      this.capsLock = capsLock;
+    setUnlockDialog(unlockDialog) {
+      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     setPassword(password) {
       this.password = password;
     },
-    unlock() {
-      this.fetchKey();
+    setCapsLock(capsLock) {
+      this.capsLock = capsLock;
     },
     detectCapsLock(event) {
       if (this.capsLock !== event.getModifierState('CapsLock')) {
         this.setCapsLock(event.getModifierState('CapsLock'));
       }
+    },
+    unlock() {
+      this.fetchKey();
     },
   },
 };

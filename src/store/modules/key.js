@@ -8,6 +8,8 @@ export default {
     pages: 1,
     unlockedKeys: [],
     visibleKeys: [],
+    selectedKey: null,
+    unlockDialog: false,
   },
   mutations: {
     setKeys(state, keys) {
@@ -21,6 +23,12 @@ export default {
     },
     setVisibleKeys(state, visibleKeys) {
       state.visibleKeys = visibleKeys;
+    },
+    setSelectedKey(state, selectedKey) {
+      state.selectedKey = selectedKey;
+    },
+    setUnlockDialog(state, unlockDialog) {
+      state.unlockDialog = unlockDialog;
     },
   },
   actions: {
@@ -82,6 +90,12 @@ export default {
     },
     setVisibleKeys({ commit }, visibleKeys) {
       commit('setVisibleKeys', visibleKeys);
+    },
+    setSelectedKey({ commit }, selectedKey) {
+      commit('setSelectedKey', selectedKey);
+    },
+    setUnlockDialog({ commit }, unlockDialog) {
+      commit('setUnlockDialog', unlockDialog);
     },
   },
 };

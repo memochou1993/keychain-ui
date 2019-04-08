@@ -91,9 +91,6 @@
         </div>
         <KeyUnlockDialog
           v-if="unlockDialog"
-          :selectedKey="selectedKey"
-          @setSelectedKey="setSelectedKey"
-          @setUnlockDialog="setUnlockDialog"
         />
       </v-flex>
     </v-layout>
@@ -135,8 +132,6 @@ export default {
       loading: false,
       noData: false,
       error: null,
-      selectedKey: null,
-      unlockDialog: false,
     };
   },
   computed: {
@@ -145,6 +140,7 @@ export default {
       'pages',
       'unlockedKeys',
       'visibleKeys',
+      'unlockDialog',
     ]),
     ...mapState([
       'refresh',
@@ -157,8 +153,8 @@ export default {
     },
     refresh(value) {
       if (value) {
-        this.fetchKeys();
         this.setRefresh(false);
+        this.fetchKeys();
       }
     },
   },
@@ -203,14 +199,14 @@ export default {
     setRefresh(refresh) {
       this.$store.dispatch('setRefresh', refresh);
     },
-    setSelectedKey(key) {
-      this.selectedKey = key;
-    },
     setUnlockDialog(unlockDialog) {
-      this.unlockDialog = unlockDialog;
+      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     setVisibleKeys(visibleKeys) {
       this.$store.dispatch('key/setVisibleKeys', visibleKeys);
+    },
+    setSelectedKey(selectedKey) {
+      this.$store.dispatch('key/setSelectedKey', selectedKey);
     },
     toggleVisibility(key) {
       if (!this.unlockedKeys.includes(key.id)) {
