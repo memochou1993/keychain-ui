@@ -6,6 +6,8 @@ export default {
   state: {
     keys: [],
     pages: 1,
+    unlockedKeys: [],
+    visibleKeys: [],
   },
   mutations: {
     setKeys(state, keys) {
@@ -13,6 +15,12 @@ export default {
     },
     setPages(state, pages) {
       state.pages = pages;
+    },
+    setUnlockedKeys(state, unlockedKeys) {
+      state.unlockedKeys = unlockedKeys;
+    },
+    setVisibleKeys(state, visibleKeys) {
+      state.visibleKeys = visibleKeys;
     },
   },
   actions: {
@@ -35,7 +43,7 @@ export default {
           });
       });
     },
-    fetchKey({ commit, rootState }, { selectedkey, params }) {
+    fetchKey({ state, commit }, { selectedkey, params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -43,8 +51,8 @@ export default {
           data: qs.stringify(params),
         })
           .then(({ data }) => {
-            commit('setUnlockedKeys', rootState.unlockedKeys.concat(data.data.id), { root: true });
-            commit('setVisibleKeys', rootState.visibleKeys.concat(data.data.id), { root: true });
+            commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+            commit('setVisibleKeys', state.visibleKeys.concat(data.data.id));
             resolve(data);
           })
           .catch((error) => {
@@ -52,7 +60,7 @@ export default {
           });
       });
     },
-    destroyKey({ state, commit, rootState }, { selectedkey }) {
+    destroyKey({ state, commit }, { selectedkey }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -60,14 +68,20 @@ export default {
         })
           .then(({ data }) => {
             commit('setKeys', state.keys.filter(key => key.id !== selectedkey.id));
-            commit('setUnlockedKeys', rootState.unlockedKeys.filter(visibleKey => visibleKey !== selectedkey.id), { root: true });
-            commit('setVisibleKeys', rootState.visibleKeys.filter(unlockedKey => unlockedKey !== selectedkey.id), { root: true });
+            commit('setUnlockedKeys', state.unlockedKeys.filter(visibleKey => visibleKey !== selectedkey.id));
+            commit('setVisibleKeys', state.visibleKeys.filter(unlockedKey => unlockedKey !== selectedkey.id));
             resolve(data);
           })
           .catch((error) => {
             reject(error);
           });
       });
+    },
+    setUnlockedKeys({ commit }, unlockedKeys) {
+      commit('setUnlockedKeys', unlockedKeys);
+    },
+    setVisibleKeys({ commit }, visibleKeys) {
+      commit('setVisibleKeys', visibleKeys);
     },
   },
 };

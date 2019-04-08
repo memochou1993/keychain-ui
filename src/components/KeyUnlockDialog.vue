@@ -67,6 +67,7 @@ export default {
         })
         .catch((error) => {
           this.setPassword('');
+          console.log(error);
           this.setError(error);
         })
         .finally(() => {

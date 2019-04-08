@@ -143,12 +143,12 @@ export default {
     ...mapState('key', [
       'keys',
       'pages',
+      'unlockedKeys',
+      'visibleKeys',
     ]),
     ...mapState([
       'refresh',
       'query',
-      'unlockedKeys',
-      'visibleKeys',
     ]),
   },
   watch: {
@@ -210,7 +210,7 @@ export default {
       this.unlockDialog = unlockDialog;
     },
     setVisibleKeys(visibleKeys) {
-      this.$store.dispatch('setVisibleKeys', visibleKeys);
+      this.$store.dispatch('key/setVisibleKeys', visibleKeys);
     },
     toggleVisibility(key) {
       if (!this.unlockedKeys.includes(key.id)) {

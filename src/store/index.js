@@ -12,8 +12,6 @@ export default new Vuex.Store({
   state: {
     refresh: false,
     query: '',
-    unlockedKeys: [],
-    visibleKeys: [],
   },
   mutations: {
     setRefresh(state, refresh) {
@@ -22,12 +20,6 @@ export default new Vuex.Store({
     setQuery(state, query) {
       state.query = query;
     },
-    setUnlockedKeys(state, unlockedKeys) {
-      state.unlockedKeys = unlockedKeys;
-    },
-    setVisibleKeys(state, visibleKeys) {
-      state.visibleKeys = visibleKeys;
-    },
   },
   actions: {
     setRefresh(context, refresh) {
@@ -35,12 +27,6 @@ export default new Vuex.Store({
     },
     setQuery(context, query) {
       context.commit('setQuery', query);
-    },
-    setUnlockedKeys(context, unlockedKeys) {
-      context.commit('setUnlockedKeys', unlockedKeys);
-    },
-    setVisibleKeys(context, visibleKeys) {
-      context.commit('setVisibleKeys', visibleKeys);
     },
   },
 });
