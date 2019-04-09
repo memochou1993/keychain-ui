@@ -122,10 +122,9 @@ export default {
     },
     detectCapsLock(event) {
       const isCapsLock = event.getModifierState('CapsLock');
-      if (this.capsLock === isCapsLock) {
-        return true;
+      if (this.capsLock !== isCapsLock) {
+        this.setCapsLock(isCapsLock);
       }
-      return this.setCapsLock(isCapsLock);
     },
     unlock() {
       this.fetchKey();
