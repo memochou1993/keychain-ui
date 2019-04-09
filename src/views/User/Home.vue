@@ -222,11 +222,10 @@ export default {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     viewKey(key) {
+      this.setViewKey(true);
+      this.setSelectedKey(key);
       if (!this.unlockedKeys.includes(key.id)) {
-        this.setViewKey(true);
-        this.setSelectedKey(key);
-        this.setUnlockDialog(true);
-        return true;
+        return this.setUnlockDialog(true);
       }
       if (this.visibleKeys.includes(key.id)) {
         return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));

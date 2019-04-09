@@ -36,6 +36,7 @@ export default {
     return {
       dialog: true,
       loading: false,
+      noData: false,
       error: null,
       password: '',
       capsLock: false,
@@ -59,7 +60,6 @@ export default {
       this.setLoading(true);
       this.setError(null);
       this.$store.dispatch('key/fetchKey', {
-        selectedkey: this.selectedKey,
         params: {
           with: 'user',
           password: this.password,
@@ -69,6 +69,7 @@ export default {
           this.initializeData();
         })
         .catch((error) => {
+          this.setNoData(true);
           this.setError(error);
         })
         .finally(() => {
@@ -80,6 +81,9 @@ export default {
     },
     setLoading(loading) {
       this.loading = loading;
+    },
+    setNoData(noData) {
+      this.noData = noData;
     },
     setError(error) {
       this.error = error;

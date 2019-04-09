@@ -71,11 +71,11 @@ export default {
           });
       });
     },
-    fetchKey({ state, commit }, { selectedkey, params }) {
+    fetchKey({ state, commit }, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
-          url: `/users/me/keys/${selectedkey.id}`,
+          url: `/users/me/keys/${state.selectedKey.id}`,
           data: qs.stringify(params),
         })
           .then(({ data }) => {
@@ -94,16 +94,16 @@ export default {
           });
       });
     },
-    removeKey({ state, commit }, { selectedkey }) {
+    removeKey({ state, commit }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
-          url: `/users/me/keys/${selectedkey.id}`,
+          url: `/users/me/keys/${state.selectedKey.id}`,
         })
           .then(({ data }) => {
-            commit('setKeys', state.keys.filter(key => key.id !== selectedkey.id));
-            commit('setUnlockedKeys', state.unlockedKeys.filter(visibleKey => visibleKey !== selectedkey.id));
-            commit('setVisibleKeys', state.visibleKeys.filter(unlockedKey => unlockedKey !== selectedkey.id));
+            commit('setKeys', state.keys.filter(key => key.id !== state.selectedKey.id));
+            commit('setUnlockedKeys', state.unlockedKeys.filter(visibleKey => visibleKey !== state.selectedKey.id));
+            commit('setVisibleKeys', state.visibleKeys.filter(unlockedKey => unlockedKey !== state.selectedKey.id));
             resolve(data);
           })
           .catch((error) => {

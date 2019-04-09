@@ -7,10 +7,16 @@
       <v-card>
         <v-card-text>
           <v-form
+            v-if="!loading"
             @submit.prevent="update"
           >
-            {{ selectedKey.title }}
+            {{ key.title }}
           </v-form>
+          <AppNoData
+            v-else
+            :noData="noData"
+            item="key"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -28,11 +34,15 @@ export default {
   data() {
     return {
       dialog: true,
+      loading: false,
+      noData: false,
+      error: null,
     };
   },
   computed: {
     ...mapState('key', [
-      'selectedKey',
+      'key',
+      'selectedkey',
     ]),
   },
   watch: {
@@ -42,7 +52,38 @@ export default {
       }
     },
   },
+  created() {
+    this.fetchKey();
+  },
   methods: {
+    fetchKey() {
+      this.setLoading(true);
+      this.setError(null);
+      this.$store.dispatch('key/fetchKey', {
+        selectedkey: this.selectedkey,
+        params: {
+          with: 'user',
+        },
+      })
+        .catch((error) => {
+          this.setNoData(true);
+          this.setError(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 250);
+        });
+    },
+    setLoading(loading) {
+      this.loading = loading;
+    },
+    setNoData(noData) {
+      this.noData = noData;
+    },
+    setError(error) {
+      this.error = error;
+    },
     setKey(key) {
       this.$store.dispatch('key/setKey', key);
     },
@@ -56,6 +97,7 @@ export default {
       this.$store.dispatch('key/setEditDialog', editDialog);
     },
     initializeData() {
+      this.setKey(null);
       this.setEditKey(false);
       this.setSelectedKey(null);
       this.setEditDialog(false);

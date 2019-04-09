@@ -50,10 +50,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapState('key', [
       'unlockedKeys',
@@ -88,12 +84,11 @@ export default {
       return this.setEditDialog(true);
     },
     removeKey() {
+      this.setSelectedKey(this.selectedKey);
       if (!this.deprecatedKeys.includes(this.selectedKey.id)) {
         return this.setDeprecatedKeys([this.selectedKey.id]);
       }
-      return this.$store.dispatch('key/removeKey', {
-        selectedkey: this.selectedKey,
-      });
+      return this.$store.dispatch('key/removeKey');
     },
     isDeprecated() {
       return this.deprecatedKeys.includes(this.selectedKey.id);
