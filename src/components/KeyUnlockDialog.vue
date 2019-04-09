@@ -84,8 +84,8 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setUnlockKey(unlockKey) {
-      this.$store.dispatch('key/setUnlockKey', unlockKey);
+    setViewKey(viewKey) {
+      this.$store.dispatch('key/setViewKey', viewKey);
     },
     setEditKey(editKey) {
       this.$store.dispatch('key/setEditKey', editKey);
@@ -111,7 +111,7 @@ export default {
       this.fetchKey();
     },
     initializeData() {
-      this.setUnlockKey(false);
+      this.setViewKey(false);
       this.setEditKey(false);
       this.setSelectedKey(null);
       this.setUnlockDialog(false);

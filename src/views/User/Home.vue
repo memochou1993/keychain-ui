@@ -47,7 +47,7 @@
                   :disabled="!props.item.password"
                   icon
                   class="primary--text text--lighten-2"
-                  @click="unlockKey(props.item)"
+                  @click="viewKey(props.item)"
                 >
                   <v-icon
                     v-if="isVisible(props.item)"
@@ -205,8 +205,8 @@ export default {
     setRefresh(refresh) {
       this.$store.dispatch('setRefresh', refresh);
     },
-    setUnlockKey(unlockKey) {
-      this.$store.dispatch('key/setUnlockKey', unlockKey);
+    setViewKey(viewKey) {
+      this.$store.dispatch('key/setViewKey', viewKey);
     },
     setVisibleKeys(visibleKeys) {
       this.$store.dispatch('key/setVisibleKeys', visibleKeys);
@@ -217,8 +217,8 @@ export default {
     setUnlockDialog(unlockDialog) {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
-    unlockKey(key) {
-      this.setUnlockKey(true);
+    viewKey(key) {
+      this.setViewKey(true);
       if (!this.unlockedKeys.includes(key.id)) {
         this.setSelectedKey(key);
         this.setUnlockDialog(true);

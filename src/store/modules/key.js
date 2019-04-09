@@ -7,7 +7,7 @@ export default {
     keys: [],
     key: null,
     pages: 1,
-    unlockKey: false,
+    viewKey: false,
     editKey: false,
     unlockedKeys: [],
     visibleKeys: [],
@@ -25,8 +25,8 @@ export default {
     setPages(state, pages) {
       state.pages = pages;
     },
-    setUnlockKey(state, unlockKey) {
-      state.unlockKey = unlockKey;
+    setViewKey(state, viewKey) {
+      state.viewKey = viewKey;
     },
     setEditKey(state, editKey) {
       state.editKey = editKey;
@@ -77,7 +77,7 @@ export default {
           .then(({ data }) => {
             commit('setKey', data.data);
             commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
-            if (state.unlockKey) {
+            if (state.viewKey) {
               commit('setVisibleKeys', state.visibleKeys.concat(data.data.id));
             }
             if (state.editKey) {
@@ -110,8 +110,8 @@ export default {
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);
     },
-    setUnlockKey({ commit }, unlockKey) {
-      commit('setUnlockKey', unlockKey);
+    setViewKey({ commit }, viewKey) {
+      commit('setViewKey', viewKey);
     },
     setEditKey({ commit }, editKey) {
       commit('setEditKey', editKey);
