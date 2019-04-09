@@ -11,6 +11,7 @@ export default {
     editKey: false,
     unlockedKeys: [],
     visibleKeys: [],
+    deprecatedKeys: [],
     selectedKey: null,
     unlockDialog: false,
     editDialog: false,
@@ -39,6 +40,9 @@ export default {
     },
     setSelectedKey(state, selectedKey) {
       state.selectedKey = selectedKey;
+    },
+    setDeprecatedKeys(state, deprecatedKeys) {
+      state.deprecatedKeys = deprecatedKeys;
     },
     setUnlockDialog(state, unlockDialog) {
       state.unlockDialog = unlockDialog;
@@ -90,7 +94,7 @@ export default {
           });
       });
     },
-    destroyKey({ state, commit }, { selectedkey }) {
+    removeKey({ state, commit }, { selectedkey }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -107,20 +111,23 @@ export default {
           });
       });
     },
-    setUnlockedKeys({ commit }, unlockedKeys) {
-      commit('setUnlockedKeys', unlockedKeys);
-    },
     setViewKey({ commit }, viewKey) {
       commit('setViewKey', viewKey);
     },
     setEditKey({ commit }, editKey) {
       commit('setEditKey', editKey);
     },
+    setUnlockedKeys({ commit }, unlockedKeys) {
+      commit('setUnlockedKeys', unlockedKeys);
+    },
     setVisibleKeys({ commit }, visibleKeys) {
       commit('setVisibleKeys', visibleKeys);
     },
     setSelectedKey({ commit }, selectedKey) {
       commit('setSelectedKey', selectedKey);
+    },
+    setDeprecatedKeys({ commit }, deprecatedKeys) {
+      commit('setDeprecatedKeys', deprecatedKeys);
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);

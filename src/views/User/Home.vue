@@ -159,6 +159,7 @@ export default {
     },
     refresh(value) {
       if (value) {
+        this.setPage(1);
         this.fetchKeys();
         this.setRefresh(false);
       }
@@ -201,6 +202,9 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setPage(page) {
+      this.page = page;
     },
     setRefresh(refresh) {
       this.$store.dispatch('setRefresh', refresh);

@@ -2,6 +2,7 @@
   <div>
     <v-menu
       offset-x
+      :close-on-content-click="!isDeprecated()"
     >
       <template
         v-slot:activator="{ on }"
@@ -27,10 +28,11 @@
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          @click="destroyKey"
+          @click="removeKey"
+          :color="isDeprecated() ? 'warning darken-4' : 'warning darken-2'"
         >
           <v-list-tile-title>
-            Remove
+            {{ isDeprecated() ? 'Click to confirm' : 'Remove' }}
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -51,20 +53,24 @@ export default {
   computed: {
     ...mapState('key', [
       'unlockedKeys',
+      'deprecatedKeys',
     ]),
   },
   methods: {
     setEditKey(editKey) {
       this.$store.dispatch('key/setEditKey', editKey);
     },
-    setEditDialog(editDialog) {
-      this.$store.dispatch('key/setEditDialog', editDialog);
-    },
     setSelectedKey(selectedKey) {
       this.$store.dispatch('key/setSelectedKey', selectedKey);
     },
+    setDeprecatedKeys(deprecatedKeys) {
+      this.$store.dispatch('key/setDeprecatedKeys', deprecatedKeys);
+    },
     setUnlockDialog(unlockDialog) {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
+    },
+    setEditDialog(editDialog) {
+      this.$store.dispatch('key/setEditDialog', editDialog);
     },
     editKey() {
       this.setEditKey(true);
@@ -74,10 +80,16 @@ export default {
       }
       return this.setEditDialog(true);
     },
-    destroyKey() {
-      this.$store.dispatch('key/destroyKey', {
+    removeKey() {
+      if (!this.deprecatedKeys.includes(this.selectedKey.id)) {
+        return this.setDeprecatedKeys([this.selectedKey.id]);
+      }
+      return this.$store.dispatch('key/removeKey', {
         selectedkey: this.selectedKey,
       });
+    },
+    isDeprecated() {
+      return this.deprecatedKeys.includes(this.selectedKey.id);
     },
   },
 };
