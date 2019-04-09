@@ -131,6 +131,7 @@ export default {
       'unlockedKeys',
       'exposedKeys',
       'unlockDialog',
+      'deprecatedKeys',
       'editDialog',
     ]),
     ...mapState([
@@ -149,6 +150,13 @@ export default {
         this.setRefresh(false);
       }
     },
+    deprecatedKeys(value) {
+      if (value.length !== 0) {
+        setTimeout(() => {
+          this.setDeprecatedKeys([]);
+        }, 2500);
+      }
+    },
   },
   created() {
     this.fetchKeys();
@@ -160,6 +168,7 @@ export default {
     ...mapActions('key', [
       'setViewKey',
       'setExposedKeys',
+      'setDeprecatedKeys',
       'setSelectedKey',
       'setUnlockDialog',
     ]),
