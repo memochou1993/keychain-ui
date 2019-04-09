@@ -222,8 +222,8 @@ export default {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     viewKey(key) {
-      this.setViewKey(true);
       if (!this.unlockedKeys.includes(key.id)) {
+        this.setViewKey(true);
         this.setSelectedKey(key);
         this.setUnlockDialog(true);
         return true;

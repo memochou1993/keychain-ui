@@ -75,7 +75,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 500);
+          }, 250);
         });
     },
     setLoading(loading) {
@@ -97,7 +97,7 @@ export default {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     setPassword(password) {
-      this.password = password;
+      this.$store.dispatch('key/setPassword', password);
     },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
@@ -108,6 +108,7 @@ export default {
       }
     },
     unlock() {
+      this.setPassword(this.password);
       this.fetchKey();
     },
     initializeData() {

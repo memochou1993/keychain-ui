@@ -7,10 +7,15 @@
       <v-card>
         <v-card-text>
           <v-form
+            v-if="!loading"
             @submit.prevent="unlock"
           >
             {{ key.title }}
           </v-form>
+          <AppNoData
+            v-else
+            item="key"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -19,16 +24,25 @@
 
 <script>
 import { mapState } from 'vuex';
+import AppNoData from '@/components/AppNoData.vue';
 
 export default {
+  components: {
+    AppNoData,
+  },
   data() {
     return {
       dialog: true,
+      loading: false,
+      error: null,
     };
   },
   computed: {
     ...mapState('key', [
       'key',
+      'password',
+      'unlockedKeys',
+      'selectedKey',
     ]),
   },
   watch: {
@@ -38,7 +52,41 @@ export default {
       }
     },
   },
+  created() {
+    if (!this.unlockedKeys.includes(this.selectedkey)) {
+      this.fetchKey();
+    }
+  },
   methods: {
+    fetchKey() {
+      console.log(1);
+      this.setLoading(true);
+      this.setError(null);
+      this.$store.dispatch('key/fetchKey', {
+        selectedkey: this.selectedKey,
+        params: {
+          with: 'user',
+          password: this.password,
+        },
+      })
+        .catch((error) => {
+          this.setError(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 250);
+        });
+    },
+    setLoading(loading) {
+      this.loading = loading;
+    },
+    setError(error) {
+      this.error = error;
+    },
+    setKey(key) {
+      this.$store.dispatch('key/setKey', key);
+    },
     setEditKey(editKey) {
       this.$store.dispatch('key/setEditKey', editKey);
     },

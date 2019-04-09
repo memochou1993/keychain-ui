@@ -50,6 +50,10 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+    };
+  },
   computed: {
     ...mapState('key', [
       'unlockedKeys',
@@ -75,6 +79,9 @@ export default {
     editKey() {
       this.setEditKey(true);
       this.setSelectedKey(this.selectedKey);
+      if (!this.selectedKey.password) {
+        return this.setEditDialog(true);
+      }
       if (!this.unlockedKeys.includes(this.selectedKey.id)) {
         return this.setUnlockDialog(true);
       }

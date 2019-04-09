@@ -7,6 +7,7 @@ export default {
     keys: [],
     key: null,
     pages: 1,
+    password: '',
     viewKey: false,
     editKey: false,
     unlockedKeys: [],
@@ -22,6 +23,9 @@ export default {
     },
     setKey(state, key) {
       state.key = key;
+    },
+    setPassword(state, password) {
+      state.password = password;
     },
     setPages(state, pages) {
       state.pages = pages;
@@ -110,6 +114,12 @@ export default {
             reject(error);
           });
       });
+    },
+    setKey({ commit }, key) {
+      commit('setKey', key);
+    },
+    setPassword({ commit }, password) {
+      commit('setPassword', password);
     },
     setViewKey({ commit }, viewKey) {
       commit('setViewKey', viewKey);
