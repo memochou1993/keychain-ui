@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -54,18 +54,26 @@ export default {
   watch: {
     dialog(value) {
       if (!value) {
-        this.fetched();
+        this.processed();
       }
     },
   },
   methods: {
-    beforeFetch() {
+    ...mapActions('key', [
+      'setViewKey',
+      'setEditKey',
+      'setExposedKeys',
+      'setSelectedKey',
+      'setUnlockDialog',
+      'setEditDialog',
+    ]),
+    beforeProcess() {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
     },
     fetchKey() {
-      this.beforeFetch();
+      this.beforeProcess();
       this.$store.dispatch('key/fetchKey', {
         params: {
           with: 'user',
@@ -79,7 +87,7 @@ export default {
           if (this.editKey) {
             this.setEditDialog(true);
           }
-          this.fetched();
+          this.processed();
         })
         .catch((error) => {
           this.setNoData(true);
@@ -92,7 +100,7 @@ export default {
           }, 250);
         });
     },
-    fetched() {
+    processed() {
       this.setViewKey(false);
       this.setEditKey(false);
       this.setUnlockDialog(false);
@@ -111,24 +119,6 @@ export default {
     },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
-    },
-    setViewKey(viewKey) {
-      this.$store.dispatch('key/setViewKey', viewKey);
-    },
-    setEditKey(editKey) {
-      this.$store.dispatch('key/setEditKey', editKey);
-    },
-    setExposedKeys(exposedKeys) {
-      this.$store.dispatch('key/setExposedKeys', exposedKeys);
-    },
-    setSelectedKey(selectedKey) {
-      this.$store.dispatch('key/setSelectedKey', selectedKey);
-    },
-    setUnlockDialog(unlockDialog) {
-      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
-    },
-    setEditDialog(editDialog) {
-      this.$store.dispatch('key/setEditDialog', editDialog);
     },
     detectCapsLock(event) {
       const isCapsLock = event.getModifierState('CapsLock');

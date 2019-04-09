@@ -9,7 +9,7 @@
         offset-md2
       >
         <AppProgressLinear
-          :error="error"
+          :error="!!error"
           :loading="loading"
         />
         <v-card>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
@@ -154,13 +154,22 @@ export default {
     this.fetchKeys();
   },
   methods: {
-    beforeFetch() {
+    ...mapActions([
+      'setRefresh',
+    ]),
+    ...mapActions('key', [
+      'setViewKey',
+      'setExposedKeys',
+      'setSelectedKey',
+      'setUnlockDialog',
+    ]),
+    beforeProcess() {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
     },
     fetchKeys() {
-      this.beforeFetch();
+      this.beforeProcess();
       this.$store.dispatch('key/fetchKeys', {
         params: {
           page: this.page,
@@ -193,21 +202,6 @@ export default {
     },
     setPage(page) {
       this.page = page;
-    },
-    setRefresh(refresh) {
-      this.$store.dispatch('setRefresh', refresh);
-    },
-    setViewKey(viewKey) {
-      this.$store.dispatch('key/setViewKey', viewKey);
-    },
-    setExposedKeys(exposedKeys) {
-      this.$store.dispatch('key/setExposedKeys', exposedKeys);
-    },
-    setSelectedKey(selectedKey) {
-      this.$store.dispatch('key/setSelectedKey', selectedKey);
-    },
-    setUnlockDialog(unlockDialog) {
-      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     viewKey(key) {
       this.setViewKey(true);

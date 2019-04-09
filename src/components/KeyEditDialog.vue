@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -47,7 +47,7 @@ export default {
   watch: {
     dialog(value) {
       if (!value) {
-        this.fetched();
+        this.processed();
       }
     },
   },
@@ -55,13 +55,19 @@ export default {
     this.fetchKey();
   },
   methods: {
-    beforeFetch() {
+    ...mapActions('key', [
+      'setKey',
+      'setEditKey',
+      'setSelectedKey',
+      'setEditDialog',
+    ]),
+    beforeProcess() {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
     },
     fetchKey() {
-      this.beforeFetch();
+      this.beforeProcess();
       this.$store.dispatch('key/fetchKey', {
         params: {
           with: 'user',
@@ -77,7 +83,7 @@ export default {
           }, 250);
         });
     },
-    fetched() {
+    processed() {
       this.setKey(null);
       this.setEditKey(false);
       this.setSelectedKey(null);
@@ -91,18 +97,6 @@ export default {
     },
     setError(error) {
       this.error = error;
-    },
-    setKey(key) {
-      this.$store.dispatch('key/setKey', key);
-    },
-    setEditKey(editKey) {
-      this.$store.dispatch('key/setEditKey', editKey);
-    },
-    setSelectedKey(selectedKey) {
-      this.$store.dispatch('key/setSelectedKey', selectedKey);
-    },
-    setEditDialog(editDialog) {
-      this.$store.dispatch('key/setEditDialog', editDialog);
     },
   },
 };

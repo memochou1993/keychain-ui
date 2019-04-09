@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   props: {
@@ -63,21 +63,13 @@ export default {
     },
   },
   methods: {
-    setEditKey(editKey) {
-      this.$store.dispatch('key/setEditKey', editKey);
-    },
-    setUnlockDialog(unlockDialog) {
-      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
-    },
-    setDeprecatedKeys(deprecatedKeys) {
-      this.$store.dispatch('key/setDeprecatedKeys', deprecatedKeys);
-    },
-    setSelectedKey(selectedKey) {
-      this.$store.dispatch('key/setSelectedKey', selectedKey);
-    },
-    setEditDialog(editDialog) {
-      this.$store.dispatch('key/setEditDialog', editDialog);
-    },
+    ...mapActions('key', [
+      'setEditKey',
+      'setDeprecatedKeys',
+      'setSelectedKey',
+      'setUnlockDialog',
+      'setEditDialog',
+    ]),
     editKey() {
       this.setEditKey(true);
       this.setSelectedKey(this.selectedKey);

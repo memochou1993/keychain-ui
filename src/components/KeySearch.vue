@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -24,9 +25,9 @@ export default {
     },
   },
   methods: {
-    setQuery(query) {
-      this.$store.dispatch('setQuery', query);
-    },
+    ...mapActions([
+      'setQuery',
+    ]),
     search: _.debounce(function anonymous() {
       this.setQuery(this.query);
     }, 250),
