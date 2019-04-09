@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-progress-linear
-      :color="color"
+      :color="error ? 'error' : 'success'"
+      :height="2"
       :indeterminate="loading"
-      height="2"
       class="my-0"
     />
   </div>
@@ -21,11 +21,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-  },
-  computed: {
-    color() {
-      return this.error ? 'error' : 'success';
     },
   },
 };

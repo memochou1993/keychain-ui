@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="400"
+      :max-width="400"
     >
       <v-card>
         <v-card-text>
@@ -14,7 +14,7 @@
               :type="'password'"
               :error="!!error"
               :loading="loading"
-              :append-icon="`mdi-format-letter-case-${capsLock ? 'upper' : 'lower'}`"
+              :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
               label="Password"
               autofocus
               autocomplete
@@ -46,27 +46,40 @@ export default {
     ...mapState('key', [
       'selectedKey',
       'unlockDialog',
+      'exposedKeys',
+      'viewKey',
+      'editKey',
     ]),
   },
   watch: {
     dialog(value) {
       if (!value) {
-        this.initializeData();
+        this.fetched();
       }
     },
   },
   methods: {
-    fetchKey() {
+    beforeFetch() {
       this.setLoading(true);
+      this.setNoData(false);
       this.setError(null);
+    },
+    fetchKey() {
+      this.beforeFetch();
       this.$store.dispatch('key/fetchKey', {
         params: {
           with: 'user',
           password: this.password,
         },
       })
-        .then(() => {
-          this.initializeData();
+        .then(({ data }) => {
+          if (this.viewKey) {
+            this.setExposedKeys(this.exposedKeys.concat(data.id));
+          }
+          if (this.editKey) {
+            this.setEditDialog(true);
+          }
+          this.fetched();
         })
         .catch((error) => {
           this.setNoData(true);
@@ -79,6 +92,11 @@ export default {
           }, 250);
         });
     },
+    fetched() {
+      this.setViewKey(false);
+      this.setEditKey(false);
+      this.setUnlockDialog(false);
+    },
     setLoading(loading) {
       this.loading = loading;
     },
@@ -88,11 +106,20 @@ export default {
     setError(error) {
       this.error = error;
     },
+    setPassword(password) {
+      this.password = password;
+    },
+    setCapsLock(capsLock) {
+      this.capsLock = capsLock;
+    },
     setViewKey(viewKey) {
       this.$store.dispatch('key/setViewKey', viewKey);
     },
     setEditKey(editKey) {
       this.$store.dispatch('key/setEditKey', editKey);
+    },
+    setExposedKeys(exposedKeys) {
+      this.$store.dispatch('key/setExposedKeys', exposedKeys);
     },
     setSelectedKey(selectedKey) {
       this.$store.dispatch('key/setSelectedKey', selectedKey);
@@ -100,24 +127,18 @@ export default {
     setUnlockDialog(unlockDialog) {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
-    setPassword(password) {
-      this.password = password;
-    },
-    setCapsLock(capsLock) {
-      this.capsLock = capsLock;
+    setEditDialog(editDialog) {
+      this.$store.dispatch('key/setEditDialog', editDialog);
     },
     detectCapsLock(event) {
-      if (this.capsLock !== event.getModifierState('CapsLock')) {
-        this.setCapsLock(event.getModifierState('CapsLock'));
+      const isCapsLock = event.getModifierState('CapsLock');
+      if (this.capsLock === isCapsLock) {
+        return true;
       }
+      return this.setCapsLock(isCapsLock);
     },
     unlock() {
       this.fetchKey();
-    },
-    initializeData() {
-      this.setViewKey(false);
-      this.setEditKey(false);
-      this.setUnlockDialog(false);
     },
   },
 };

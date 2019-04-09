@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="400"
+      :max-width="400"
     >
       <v-card>
         <v-card-text>
@@ -42,13 +42,12 @@ export default {
   computed: {
     ...mapState('key', [
       'key',
-      'selectedkey',
     ]),
   },
   watch: {
     dialog(value) {
       if (!value) {
-        this.initializeData();
+        this.fetched();
       }
     },
   },
@@ -56,11 +55,14 @@ export default {
     this.fetchKey();
   },
   methods: {
-    fetchKey() {
+    beforeFetch() {
       this.setLoading(true);
+      this.setNoData(false);
       this.setError(null);
+    },
+    fetchKey() {
+      this.beforeFetch();
       this.$store.dispatch('key/fetchKey', {
-        selectedkey: this.selectedkey,
         params: {
           with: 'user',
         },
@@ -74,6 +76,12 @@ export default {
             this.setLoading(false);
           }, 250);
         });
+    },
+    fetched() {
+      this.setKey(null);
+      this.setEditKey(false);
+      this.setSelectedKey(null);
+      this.setEditDialog(false);
     },
     setLoading(loading) {
       this.loading = loading;
@@ -95,12 +103,6 @@ export default {
     },
     setEditDialog(editDialog) {
       this.$store.dispatch('key/setEditDialog', editDialog);
-    },
-    initializeData() {
-      this.setKey(null);
-      this.setEditKey(false);
-      this.setSelectedKey(null);
-      this.setEditDialog(false);
     },
   },
 };

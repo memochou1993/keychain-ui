@@ -24,12 +24,12 @@ export default {
     },
   },
   methods: {
-    search: _.debounce(function anonymous() {
-      this.setQuery(this.query);
-    }, 250),
     setQuery(query) {
       this.$store.dispatch('setQuery', query);
     },
+    search: _.debounce(function anonymous() {
+      this.setQuery(this.query);
+    }, 250),
   },
 };
 </script>

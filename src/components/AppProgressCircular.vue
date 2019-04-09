@@ -2,7 +2,7 @@
   <div>
     <v-progress-circular
       :width="3"
-      color="warning"
+      color="primary"
       indeterminate
     />
   </div>

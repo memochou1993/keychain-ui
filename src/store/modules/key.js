@@ -10,11 +10,25 @@ export default {
     viewKey: false,
     editKey: false,
     unlockedKeys: [],
-    visibleKeys: [],
+    exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
     unlockDialog: false,
     editDialog: false,
+  },
+  getters: {
+    isUnlocked(state) {
+      if (!state.selectedKey) {
+        return false;
+      }
+      return state.unlockedKeys.includes(state.selectedKey.id);
+    },
+    isDeprecated(state) {
+      if (!state.selectedKey) {
+        return false;
+      }
+      return state.deprecatedKeys.includes(state.selectedKey.id);
+    },
   },
   mutations: {
     setKeys(state, keys) {
@@ -35,14 +49,14 @@ export default {
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
     },
-    setVisibleKeys(state, visibleKeys) {
-      state.visibleKeys = visibleKeys;
-    },
-    setSelectedKey(state, selectedKey) {
-      state.selectedKey = selectedKey;
+    setExposedKeys(state, exposedKeys) {
+      state.exposedKeys = exposedKeys;
     },
     setDeprecatedKeys(state, deprecatedKeys) {
       state.deprecatedKeys = deprecatedKeys;
+    },
+    setSelectedKey(state, selectedKey) {
+      state.selectedKey = selectedKey;
     },
     setUnlockDialog(state, unlockDialog) {
       state.unlockDialog = unlockDialog;
@@ -81,12 +95,6 @@ export default {
           .then(({ data }) => {
             commit('setKey', data.data);
             commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
-            if (state.viewKey) {
-              commit('setVisibleKeys', state.visibleKeys.concat(data.data.id));
-            }
-            if (state.editKey) {
-              commit('setEditDialog', true);
-            }
             resolve(data);
           })
           .catch((error) => {
@@ -102,8 +110,6 @@ export default {
         })
           .then(({ data }) => {
             commit('setKeys', state.keys.filter(key => key.id !== state.selectedKey.id));
-            commit('setUnlockedKeys', state.unlockedKeys.filter(visibleKey => visibleKey !== state.selectedKey.id));
-            commit('setVisibleKeys', state.visibleKeys.filter(unlockedKey => unlockedKey !== state.selectedKey.id));
             resolve(data);
           })
           .catch((error) => {
@@ -111,8 +117,14 @@ export default {
           });
       });
     },
+    setKeys({ commit }, keys) {
+      commit('setKeys', keys);
+    },
     setKey({ commit }, key) {
       commit('setKey', key);
+    },
+    setPages({ commit }, pages) {
+      commit('setPages', pages);
     },
     setViewKey({ commit }, viewKey) {
       commit('setViewKey', viewKey);
@@ -123,14 +135,14 @@ export default {
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);
     },
-    setVisibleKeys({ commit }, visibleKeys) {
-      commit('setVisibleKeys', visibleKeys);
-    },
-    setSelectedKey({ commit }, selectedKey) {
-      commit('setSelectedKey', selectedKey);
+    setExposedKeys({ commit }, exposedKeys) {
+      commit('setExposedKeys', exposedKeys);
     },
     setDeprecatedKeys({ commit }, deprecatedKeys) {
       commit('setDeprecatedKeys', deprecatedKeys);
+    },
+    setSelectedKey({ commit }, selectedKey) {
+      commit('setSelectedKey', selectedKey);
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);

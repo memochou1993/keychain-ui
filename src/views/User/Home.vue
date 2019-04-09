@@ -9,8 +9,8 @@
         offset-md2
       >
         <AppProgressLinear
-          :loading="loading"
           :error="error"
+          :loading="loading"
         />
         <v-card>
           <v-data-table
@@ -29,16 +29,7 @@
               <td
                 class="text-xs-left"
               >
-                <div
-                  v-if="isVisible(props.item)"
-                >
-                  {{ props.item.content }}
-                </div>
-                <div
-                  v-else
-                >
-                  ••••••••••••
-                </div>
+                {{ isExposed(props.item) ? props.item.content : bullets }}
               </td>
               <td
                 class="text-xs-center"
@@ -49,15 +40,8 @@
                   class="primary--text text--lighten-2"
                   @click="viewKey(props.item)"
                 >
-                  <v-icon
-                    v-if="isVisible(props.item)"
-                  >
-                    mdi-eye
-                  </v-icon>
-                  <v-icon
-                    v-else
-                  >
-                    mdi-eye-off
+                  <v-icon>
+                    {{ `mdi-eye${isExposed(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
               </td>
@@ -137,6 +121,7 @@ export default {
       loading: false,
       noData: false,
       error: null,
+      bullets: '••••••••••',
     };
   },
   computed: {
@@ -144,7 +129,7 @@ export default {
       'keys',
       'pages',
       'unlockedKeys',
-      'visibleKeys',
+      'exposedKeys',
       'unlockDialog',
       'editDialog',
     ]),
@@ -169,10 +154,13 @@ export default {
     this.fetchKeys();
   },
   methods: {
-    fetchKeys() {
+    beforeFetch() {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
+    },
+    fetchKeys() {
+      this.beforeFetch();
       this.$store.dispatch('key/fetchKeys', {
         params: {
           page: this.page,
@@ -212,8 +200,8 @@ export default {
     setViewKey(viewKey) {
       this.$store.dispatch('key/setViewKey', viewKey);
     },
-    setVisibleKeys(visibleKeys) {
-      this.$store.dispatch('key/setVisibleKeys', visibleKeys);
+    setExposedKeys(exposedKeys) {
+      this.$store.dispatch('key/setExposedKeys', exposedKeys);
     },
     setSelectedKey(selectedKey) {
       this.$store.dispatch('key/setSelectedKey', selectedKey);
@@ -224,22 +212,25 @@ export default {
     viewKey(key) {
       this.setViewKey(true);
       this.setSelectedKey(key);
-      if (!this.unlockedKeys.includes(key.id)) {
+      if (!this.isUnlocked(key)) {
         return this.setUnlockDialog(true);
       }
-      if (this.visibleKeys.includes(key.id)) {
-        return this.setVisibleKeys(this.visibleKeys.filter(visibleKey => visibleKey !== key.id));
+      if (this.exposedKeys.includes(key.id)) {
+        return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
       }
-      return this.setVisibleKeys(this.visibleKeys.concat(key.id));
+      return this.setExposedKeys(this.exposedKeys.concat(key.id));
     },
-    isVisible(key) {
+    isUnlocked(key) {
+      return this.unlockedKeys.includes(key.id);
+    },
+    isExposed(key) {
       if (!key.password) {
         return true;
       }
-      if (!this.unlockedKeys.includes(key.id)) {
+      if (!this.isUnlocked(key)) {
         return false;
       }
-      return this.visibleKeys.includes(key.id);
+      return this.exposedKeys.includes(key.id);
     },
     onPageChange() {
       this.fetchKeys();

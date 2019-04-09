@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-menu
+      :close-on-content-click="!isDeprecated"
       offset-x
-      :close-on-content-click="!isDeprecated()"
     >
       <template
         v-slot:activator="{ on }"
@@ -28,11 +28,11 @@
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
+          :color="`warning ${isDeprecated ? 'darken-4' : 'darken-2'}`"
           @click="removeKey"
-          :color="isDeprecated() ? 'warning darken-4' : 'warning darken-2'"
         >
           <v-list-tile-title>
-            {{ isDeprecated() ? 'Click to confirm' : 'Remove' }}
+            {{ isDeprecated ? 'Click to confirm' : 'Remove' }}
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -55,19 +55,25 @@ export default {
       'unlockedKeys',
       'deprecatedKeys',
     ]),
+    isUnlocked() {
+      return this.unlockedKeys.includes(this.selectedKey.id);
+    },
+    isDeprecated() {
+      return this.deprecatedKeys.includes(this.selectedKey.id);
+    },
   },
   methods: {
     setEditKey(editKey) {
       this.$store.dispatch('key/setEditKey', editKey);
     },
-    setSelectedKey(selectedKey) {
-      this.$store.dispatch('key/setSelectedKey', selectedKey);
+    setUnlockDialog(unlockDialog) {
+      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     setDeprecatedKeys(deprecatedKeys) {
       this.$store.dispatch('key/setDeprecatedKeys', deprecatedKeys);
     },
-    setUnlockDialog(unlockDialog) {
-      this.$store.dispatch('key/setUnlockDialog', unlockDialog);
+    setSelectedKey(selectedKey) {
+      this.$store.dispatch('key/setSelectedKey', selectedKey);
     },
     setEditDialog(editDialog) {
       this.$store.dispatch('key/setEditDialog', editDialog);
@@ -75,23 +81,17 @@ export default {
     editKey() {
       this.setEditKey(true);
       this.setSelectedKey(this.selectedKey);
-      if (!this.selectedKey.password) {
-        return this.setEditDialog(true);
-      }
-      if (!this.unlockedKeys.includes(this.selectedKey.id)) {
+      if (this.selectedKey.password && !this.isUnlocked) {
         return this.setUnlockDialog(true);
       }
       return this.setEditDialog(true);
     },
     removeKey() {
       this.setSelectedKey(this.selectedKey);
-      if (!this.deprecatedKeys.includes(this.selectedKey.id)) {
+      if (!this.isDeprecated) {
         return this.setDeprecatedKeys([this.selectedKey.id]);
       }
       return this.$store.dispatch('key/removeKey');
-    },
-    isDeprecated() {
-      return this.deprecatedKeys.includes(this.selectedKey.id);
     },
   },
 };
