@@ -70,10 +70,10 @@ export default {
         })
         .catch((error) => {
           this.setError(error);
-          this.setPassword('');
         })
         .finally(() => {
           setTimeout(() => {
+            this.setPassword('');
             this.setLoading(false);
           }, 250);
         });
@@ -97,7 +97,7 @@ export default {
       this.$store.dispatch('key/setUnlockDialog', unlockDialog);
     },
     setPassword(password) {
-      this.$store.dispatch('key/setPassword', password);
+      this.password = password;
     },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
@@ -108,13 +108,11 @@ export default {
       }
     },
     unlock() {
-      this.setPassword(this.password);
       this.fetchKey();
     },
     initializeData() {
       this.setViewKey(false);
       this.setEditKey(false);
-      this.setSelectedKey(null);
       this.setUnlockDialog(false);
     },
   },
