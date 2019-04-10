@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      dialog: true,
+      dialog: false,
       loading: false,
       noData: false,
       error: null,
@@ -53,6 +53,11 @@ export default {
   },
   created() {
     this.fetchKey();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.setDialog(true);
+    }, 0);
   },
   methods: {
     ...mapActions('key', [
@@ -97,6 +102,9 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setDialog(dialog) {
+      this.dialog = dialog;
     },
   },
 };

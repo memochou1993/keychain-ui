@@ -10,6 +10,7 @@
             @submit.prevent="unlock"
           >
             <v-text-field
+              v-if="dialog"
               v-model="password"
               :type="'password'"
               :error="!!error"
@@ -34,7 +35,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      dialog: true,
+      dialog: false,
       loading: false,
       noData: false,
       error: null,
@@ -57,6 +58,11 @@ export default {
         this.processed();
       }
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.setDialog(true);
+    }, 0);
   },
   methods: {
     ...mapActions('key', [
@@ -113,6 +119,9 @@ export default {
     },
     setError(error) {
       this.error = error;
+    },
+    setDialog(dialog) {
+      this.dialog = dialog;
     },
     setPassword(password) {
       this.password = password;
