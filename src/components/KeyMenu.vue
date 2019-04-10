@@ -9,7 +9,7 @@
       >
         <v-btn
           icon
-          class="secondary--text text--darken-2"
+          class="secondary--text text--darken-1"
           v-on="on"
         >
           <v-icon>

@@ -7,18 +7,22 @@
       <v-card>
         <v-card-text>
           <v-form
+            v-model="valid"
             @submit.prevent="unlock"
           >
             <v-text-field
               v-if="dialog"
               v-model="password"
-              :type="'password'"
               :error="!!error"
+              :rules="[v => !!v || 'Password is required']"
               :loading="loading"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
+              :error-messages="errorMessages"
+              type="password"
               label="Password"
               autofocus
               autocomplete
+              class="my-3"
               @keyup="detectCapsLock"
               @keydown="detectCapsLock"
             />
@@ -39,6 +43,8 @@ export default {
       loading: false,
       noData: false,
       error: null,
+      valid: false,
+      errorMessages: [],
       password: '',
       capsLock: false,
     };
@@ -83,6 +89,7 @@ export default {
       this.$store.dispatch('key/fetchKey', {
         params: {
           with: 'user',
+          check: true,
           password: this.password,
         },
       })
@@ -96,6 +103,7 @@ export default {
           this.processed();
         })
         .catch((error) => {
+          this.setErrorMessages(this.errorMessages.concat('Password is invalid'));
           this.setNoData(true);
           this.setError(error);
         })
@@ -123,6 +131,9 @@ export default {
     setDialog(dialog) {
       this.dialog = dialog;
     },
+    setErrorMessages(errorMessages) {
+      this.errorMessages = errorMessages;
+    },
     setPassword(password) {
       this.password = password;
     },
@@ -136,7 +147,10 @@ export default {
       }
     },
     unlock() {
-      this.fetchKey();
+      if (!this.password) {
+        return this.setError(true);
+      }
+      return this.fetchKey();
     },
   },
 };
