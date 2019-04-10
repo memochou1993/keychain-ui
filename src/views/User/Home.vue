@@ -145,13 +145,12 @@ export default {
     },
     refresh(value) {
       if (value) {
-        this.setPage(1);
         this.fetchKeys();
         this.setRefresh(false);
       }
     },
     deprecatedKeys(value) {
-      if (value.length !== 0) {
+      if (!!value.length) {
         setTimeout(() => {
           this.setDeprecatedKeys([]);
         }, 2500);
@@ -181,8 +180,8 @@ export default {
       this.beforeProcess();
       this.$store.dispatch('key/fetchKeys', {
         params: {
-          page: this.page,
           with: 'user',
+          page: this.page,
           paginate: this.paginate,
           q: this.query,
         },

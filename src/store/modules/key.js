@@ -102,6 +102,23 @@ export default {
           });
       });
     },
+    updateKey({ state, commit }, { params }) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'PATCH',
+          url: `/users/me/keys/${state.selectedKey.id}`,
+          data: qs.stringify(params),
+        })
+          .then(({ data }) => {
+            commit('setKey', data.data);
+            commit('setRefresh', true, { root: true });
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
     removeKey({ state, commit }) {
       return new Promise((resolve, reject) => {
         axios({

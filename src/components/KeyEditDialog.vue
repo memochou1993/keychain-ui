@@ -28,7 +28,6 @@
           ref="form"
           v-model="valid"
           class="pa-3"
-          @submit.prevent="update"
         >
           <v-text-field
             v-if="dialog"
@@ -44,16 +43,6 @@
             :rules="[v => !!v || 'Content is required']"
             type="text"
             label="Content"
-            class="my-3"
-          />
-          <v-text-field
-            v-model="password"
-            :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
-            type="password"
-            label="Password"
-            autocomplete
-            @keyup="detectCapsLock"
-            @keydown="detectCapsLock"
             class="my-3"
           />
         </v-form>
@@ -76,6 +65,7 @@
             :disabled="!valid"
             color="primary"
             class="white--text"
+            @click="update"
           >
             Edit
           </v-btn>
@@ -145,6 +135,32 @@ export default {
           with: 'user',
         },
       })
+        .then(() => {
+          this.setTitle(this.key.title);
+          this.setContent(this.key.content);
+        })
+        .catch((error) => {
+          this.setNoData(true);
+          this.setError(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 250);
+        });
+    },
+    updateKey() {
+      this.beforeProcess();
+      this.$store.dispatch('key/updateKey', {
+        params: {
+          with: 'user',
+          title: this.title,
+          content: this.content,
+        },
+      })
+        .then(() => {
+          this.processed();
+        })
         .catch((error) => {
           this.setNoData(true);
           this.setError(error);
@@ -173,6 +189,15 @@ export default {
     setDialog(dialog) {
       this.dialog = dialog;
     },
+    setTitle(title) {
+      this.title = title;
+    },
+    setContent(content) {
+      this.content = content;
+    },
+    setPassword(password) {
+      this.password = password;
+    },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
     },
@@ -183,7 +208,7 @@ export default {
       }
     },
     update() {
-      console.log(1);
+      this.updateKey();
     },
   },
 };
