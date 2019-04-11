@@ -21,14 +21,14 @@
         dense
       >
         <v-list-tile
-          @click="view"
+          @click="viewKey"
         >
           <v-list-tile-title>
             View
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          @click="edit"
+          @click="editKey"
         >
           <v-list-tile-title>
             Edit
@@ -36,7 +36,7 @@
         </v-list-tile>
         <v-list-tile
           :color="`warning ${isDeprecated ? 'darken-4' : 'darken-2'}`"
-          @click="remove"
+          @click="removeKey"
         >
           <v-list-tile-title>
             {{ isDeprecated ? 'Click to confirm' : 'Remove' }}
@@ -83,21 +83,21 @@ export default {
       this.setAction(action);
       this.setSelectedKey(key);
     },
-    view() {
+    viewKey() {
       this.attempt('view', this.selectedKey);
       if (!this.isUnlocked) {
         return this.setUnlockDialog(true);
       }
       return this.setViewDialog(true);
     },
-    edit() {
+    editKey() {
       this.attempt('edit', this.selectedKey);
       if (!this.isUnlocked) {
         return this.setUnlockDialog(true);
       }
       return this.setEditDialog(true);
     },
-    remove() {
+    removeKey() {
       this.attempt('remove', this.selectedKey);
       if (!this.isUnlocked) {
         return this.setUnlockDialog(true);

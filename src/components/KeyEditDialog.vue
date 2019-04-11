@@ -49,7 +49,7 @@
             :disabled="!valid || loading"
             color="primary"
             class="white--text"
-            @click="edit"
+            @click="editKey"
           >
             Edit
           </v-btn>
@@ -182,7 +182,7 @@ export default {
     setContent(content) {
       this.content = content;
     },
-    edit() {
+    editKey() {
       this.updateKey();
     },
   },

@@ -8,7 +8,7 @@
         <v-card-text>
           <v-form
             v-model="valid"
-            @submit.prevent="unlock"
+            @submit.prevent="unlockKey"
           >
             <v-text-field
               v-if="dialog"
@@ -113,16 +113,16 @@ export default {
     },
     process() {
       if (this.action === 'toggle') {
-        this.toggle();
+        this.toggleKey();
       }
       if (this.action === 'view') {
-        this.view();
+        this.viewKey();
       }
       if (this.action === 'edit') {
-        this.edit();
+        this.editKey();
       }
       if (this.action === 'remove') {
-        this.remove();
+        this.removeKey();
       }
     },
     processed() {
@@ -156,22 +156,22 @@ export default {
         this.setCapsLock(isCapsLock);
       }
     },
-    unlock() {
+    unlockKey() {
       if (!this.password) {
         return this.setError(true);
       }
       return this.fetchKey();
     },
-    toggle() {
+    toggleKey() {
       this.setExposedKeys(this.exposedKeys.concat(this.key.id));
     },
-    view() {
+    viewKey() {
       this.setViewDialog(true);
     },
-    edit() {
+    editKey() {
       this.setEditDialog(true);
     },
-    remove() {
+    removeKey() {
       this.setDeprecatedKeys([this.selectedKey.id]);
     },
   },

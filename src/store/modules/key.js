@@ -14,6 +14,7 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
+    createDialog: false,
     unlockDialog: false,
     viewDialog: false,
     editDialog: false,
@@ -59,6 +60,9 @@ export default {
     },
     setSelectedKey(state, selectedKey) {
       state.selectedKey = selectedKey;
+    },
+    setCreateDialog(state, createDialog) {
+      state.createDialog = createDialog;
     },
     setUnlockDialog(state, unlockDialog) {
       state.unlockDialog = unlockDialog;
@@ -166,6 +170,9 @@ export default {
     },
     setSelectedKey({ commit }, selectedKey) {
       commit('setSelectedKey', selectedKey);
+    },
+    setCreateDialog({ commit }, createDialog) {
+      commit('setCreateDialog', createDialog);
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);
