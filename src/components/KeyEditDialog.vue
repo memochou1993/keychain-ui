@@ -7,8 +7,7 @@
     >
       <v-card>
         <div
-          primary-title
-          class="headline text-xs-right"
+          class="text-xs-right"
         >
           <v-btn
             fab
@@ -38,7 +37,7 @@
             autofocus
             class="my-3"
           />
-          <v-text-field
+          <v-textarea
             v-model="content"
             :rules="[v => !!v || 'Content is required']"
             type="text"
@@ -65,7 +64,7 @@
             :disabled="!valid"
             color="primary"
             class="white--text"
-            @click="update"
+            @click="editKey"
           >
             Edit
           </v-btn>
@@ -92,13 +91,12 @@ export default {
       valid: false,
       title: '',
       content: '',
-      password: '',
       capsLock: false,
     };
   },
   computed: {
     ...mapState('key', [
-      'key',
+      'selectedKey',
     ]),
   },
   watch: {
@@ -109,7 +107,8 @@ export default {
     },
   },
   created() {
-    this.fetchKey();
+    this.setTitle(this.selectedKey.title);
+    this.setContent(this.selectedKey.content);
   },
   mounted() {
     setTimeout(() => {
@@ -118,8 +117,7 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'setKey',
-      'setEditKey',
+      'setAttempt',
       'setSelectedKey',
       'setEditDialog',
     ]),
@@ -127,27 +125,6 @@ export default {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
-    },
-    fetchKey() {
-      this.beforeProcess();
-      this.$store.dispatch('key/fetchKey', {
-        params: {
-          with: 'user',
-        },
-      })
-        .then(() => {
-          this.setTitle(this.key.title);
-          this.setContent(this.key.content);
-        })
-        .catch((error) => {
-          this.setNoData(true);
-          this.setError(error);
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.setLoading(false);
-          }, 250);
-        });
     },
     updateKey() {
       this.beforeProcess();
@@ -172,8 +149,7 @@ export default {
         });
     },
     processed() {
-      this.setKey(null);
-      this.setEditKey(false);
+      this.setAttempt('');
       this.setSelectedKey(null);
       this.setEditDialog(false);
     },
@@ -195,9 +171,6 @@ export default {
     setContent(content) {
       this.content = content;
     },
-    setPassword(password) {
-      this.password = password;
-    },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
     },
@@ -207,7 +180,7 @@ export default {
         this.setCapsLock(isCapsLock);
       }
     },
-    update() {
+    editKey() {
       this.updateKey();
     },
   },

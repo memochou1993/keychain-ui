@@ -7,13 +7,13 @@ export default {
     keys: [],
     key: null,
     pages: 1,
-    viewKey: false,
-    editKey: false,
+    attempt: '',
     unlockedKeys: [],
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
     unlockDialog: false,
+    viewDialog: false,
     editDialog: false,
   },
   getters: {
@@ -40,11 +40,8 @@ export default {
     setPages(state, pages) {
       state.pages = pages;
     },
-    setViewKey(state, viewKey) {
-      state.viewKey = viewKey;
-    },
-    setEditKey(state, editKey) {
-      state.editKey = editKey;
+    setAttempt(state, attempt) {
+      state.attempt = attempt;
     },
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
@@ -60,6 +57,9 @@ export default {
     },
     setUnlockDialog(state, unlockDialog) {
       state.unlockDialog = unlockDialog;
+    },
+    setViewDialog(state, viewDialog) {
+      state.viewDialog = viewDialog;
     },
     setEditDialog(state, editDialog) {
       state.editDialog = editDialog;
@@ -119,7 +119,7 @@ export default {
           });
       });
     },
-    removeKey({ state, commit }) {
+    destroyKey({ state, commit }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -143,11 +143,8 @@ export default {
     setPages({ commit }, pages) {
       commit('setPages', pages);
     },
-    setViewKey({ commit }, viewKey) {
-      commit('setViewKey', viewKey);
-    },
-    setEditKey({ commit }, editKey) {
-      commit('setEditKey', editKey);
+    setAttempt({ commit }, attempt) {
+      commit('setAttempt', attempt);
     },
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);
@@ -163,6 +160,9 @@ export default {
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);
+    },
+    setViewDialog({ commit }, viewDialog) {
+      commit('setViewDialog', viewDialog);
     },
     setEditDialog({ commit }, editDialog) {
       commit('setEditDialog', editDialog);

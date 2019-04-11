@@ -29,7 +29,18 @@
               <td
                 class="text-xs-left"
               >
-                {{ isExposed(props.item) ? props.item.content : bullets }}
+                <div
+                  v-if="isExposed(props.item)"
+                >
+                  <KeyChip
+                    :selectedKey="props.item"
+                  />
+                </div>
+                <div
+                  v-else
+                >
+                  {{ bullets }}
+                </div>
               </td>
               <td
                 class="text-xs-center"
@@ -76,6 +87,9 @@
         <KeyUnlockDialog
           v-if="unlockDialog"
         />
+        <KeyViewDialog
+          v-if="viewDialog"
+        />
         <KeyEditDialog
           v-if="editDialog"
         />
@@ -89,7 +103,9 @@ import { mapState, mapActions } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
+import KeyViewDialog from '@/components/KeyViewDialog.vue';
 import KeyEditDialog from '@/components/KeyEditDialog.vue';
+import KeyChip from '@/components/KeyChip.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
 
 export default {
@@ -97,7 +113,9 @@ export default {
     AppProgressLinear,
     AppNoData,
     KeyUnlockDialog,
+    KeyViewDialog,
     KeyEditDialog,
+    KeyChip,
     KeyMenu,
   },
   data() {
@@ -130,8 +148,9 @@ export default {
       'pages',
       'unlockedKeys',
       'exposedKeys',
-      'unlockDialog',
       'deprecatedKeys',
+      'unlockDialog',
+      'viewDialog',
       'editDialog',
     ]),
     ...mapState([
@@ -150,7 +169,7 @@ export default {
       }
     },
     deprecatedKeys(value) {
-      if (!!value.length) {
+      if (value.length > 0) {
         setTimeout(() => {
           this.setDeprecatedKeys([]);
         }, 2500);
@@ -165,7 +184,7 @@ export default {
       'setRefresh',
     ]),
     ...mapActions('key', [
-      'setViewKey',
+      'setAttempt',
       'setExposedKeys',
       'setDeprecatedKeys',
       'setSelectedKey',
@@ -212,7 +231,7 @@ export default {
       this.page = page;
     },
     viewKey(key) {
-      this.setViewKey(true);
+      this.setAttempt('view');
       this.setSelectedKey(key);
       if (!this.isUnlocked(key)) {
         return this.setUnlockDialog(true);

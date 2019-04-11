@@ -8,7 +8,7 @@
         <v-card-text>
           <v-form
             v-model="valid"
-            @submit.prevent="unlock"
+            @submit.prevent="unlockKey"
           >
             <v-text-field
               v-if="dialog"
@@ -51,11 +51,10 @@ export default {
   },
   computed: {
     ...mapState('key', [
+      'attempt',
       'selectedKey',
       'unlockDialog',
       'exposedKeys',
-      'viewKey',
-      'editKey',
     ]),
   },
   watch: {
@@ -72,11 +71,10 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'setViewKey',
-      'setEditKey',
       'setExposedKeys',
       'setSelectedKey',
       'setUnlockDialog',
+      'setViewDialog',
       'setEditDialog',
     ]),
     beforeProcess() {
@@ -94,11 +92,11 @@ export default {
         },
       })
         .then(({ data }) => {
-          if (this.viewKey) {
-            this.setExposedKeys(this.exposedKeys.concat(data.id));
+          if (this.attempt === 'view') {
+            this.viewKey(data);
           }
-          if (this.editKey) {
-            this.setEditDialog(true);
+          if (this.attempt === 'edit') {
+            this.editKey();
           }
           this.processed();
         })
@@ -115,8 +113,6 @@ export default {
         });
     },
     processed() {
-      this.setViewKey(false);
-      this.setEditKey(false);
       this.setUnlockDialog(false);
     },
     setLoading(loading) {
@@ -146,11 +142,23 @@ export default {
         this.setCapsLock(isCapsLock);
       }
     },
-    unlock() {
+    unlockKey() {
       if (!this.password) {
         return this.setError(true);
       }
       return this.fetchKey();
+    },
+    viewKey(key) {
+      this.setExposedKeys(this.exposedKeys.concat(key.id));
+      if (this.isSplit(key)) {
+        this.setViewDialog(true);
+      }
+    },
+    editKey() {
+      this.setEditDialog(true);
+    },
+    isSplit(key) {
+      return key.content.indexOf('\n') !== -1;
     },
   },
 };

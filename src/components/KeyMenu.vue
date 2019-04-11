@@ -64,14 +64,15 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'setEditKey',
+      'destroyKey',
+      'setAttempt',
       'setDeprecatedKeys',
       'setSelectedKey',
       'setUnlockDialog',
       'setEditDialog',
     ]),
     editKey() {
-      this.setEditKey(true);
+      this.setAttempt('edit');
       this.setSelectedKey(this.selectedKey);
       if (this.selectedKey.password && !this.isUnlocked) {
         return this.setUnlockDialog(true);
@@ -83,7 +84,7 @@ export default {
       if (!this.isDeprecated) {
         return this.setDeprecatedKeys([this.selectedKey.id]);
       }
-      return this.$store.dispatch('key/removeKey');
+      return this.destroyKey();
     },
   },
 };
