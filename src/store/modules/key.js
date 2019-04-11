@@ -7,7 +7,9 @@ export default {
     keys: [],
     key: null,
     pages: 1,
-    attempt: '',
+    strict: false,
+    approval: false,
+    action: '',
     unlockedKeys: [],
     exposedKeys: [],
     deprecatedKeys: [],
@@ -21,13 +23,13 @@ export default {
       if (!state.selectedKey) {
         return false;
       }
-      return state.unlockedKeys.includes(state.selectedKey.id);
-    },
-    isDeprecated(state) {
-      if (!state.selectedKey) {
-        return false;
+      if (!state.selectedKey.password) {
+        return true;
       }
-      return state.deprecatedKeys.includes(state.selectedKey.id);
+      if (!state.strict && state.approval) {
+        return true;
+      }
+      return state.unlockedKeys.includes(state.selectedKey.id);
     },
   },
   mutations: {
@@ -40,8 +42,11 @@ export default {
     setPages(state, pages) {
       state.pages = pages;
     },
-    setAttempt(state, attempt) {
-      state.attempt = attempt;
+    setApproval(state, approval) {
+      state.approval = approval;
+    },
+    setAction(state, action) {
+      state.action = action;
     },
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
@@ -94,6 +99,7 @@ export default {
         })
           .then(({ data }) => {
             commit('setKey', data.data);
+            commit('setApproval', true);
             commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
             resolve(data);
           })
@@ -143,8 +149,11 @@ export default {
     setPages({ commit }, pages) {
       commit('setPages', pages);
     },
-    setAttempt({ commit }, attempt) {
-      commit('setAttempt', attempt);
+    setApproval({ commit }, approval) {
+      commit('setApproval', approval);
+    },
+    setAction({ commit }, action) {
+      commit('setAction', action);
     },
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-menu
-      :close-on-content-click="!isDeprecated"
+      :close-on-content-click="action !== 'remove'"
       offset-x
     >
       <template
@@ -21,7 +21,14 @@
         dense
       >
         <v-list-tile
-          @click="editKey"
+          @click="view"
+        >
+          <v-list-tile-title>
+            View
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile
+          @click="edit"
         >
           <v-list-tile-title>
             Edit
@@ -29,7 +36,7 @@
         </v-list-tile>
         <v-list-tile
           :color="`warning ${isDeprecated ? 'darken-4' : 'darken-2'}`"
-          @click="removeKey"
+          @click="remove"
         >
           <v-list-tile-title>
             {{ isDeprecated ? 'Click to confirm' : 'Remove' }}
@@ -41,7 +48,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -52,12 +59,12 @@ export default {
   },
   computed: {
     ...mapState('key', [
-      'unlockedKeys',
+      'action',
       'deprecatedKeys',
     ]),
-    isUnlocked() {
-      return this.unlockedKeys.includes(this.selectedKey.id);
-    },
+    ...mapGetters('key', [
+      'isUnlocked',
+    ]),
     isDeprecated() {
       return this.deprecatedKeys.includes(this.selectedKey.id);
     },
@@ -65,22 +72,36 @@ export default {
   methods: {
     ...mapActions('key', [
       'destroyKey',
-      'setAttempt',
+      'setAction',
       'setDeprecatedKeys',
       'setSelectedKey',
       'setUnlockDialog',
+      'setViewDialog',
       'setEditDialog',
     ]),
-    editKey() {
-      this.setAttempt('edit');
-      this.setSelectedKey(this.selectedKey);
-      if (this.selectedKey.password && !this.isUnlocked) {
+    attempt(action, key) {
+      this.setAction(action);
+      this.setSelectedKey(key);
+    },
+    view() {
+      this.attempt('view', this.selectedKey);
+      if (!this.isUnlocked) {
+        return this.setUnlockDialog(true);
+      }
+      return this.setViewDialog(true);
+    },
+    edit() {
+      this.attempt('edit', this.selectedKey);
+      if (!this.isUnlocked) {
         return this.setUnlockDialog(true);
       }
       return this.setEditDialog(true);
     },
-    removeKey() {
-      this.setSelectedKey(this.selectedKey);
+    remove() {
+      this.attempt('remove', this.selectedKey);
+      if (!this.isUnlocked) {
+        return this.setUnlockDialog(true);
+      }
       if (!this.isDeprecated) {
         return this.setDeprecatedKeys([this.selectedKey.id]);
       }

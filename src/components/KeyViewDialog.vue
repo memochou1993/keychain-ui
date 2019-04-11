@@ -7,7 +7,7 @@
       <v-card>
         <v-card-text>
           <div
-            class="text my-3"
+            class="content my-3"
           >
             <span>{{ selectedKey.content }}</span>
           </div>
@@ -24,7 +24,6 @@ export default {
   data() {
     return {
       dialog: false,
-      title: '',
       content: '',
     };
   },
@@ -41,7 +40,6 @@ export default {
     },
   },
   created() {
-    this.setTitle(this.selectedKey.title);
     this.setContent(this.selectedKey.content);
   },
   mounted() {
@@ -51,20 +49,15 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'setAttempt',
       'setSelectedKey',
       'setViewDialog',
     ]),
     processed() {
-      this.setAttempt('');
       this.setSelectedKey(null);
       this.setViewDialog(false);
     },
     setDialog(dialog) {
       this.dialog = dialog;
-    },
-    setTitle(title) {
-      this.title = title;
     },
     setContent(content) {
       this.content = content;
@@ -74,7 +67,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.text {
+.content {
   white-space: pre-wrap;
   word-break: break-all;
 }

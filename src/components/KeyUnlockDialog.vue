@@ -8,7 +8,7 @@
         <v-card-text>
           <v-form
             v-model="valid"
-            @submit.prevent="unlockKey"
+            @submit.prevent="unlock"
           >
             <v-text-field
               v-if="dialog"
@@ -52,9 +52,9 @@ export default {
   },
   computed: {
     ...mapState('key', [
-      'attempt',
+      'key',
+      'action',
       'selectedKey',
-      'unlockDialog',
       'exposedKeys',
     ]),
   },
@@ -72,8 +72,9 @@ export default {
   },
   methods: {
     ...mapActions('key', [
+      'setAction',
       'setExposedKeys',
-      'setSelectedKey',
+      'setDeprecatedKeys',
       'setUnlockDialog',
       'setViewDialog',
       'setEditDialog',
@@ -92,14 +93,11 @@ export default {
           password: this.password,
         },
       })
-        .then(({ data }) => {
-          if (this.attempt === 'view') {
-            this.viewKey(data);
-          }
-          if (this.attempt === 'edit') {
-            this.editKey();
-          }
-          this.processed();
+        .then(() => {
+          setTimeout(() => {
+            this.process();
+            this.processed();
+          }, 250);
         })
         .catch((error) => {
           this.setErrorMessages(this.errorMessages.concat('Password is invalid'));
@@ -113,7 +111,22 @@ export default {
           }, 250);
         });
     },
+    process() {
+      if (this.action === 'toggle') {
+        this.toggle();
+      }
+      if (this.action === 'view') {
+        this.view();
+      }
+      if (this.action === 'edit') {
+        this.edit();
+      }
+      if (this.action === 'remove') {
+        this.remove();
+      }
+    },
     processed() {
+      this.setAction('');
       this.setUnlockDialog(false);
     },
     setLoading(loading) {
@@ -143,23 +156,23 @@ export default {
         this.setCapsLock(isCapsLock);
       }
     },
-    unlockKey() {
+    unlock() {
       if (!this.password) {
         return this.setError(true);
       }
       return this.fetchKey();
     },
-    viewKey(key) {
-      this.setExposedKeys(this.exposedKeys.concat(key.id));
-      if (this.isSplit(key)) {
-        this.setViewDialog(true);
-      }
+    toggle() {
+      this.setExposedKeys(this.exposedKeys.concat(this.key.id));
     },
-    editKey() {
+    view() {
+      this.setViewDialog(true);
+    },
+    edit() {
       this.setEditDialog(true);
     },
-    isSplit(key) {
-      return key.content.indexOf('\n') !== -1;
+    remove() {
+      this.setDeprecatedKeys([this.selectedKey.id]);
     },
   },
 };

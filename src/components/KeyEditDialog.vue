@@ -37,6 +37,7 @@
         <v-divider />
         <v-card-actions>
           <v-btn
+            :disabled="loading"
             flat
             color="primary"
             @click="$refs.form.reset()"
@@ -45,10 +46,10 @@
           </v-btn>
           <v-spacer />
           <v-btn
-            :disabled="!valid"
+            :disabled="!valid || loading"
             color="primary"
             class="white--text"
-            @click="editKey"
+            @click="edit"
           >
             Edit
           </v-btn>
@@ -100,7 +101,6 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'setAttempt',
       'setSelectedKey',
       'setEditDialog',
     ]),
@@ -119,7 +119,9 @@ export default {
         },
       })
         .then(() => {
-          this.processed();
+          setTimeout(() => {
+            this.processed();
+          }, 250);
         })
         .catch((error) => {
           this.setNoData(true);
@@ -132,7 +134,6 @@ export default {
         });
     },
     processed() {
-      this.setAttempt('');
       this.setSelectedKey(null);
       this.setEditDialog(false);
     },
@@ -154,7 +155,7 @@ export default {
     setContent(content) {
       this.content = content;
     },
-    editKey() {
+    edit() {
       this.updateKey();
     },
   },

@@ -30,14 +30,14 @@
                 class="text-xs-left"
               >
                 <div
-                  v-if="isExposed(props.item)"
+                  v-if="isVisible(props.item)"
+                  class="content"
                 >
-                  <KeyChip
-                    :selectedKey="props.item"
-                  />
+                  {{ props.item.content }}
                 </div>
                 <div
                   v-else
+                  class="content"
                 >
                   {{ bullets }}
                 </div>
@@ -49,10 +49,10 @@
                   :disabled="!props.item.password"
                   icon
                   class="primary--text text--lighten-2"
-                  @click="viewKey(props.item)"
+                  @click="toggle(props.item)"
                 >
                   <v-icon>
-                    {{ `mdi-eye${isExposed(props.item) ? '' : '-off'}` }}
+                    {{ `mdi-eye${isVisible(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
               </td>
@@ -102,21 +102,19 @@
 import { mapState, mapActions } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
+import KeyMenu from '@/components/KeyMenu.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
 import KeyViewDialog from '@/components/KeyViewDialog.vue';
 import KeyEditDialog from '@/components/KeyEditDialog.vue';
-import KeyChip from '@/components/KeyChip.vue';
-import KeyMenu from '@/components/KeyMenu.vue';
 
 export default {
   components: {
     AppProgressLinear,
     AppNoData,
+    KeyMenu,
     KeyUnlockDialog,
     KeyViewDialog,
     KeyEditDialog,
-    KeyChip,
-    KeyMenu,
   },
   data() {
     return {
@@ -146,6 +144,8 @@ export default {
     ...mapState('key', [
       'keys',
       'pages',
+      'strict',
+      'approval',
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
@@ -164,8 +164,8 @@ export default {
     },
     refresh(value) {
       if (value) {
-        this.fetchKeys();
         this.setRefresh(false);
+        this.fetchKeys();
       }
     },
     deprecatedKeys(value) {
@@ -184,7 +184,7 @@ export default {
       'setRefresh',
     ]),
     ...mapActions('key', [
-      'setAttempt',
+      'setAction',
       'setExposedKeys',
       'setDeprecatedKeys',
       'setSelectedKey',
@@ -200,8 +200,8 @@ export default {
       this.$store.dispatch('key/fetchKeys', {
         params: {
           with: '',
-          page: this.page,
           paginate: this.paginate,
+          page: this.page,
           q: this.query,
         },
       })
@@ -227,24 +227,16 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setPage(page) {
-      this.page = page;
-    },
-    viewKey(key) {
-      this.setAttempt('view');
-      this.setSelectedKey(key);
-      if (!this.isUnlocked(key)) {
-        return this.setUnlockDialog(true);
-      }
-      if (this.exposedKeys.includes(key.id)) {
-        return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
-      }
-      return this.setExposedKeys(this.exposedKeys.concat(key.id));
-    },
     isUnlocked(key) {
+      if (!this.strict && this.approval) {
+        return true;
+      }
       return this.unlockedKeys.includes(key.id);
     },
     isExposed(key) {
+      return this.exposedKeys.includes(key.id);
+    },
+    isVisible(key) {
       if (!key.password) {
         return true;
       }
@@ -253,9 +245,31 @@ export default {
       }
       return this.exposedKeys.includes(key.id);
     },
+    attempt(action, key) {
+      this.setAction(action);
+      this.setSelectedKey(key);
+    },
+    toggle(key) {
+      this.attempt('toggle', key);
+      if (!this.isUnlocked(key)) {
+        return this.setUnlockDialog(true);
+      }
+      if (this.isExposed(key)) {
+        return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
+      }
+      return this.setExposedKeys(this.exposedKeys.concat(key.id));
+    },
     onPageChange() {
       this.fetchKeys();
     },
   },
 };
 </script>
+
+<style lang="stylus" scoped>
+.content
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+</style>
