@@ -7,12 +7,6 @@
       <v-card>
         <v-card-text>
           <div
-            class="headline my-3"
-          >
-            {{ selectedKey.title }}
-          </div>
-          <v-divider />
-          <div
             class="text my-3"
           >
             <span>{{ selectedKey.content }}</span>

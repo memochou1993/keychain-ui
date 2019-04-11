@@ -3,53 +3,37 @@
     <v-dialog
       v-model="dialog"
       :max-width="400"
-      :persistent="!!title || !!content"
     >
       <v-card>
-        <div
-          class="text-xs-right"
-        >
-          <v-btn
-            fab
-            flat
-            small
-            color="secondary"
-            @click="setDialog(false)"
+        <v-card-text>
+          <v-form
+            v-if="!loading"
+            ref="form"
+            v-model="valid"
           >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
-        </div>
-        <v-divider />
-        <v-form
-          v-if="!loading"
-          ref="form"
-          v-model="valid"
-          class="pa-3"
-        >
-          <v-text-field
-            v-if="dialog"
-            v-model="title"
-            :rules="[v => !!v || 'Title is required']"
-            type="text"
-            label="Title"
-            autofocus
-            class="my-3"
+            <v-text-field
+              v-if="dialog"
+              v-model="title"
+              :rules="[v => !!v || 'Title is required']"
+              type="text"
+              label="Title"
+              autofocus
+              class="my-3"
+            />
+            <v-textarea
+              v-model="content"
+              :rules="[v => !!v || 'Content is required']"
+              type="text"
+              label="Content"
+              class="my-3"
+            />
+          </v-form>
+          <AppNoData
+            v-else
+            :noData="noData"
+            item="key"
           />
-          <v-textarea
-            v-model="content"
-            :rules="[v => !!v || 'Content is required']"
-            type="text"
-            label="Content"
-            class="my-3"
-          />
-        </v-form>
-        <AppNoData
-          v-else
-          :noData="noData"
-          item="key"
-        />
+        </v-card-text>
         <v-divider />
         <v-card-actions>
           <v-btn
@@ -91,7 +75,6 @@ export default {
       valid: false,
       title: '',
       content: '',
-      capsLock: false,
     };
   },
   computed: {
@@ -170,15 +153,6 @@ export default {
     },
     setContent(content) {
       this.content = content;
-    },
-    setCapsLock(capsLock) {
-      this.capsLock = capsLock;
-    },
-    detectCapsLock(event) {
-      const isCapsLock = event.getModifierState('CapsLock');
-      if (this.capsLock !== isCapsLock) {
-        this.setCapsLock(isCapsLock);
-      }
     },
     editKey() {
       this.updateKey();
