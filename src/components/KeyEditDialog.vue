@@ -130,7 +130,7 @@ export default {
       this.beforeProcess();
       this.$store.dispatch('key/updateKey', {
         params: {
-          with: 'user',
+          with: '',
           title: this.title,
           content: this.content,
         },

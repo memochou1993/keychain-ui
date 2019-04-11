@@ -22,6 +22,7 @@
               label="Password"
               autofocus
               autocomplete
+              validate-on-blur
               class="my-3"
               @keyup="detectCapsLock"
               @keydown="detectCapsLock"
@@ -86,7 +87,7 @@ export default {
       this.beforeProcess();
       this.$store.dispatch('key/fetchKey', {
         params: {
-          with: 'user',
+          with: '',
           check: true,
           password: this.password,
         },

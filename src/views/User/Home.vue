@@ -199,7 +199,7 @@ export default {
       this.beforeProcess();
       this.$store.dispatch('key/fetchKeys', {
         params: {
-          with: 'user',
+          with: '',
           page: this.page,
           paginate: this.paginate,
           q: this.query,
