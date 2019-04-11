@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     ...mapState('key', [
-      'selectedKey',
+      'key',
     ]),
   },
   watch: {
@@ -91,8 +91,7 @@ export default {
     },
   },
   created() {
-    this.setTitle(this.selectedKey.title);
-    this.setContent(this.selectedKey.content);
+    this.fetchKey();
   },
   mounted() {
     setTimeout(() => {
@@ -101,6 +100,7 @@ export default {
   },
   methods: {
     ...mapActions('key', [
+      'setKey',
       'setSelectedKey',
       'setEditDialog',
     ]),
@@ -108,6 +108,28 @@ export default {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
+    },
+    fetchKey() {
+      this.beforeProcess();
+      this.$store.dispatch('key/fetchKey', {
+        params: {
+          with: '',
+        },
+      })
+        .then(() => {
+          setTimeout(() => {
+            this.process();
+          }, 250);
+        })
+        .catch((error) => {
+          this.setNoData(true);
+          this.setError(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 250);
+        });
     },
     updateKey() {
       this.beforeProcess();
@@ -133,7 +155,12 @@ export default {
           }, 250);
         });
     },
+    process() {
+      this.setTitle(this.key.title);
+      this.setContent(this.key.content);
+    },
     processed() {
+      this.setKey(null);
       this.setSelectedKey(null);
       this.setEditDialog(false);
     },
