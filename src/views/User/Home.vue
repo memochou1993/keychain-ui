@@ -281,7 +281,7 @@ export default {
       if (this.isExposed(key)) {
         return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
       }
-      return this.setExposedKeys(this.exposedKeys.concat(key.id));
+      return this.setExposedKeys([...this.exposedKeys, key.id]);
     },
     onPageChange() {
       this.getKeys();

@@ -73,6 +73,7 @@ export default {
   methods: {
     ...mapActions('key', [
       'fetchKey',
+      'setApproval',
       'setAction',
       'setExposedKeys',
       'setDeprecatedKeys',
@@ -101,7 +102,7 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.setErrorMessages(this.errorMessages.concat('Password is invalid'));
+          this.setErrorMessages([...this.errorMessages, 'Password is invalid']);
           this.setNoData(true);
           this.setError(error);
         })
@@ -113,6 +114,7 @@ export default {
         });
     },
     process() {
+      this.setApproval(true);
       if (this.action === 'toggle') {
         this.toggleKey();
       }
@@ -164,7 +166,7 @@ export default {
       return this.getKey();
     },
     toggleKey() {
-      this.setExposedKeys(this.exposedKeys.concat(this.key.id));
+      this.setExposedKeys([...this.exposedKeys, this.key.id]);
     },
     viewKey() {
       this.setViewDialog(true);

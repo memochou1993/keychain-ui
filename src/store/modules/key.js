@@ -107,9 +107,8 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setKey', data.data);
-              commit('setApproval', true);
               if (!getters.isUnlocked) {
-                commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+                commit('setUnlockedKeys', [...state.unlockedKeys, data.data.id]);
               }
             }, 1000 * 0.25);
             resolve(data);
@@ -119,7 +118,7 @@ export default {
           });
       });
     },
-    storeKey({ state, commit }, { params }) {
+    storeKey({ state, getters, commit }, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -130,6 +129,9 @@ export default {
             const { keys } = state;
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
+            if (!getters.isUnlocked) {
+              commit('setUnlockedKeys', [...state.unlockedKeys, data.data.id]);
+            }
             resolve(data);
           })
           .catch((error) => {
