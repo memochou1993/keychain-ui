@@ -3,8 +3,18 @@
     <v-dialog
       v-model="dialog"
       :max-width="400"
+      :persistent="!isEmpty"
     >
       <v-card>
+        <v-card-title>
+          <v-spacer />
+          <v-icon
+            @click="setDialog(false)"
+          >
+            mdi-close
+          </v-icon>
+        </v-card-title>
+        <v-divider />
         <v-card-text>
           <v-form
             v-if="!loading"
@@ -82,6 +92,9 @@ export default {
     ...mapState('key', [
       'key',
     ]),
+    isEmpty() {
+      return !this.title && !this.content;
+    },
   },
   watch: {
     dialog(value) {
