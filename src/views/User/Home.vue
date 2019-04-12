@@ -168,11 +168,20 @@ export default {
         this.fetchKeys();
       }
     },
+    approval(value) {
+      if (value) {
+        setTimeout(() => {
+          this.setApproval(false);
+          this.setUnlockedKeys([]);
+          this.setExposedKeys([]);
+        }, 1000 * 300);
+      }
+    },
     deprecatedKeys(value) {
       if (value.length > 0) {
         setTimeout(() => {
           this.setDeprecatedKeys([]);
-        }, 2500);
+        }, 1000 * 2.5);
       }
     },
   },
@@ -184,7 +193,9 @@ export default {
       'setRefresh',
     ]),
     ...mapActions('key', [
+      'setApproval',
       'setAction',
+      'setUnlockedKeys',
       'setExposedKeys',
       'setDeprecatedKeys',
       'setSelectedKey',
@@ -206,7 +217,7 @@ export default {
         },
       })
         .then(({ data }) => {
-          this.setNoData(data.length === 0);
+          this.process(data);
         })
         .catch((error) => {
           this.setNoData(true);
@@ -215,8 +226,11 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 1000);
+          }, 1000 * 1);
         });
+    },
+    process(key) {
+      this.setNoData(key.length === 0);
     },
     setLoading(loading) {
       this.loading = loading;

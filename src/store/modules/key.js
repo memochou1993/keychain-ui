@@ -86,7 +86,7 @@ export default {
             setTimeout(() => {
               commit('setKeys', data.data);
               commit('setPages', data.meta.last_page);
-            }, 250);
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
@@ -102,9 +102,11 @@ export default {
           data: qs.stringify(params),
         })
           .then(({ data }) => {
-            commit('setKey', data.data);
-            commit('setApproval', true);
-            commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+            setTimeout(() => {
+              commit('setKey', data.data);
+              commit('setApproval', true);
+              commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {

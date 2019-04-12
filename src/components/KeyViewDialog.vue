@@ -84,7 +84,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 250);
+          }, 1000 * 0.25);
         });
     },
     processed() {

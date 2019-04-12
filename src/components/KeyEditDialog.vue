@@ -119,7 +119,7 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.process();
-          }, 250);
+          }, 1000 * 0.25);
         })
         .catch((error) => {
           this.setNoData(true);
@@ -128,7 +128,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 250);
+          }, 1000 * 0.25);
         });
     },
     updateKey() {
@@ -143,7 +143,7 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.processed();
-          }, 250);
+          }, 1000 * 0.25);
         })
         .catch((error) => {
           this.setNoData(true);
@@ -152,7 +152,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             this.setLoading(false);
-          }, 250);
+          }, 1000 * 0.25);
         });
     },
     process() {

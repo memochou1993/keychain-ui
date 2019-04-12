@@ -97,7 +97,7 @@ export default {
           setTimeout(() => {
             this.process();
             this.processed();
-          }, 250);
+          }, 1000 * 0.25);
         })
         .catch((error) => {
           this.setErrorMessages(this.errorMessages.concat('Password is invalid'));
@@ -108,7 +108,7 @@ export default {
           setTimeout(() => {
             this.setPassword('');
             this.setLoading(false);
-          }, 250);
+          }, 1000 * 0.25);
         });
     },
     process() {

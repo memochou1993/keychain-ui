@@ -16,6 +16,7 @@
       <v-toolbar-items>
         <v-btn
           icon
+          @click="createKey"
         >
           <v-icon>
             mdi-plus
@@ -36,12 +37,19 @@
 
 <script>
 import KeySearch from '@/components/KeySearch.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
     KeySearch,
   },
   methods: {
+    ...mapActions('key', [
+      'setCreateDialog',
+    ]),
+    createKey() {
+      this.setCreateDialog(true);
+    },
     setRefresh() {
       this.$store.dispatch('setRefresh', true);
     },
