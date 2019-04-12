@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
@@ -156,6 +156,9 @@ export default {
     ...mapState([
       'refresh',
       'query',
+    ]),
+    ...mapGetters('key', [
+      'isApproved',
     ]),
   },
   watch: {
@@ -242,7 +245,7 @@ export default {
       this.error = error;
     },
     isUnlocked(key) {
-      if (!this.strict && this.approval) {
+      if (this.isApproved) {
         return true;
       }
       return this.unlockedKeys.includes(key.id);

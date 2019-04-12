@@ -20,6 +20,9 @@ export default {
     editDialog: false,
   },
   getters: {
+    isApproved(state) {
+      return !state.strict && state.approval;
+    },
     isUnlocked(state) {
       if (!state.selectedKey) {
         return false;
