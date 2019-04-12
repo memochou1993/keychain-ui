@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     ...mapActions('key', [
+      'fetchKey',
       'setAction',
       'setExposedKeys',
       'setDeprecatedKeys',
@@ -84,9 +85,9 @@ export default {
       this.setNoData(false);
       this.setError(null);
     },
-    fetchKey() {
+    getKey() {
       this.beforeProcess();
-      this.$store.dispatch('key/fetchKey', {
+      this.fetchKey({
         params: {
           with: '',
           check: true,
@@ -160,7 +161,7 @@ export default {
       if (!this.password) {
         return this.setError(true);
       }
-      return this.fetchKey();
+      return this.getKey();
     },
     toggleKey() {
       this.setExposedKeys(this.exposedKeys.concat(this.key.id));

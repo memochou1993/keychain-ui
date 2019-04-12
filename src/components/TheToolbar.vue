@@ -24,7 +24,7 @@
         </v-btn>
         <v-btn
           icon
-          @click="setRefresh"
+          @click="setRefresh(true)"
         >
           <v-icon>
             mdi-refresh
@@ -44,14 +44,14 @@ export default {
     KeySearch,
   },
   methods: {
+    ...mapActions([
+      'setRefresh',
+    ]),
     ...mapActions('key', [
       'setCreateDialog',
     ]),
     createKey() {
       this.setCreateDialog(true);
-    },
-    setRefresh() {
-      this.$store.dispatch('setRefresh', true);
     },
   },
 };

@@ -84,6 +84,9 @@
             @input="onPageChange"
           />
         </div>
+        <KeyCreateDialog
+          v-if="createDialog"
+        />
         <KeyUnlockDialog
           v-if="unlockDialog"
         />
@@ -103,6 +106,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
+import KeyCreateDialog from '@/components/KeyCreateDialog.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
 import KeyViewDialog from '@/components/KeyViewDialog.vue';
 import KeyEditDialog from '@/components/KeyEditDialog.vue';
@@ -112,6 +116,7 @@ export default {
     AppProgressLinear,
     AppNoData,
     KeyMenu,
+    KeyCreateDialog,
     KeyUnlockDialog,
     KeyViewDialog,
     KeyEditDialog,
@@ -149,6 +154,7 @@ export default {
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
+      'createDialog',
       'unlockDialog',
       'viewDialog',
       'editDialog',
@@ -163,12 +169,12 @@ export default {
   },
   watch: {
     query() {
-      this.fetchKeys();
+      this.getKeys();
     },
     refresh(value) {
       if (value) {
         this.setRefresh(false);
-        this.fetchKeys();
+        this.getKeys();
       }
     },
     approval(value) {
@@ -189,13 +195,14 @@ export default {
     },
   },
   created() {
-    this.fetchKeys();
+    this.getKeys();
   },
   methods: {
     ...mapActions([
       'setRefresh',
     ]),
     ...mapActions('key', [
+      'fetchKeys',
       'setApproval',
       'setAction',
       'setUnlockedKeys',
@@ -209,9 +216,9 @@ export default {
       this.setNoData(false);
       this.setError(null);
     },
-    fetchKeys() {
+    getKeys() {
       this.beforeProcess();
-      this.$store.dispatch('key/fetchKeys', {
+      this.fetchKeys({
         params: {
           with: '',
           paginate: this.paginate,
@@ -277,7 +284,7 @@ export default {
       return this.setExposedKeys(this.exposedKeys.concat(key.id));
     },
     onPageChange() {
-      this.fetchKeys();
+      this.getKeys();
     },
   },
 };

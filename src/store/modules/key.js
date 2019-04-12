@@ -97,7 +97,7 @@ export default {
           });
       });
     },
-    fetchKey({ state, commit }, { params }) {
+    fetchKey({ state, getters, commit }, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -108,8 +108,28 @@ export default {
             setTimeout(() => {
               commit('setKey', data.data);
               commit('setApproval', true);
-              commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+              if (!getters.isUnlocked) {
+                commit('setUnlockedKeys', state.unlockedKeys.concat(data.data.id));
+              }
             }, 1000 * 0.25);
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    storeKey({ state, commit }, { params }) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'POST',
+          url: '/users/me/keys',
+          data: qs.stringify(params),
+        })
+          .then(({ data }) => {
+            const { keys } = state;
+            keys.splice(0, 0, data.data);
+            commit('setKeys', keys);
             resolve(data);
           })
           .catch((error) => {
@@ -125,8 +145,9 @@ export default {
           data: qs.stringify(params),
         })
           .then(({ data }) => {
-            commit('setKey', data.data);
-            commit('setRefresh', true, { root: true });
+            const { keys } = state;
+            keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1, data.data);
+            commit('setKeys', keys);
             resolve(data);
           })
           .catch((error) => {
@@ -141,7 +162,9 @@ export default {
           url: `/users/me/keys/${state.selectedKey.id}`,
         })
           .then(({ data }) => {
-            commit('setKeys', state.keys.filter(key => key.id !== state.selectedKey.id));
+            const { keys } = state;
+            keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1);
+            commit('setKeys', keys);
             resolve(data);
           })
           .catch((error) => {

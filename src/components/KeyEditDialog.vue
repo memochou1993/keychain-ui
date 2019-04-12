@@ -91,7 +91,7 @@ export default {
     },
   },
   created() {
-    this.fetchKey();
+    this.getKey();
   },
   mounted() {
     setTimeout(() => {
@@ -100,6 +100,8 @@ export default {
   },
   methods: {
     ...mapActions('key', [
+      'fetchKey',
+      'updateKey',
       'setKey',
       'setSelectedKey',
       'setEditDialog',
@@ -109,9 +111,9 @@ export default {
       this.setNoData(false);
       this.setError(null);
     },
-    fetchKey() {
+    getKey() {
       this.beforeProcess();
-      this.$store.dispatch('key/fetchKey', {
+      this.fetchKey({
         params: {
           with: '',
         },
@@ -131,9 +133,9 @@ export default {
           }, 1000 * 0.25);
         });
     },
-    updateKey() {
+    editKey() {
       this.beforeProcess();
-      this.$store.dispatch('key/updateKey', {
+      this.updateKey({
         params: {
           with: '',
           title: this.title,
@@ -181,9 +183,6 @@ export default {
     },
     setContent(content) {
       this.content = content;
-    },
-    editKey() {
-      this.updateKey();
     },
   },
 };

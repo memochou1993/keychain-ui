@@ -6,18 +6,54 @@
     >
       <v-card>
         <v-card-text>
-          <div
+          <v-form
             v-if="!loading"
-            class="content my-3"
+            ref="form"
+            v-model="valid"
           >
-            <span>{{ key.content }}</span>
-          </div>
+            <v-text-field
+              v-if="dialog"
+              v-model="title"
+              :rules="[v => !!v || 'Title is required']"
+              type="text"
+              label="Title"
+              autofocus
+              class="my-3"
+            />
+            <v-textarea
+              v-model="content"
+              :rules="[v => !!v || 'Content is required']"
+              type="text"
+              label="Content"
+              class="my-3"
+            />
+          </v-form>
           <AppNoData
             v-else
             :noData="noData"
             item="key"
           />
         </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-btn
+            :disabled="loading"
+            flat
+            color="primary"
+            @click="$refs.form.reset()"
+          >
+            Clear
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            :disabled="!valid || loading"
+            color="primary"
+            class="white--text"
+            @click="createKey"
+          >
+            Create
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -37,12 +73,10 @@ export default {
       loading: false,
       noData: false,
       error: null,
+      valid: false,
+      title: '',
+      content: '',
     };
-  },
-  computed: {
-    ...mapState('key', [
-      'key',
-    ]),
   },
   watch: {
     dialog(value) {
@@ -51,9 +85,6 @@ export default {
       }
     },
   },
-  created() {
-    this.getKey();
-  },
   mounted() {
     setTimeout(() => {
       this.setDialog(true);
@@ -61,23 +92,29 @@ export default {
   },
   methods: {
     ...mapActions('key', [
-      'fetchKey',
+      'storeKey',
       'setKey',
-      'setSelectedKey',
-      'setViewDialog',
+      'setCreateDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
       this.setNoData(false);
       this.setError(null);
     },
-    getKey() {
+    createKey() {
       this.beforeProcess();
-      this.fetchKey({
+      this.storeKey({
         params: {
           with: '',
+          title: this.title,
+          content: this.content,
         },
       })
+        .then(() => {
+          setTimeout(() => {
+            this.processed();
+          }, 1000 * 0.25);
+        })
         .catch((error) => {
           this.setNoData(true);
           this.setError(error);
@@ -89,9 +126,7 @@ export default {
         });
     },
     processed() {
-      this.setKey(null);
-      this.setSelectedKey(null);
-      this.setViewDialog(false);
+      this.setCreateDialog(false);
     },
     setLoading(loading) {
       this.loading = loading;
@@ -108,10 +143,3 @@ export default {
   },
 };
 </script>
-
-<style lang="stylus" scoped>
-.content {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-</style>
