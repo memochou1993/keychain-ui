@@ -5,7 +5,7 @@
     <div
       v-if="noData"
     >
-      No {{ item }} found.
+      {{ message }}
     </div>
     <AppProgressCircular
       v-else
@@ -26,7 +26,7 @@ export default {
       required: false,
       default: false,
     },
-    item: {
+    message: {
       type: String,
       required: true,
     },

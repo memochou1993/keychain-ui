@@ -69,7 +69,7 @@
             >
               <AppNoData
                 :noData="noData"
-                item="keys"
+                message="No keys found"
               />
             </template>
           </v-data-table>
@@ -155,7 +155,6 @@ export default {
       'pagination',
       'scroll',
       'pages',
-      'strict',
       'approval',
       'unlockedKeys',
       'exposedKeys',
@@ -194,7 +193,7 @@ export default {
       }
     },
     deprecatedKeys(value) {
-      if (value.length > 0) {
+      if (value.length) {
         setTimeout(() => {
           this.setDeprecatedKeys([]);
         }, 1000 * 2.5);
@@ -253,7 +252,7 @@ export default {
         });
     },
     process(key) {
-      this.setNoData(key.length === 0);
+      this.setNoData(!key.length);
     },
     setLoading(loading) {
       this.loading = loading;
@@ -300,7 +299,7 @@ export default {
       return this.setExposedKeys([...this.exposedKeys, key.id]);
     },
     scrollKeys() {
-      const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       const { innerHeight } = window;
       const { offsetHeight } = document.documentElement;
       if (this.scroll && scrollTop + innerHeight + 1 > offsetHeight) {

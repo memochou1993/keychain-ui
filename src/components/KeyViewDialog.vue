@@ -15,7 +15,7 @@
           <AppNoData
             v-else
             :noData="noData"
-            item="key"
+            message="No key found"
           />
         </v-card-text>
       </v-card>
