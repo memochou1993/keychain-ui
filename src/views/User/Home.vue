@@ -49,7 +49,7 @@
                   :disabled="!props.item.password"
                   icon
                   class="primary--text text--lighten-2"
-                  @click="toggle(props.item)"
+                  @click="toggleKey(props.item)"
                 >
                   <v-icon>
                     {{ `mdi-eye${isToggled(props.item) ? '' : '-off'}` }}
@@ -274,7 +274,7 @@ export default {
       this.setAction(action);
       this.setSelectedKey(key);
     },
-    toggle(key) {
+    toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
         return this.setUnlockDialog(true);
