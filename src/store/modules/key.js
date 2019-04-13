@@ -100,10 +100,6 @@ export default {
                 commit('setPages', data.meta.last_page);
                 return true;
               }
-              if (state.action === 'query') {
-                commit('setKeys', []);
-                commit('setAction', '');
-              }
               return commit('setKeys', [...state.keys, ...data.data]);
             }, 1000 * 0.25);
             resolve(data);

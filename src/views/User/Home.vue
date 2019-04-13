@@ -141,7 +141,7 @@ export default {
           text: '', value: '', align: 'center', sortable: false,
         },
       ],
-      paginate: 10,
+      paginate: 15,
       page: 1,
       loading: false,
       noData: false,
@@ -175,6 +175,7 @@ export default {
   watch: {
     query() {
       this.setPage(1);
+      this.setKeys([]);
       this.getKeys();
     },
     refresh(value) {
@@ -214,6 +215,7 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
+      'setKeys',
       'setScroll',
       'setApproval',
       'setAction',
@@ -302,7 +304,7 @@ export default {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       const { innerHeight } = window;
       const { offsetHeight } = document.documentElement;
-      if (this.scroll && scrollTop + innerHeight + 1 > offsetHeight) {
+      if (this.scroll && !this.loading && scrollTop + innerHeight + 1 > offsetHeight) {
         this.setPage(this.page + 1);
         this.getKeys();
       }
