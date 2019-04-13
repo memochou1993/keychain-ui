@@ -12,6 +12,17 @@ Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
+Vue.directive('scroll', {
+  inserted(el, binding) {
+    const f = (evt) => {
+      if (binding.value(evt, el)) {
+        window.removeEventListener('scroll', f);
+      }
+    };
+    window.addEventListener('scroll', f);
+  },
+});
+
 new Vue({
   router,
   store,

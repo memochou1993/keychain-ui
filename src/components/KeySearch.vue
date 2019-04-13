@@ -28,8 +28,14 @@ export default {
     ...mapActions([
       'setQuery',
     ]),
+    ...mapActions('key', [
+      'setScroll',
+      'setAction',
+    ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
+      this.setScroll(true);
+      this.setAction('query');
     }, 250),
   },
 };

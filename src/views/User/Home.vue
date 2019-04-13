@@ -83,6 +83,10 @@
             :length="pages"
             @input="getKeys"
           />
+          <div
+            v-if="!pagination"
+            v-scroll="scrollKeys"
+          />
         </div>
         <KeyCreateDialog
           v-if="createDialog"
@@ -149,6 +153,7 @@ export default {
     ...mapState('key', [
       'keys',
       'pagination',
+      'scroll',
       'pages',
       'strict',
       'approval',
@@ -170,6 +175,7 @@ export default {
   },
   watch: {
     query() {
+      this.setPage(1);
       this.getKeys();
     },
     refresh(value) {
@@ -194,6 +200,11 @@ export default {
         }, 1000 * 2.5);
       }
     },
+    noData(value) {
+      if (value) {
+        this.setScroll(false);
+      }
+    },
   },
   created() {
     this.getKeys();
@@ -204,6 +215,7 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
+      'setScroll',
       'setApproval',
       'setAction',
       'setUnlockedKeys',
@@ -252,6 +264,9 @@ export default {
     setError(error) {
       this.error = error;
     },
+    setPage(page) {
+      this.page = page;
+    },
     isUnlocked(key) {
       if (this.isApproved) {
         return true;
@@ -283,6 +298,15 @@ export default {
         return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
       }
       return this.setExposedKeys([...this.exposedKeys, key.id]);
+    },
+    scrollKeys() {
+      const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+      const { innerHeight } = window;
+      const { offsetHeight } = document.documentElement;
+      if (this.scroll && scrollTop + innerHeight + 1 > offsetHeight) {
+        this.setPage(this.page + 1);
+        this.getKeys();
+      }
     },
   },
 };

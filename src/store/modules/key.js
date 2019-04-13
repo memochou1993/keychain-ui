@@ -6,8 +6,9 @@ export default {
   state: {
     keys: [],
     key: null,
-    pagination: true,
     pages: 1,
+    pagination: false,
+    scroll: true,
     strict: false,
     approval: false,
     action: '',
@@ -44,6 +45,12 @@ export default {
     setKey(state, key) {
       state.key = key;
     },
+    setPagination(state, pagination) {
+      state.pagination = pagination;
+    },
+    setScroll(state, scroll) {
+      state.scroll = scroll;
+    },
     setPages(state, pages) {
       state.pages = pages;
     },
@@ -79,7 +86,7 @@ export default {
     },
   },
   actions: {
-    fetchKeys({ commit }, { params }) {
+    fetchKeys({ state, commit }, { params }) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -88,8 +95,16 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', data.data);
-              commit('setPages', data.meta.last_page);
+              if (state.pagination) {
+                commit('setKeys', data.data);
+                commit('setPages', data.meta.last_page);
+                return true;
+              }
+              if (state.action === 'query') {
+                commit('setKeys', []);
+                commit('setAction', '');
+              }
+              return commit('setKeys', [...state.keys, ...data.data]);
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -183,6 +198,12 @@ export default {
     },
     setPages({ commit }, pages) {
       commit('setPages', pages);
+    },
+    setPagination({ commit }, pagination) {
+      commit('setPagination', pagination);
+    },
+    setScroll({ commit }, scroll) {
+      commit('setScroll', scroll);
     },
     setApproval({ commit }, approval) {
       commit('setApproval', approval);
