@@ -304,7 +304,7 @@ export default {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       const { innerHeight } = window;
       const { offsetHeight } = document.documentElement;
-      if (this.scroll && !this.loading && scrollTop + innerHeight + 1 > offsetHeight) {
+      if (this.scroll && !this.loading && scrollTop + innerHeight + 100 > offsetHeight) {
         this.setPage(this.page + 1);
         this.getKeys();
       }
