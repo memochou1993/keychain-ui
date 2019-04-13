@@ -30,7 +30,7 @@
                 class="text-xs-left"
               >
                 <div
-                  v-if="isVisible(props.item)"
+                  v-if="isToggled(props.item)"
                   class="content"
                 >
                   {{ props.item.content }}
@@ -52,7 +52,7 @@
                   @click="toggle(props.item)"
                 >
                   <v-icon>
-                    {{ `mdi-eye${isVisible(props.item) ? '' : '-off'}` }}
+                    {{ `mdi-eye${isToggled(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
               </td>
@@ -78,10 +78,10 @@
           class="text-xs-center my-3"
         >
           <v-pagination
-            v-if="pages > 1"
+            v-if="pagination && pages > 1"
             v-model="page"
             :length="pages"
-            @input="onPageChange"
+            @input="getKeys"
           />
         </div>
         <KeyCreateDialog
@@ -148,6 +148,7 @@ export default {
   computed: {
     ...mapState('key', [
       'keys',
+      'pagination',
       'pages',
       'strict',
       'approval',
@@ -260,7 +261,7 @@ export default {
     isExposed(key) {
       return this.exposedKeys.includes(key.id);
     },
-    isVisible(key) {
+    isToggled(key) {
       if (!key.password) {
         return true;
       }
@@ -282,9 +283,6 @@ export default {
         return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
       }
       return this.setExposedKeys([...this.exposedKeys, key.id]);
-    },
-    onPageChange() {
-      this.getKeys();
     },
   },
 };

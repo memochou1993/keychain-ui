@@ -3,7 +3,7 @@
     <v-dialog
       v-model="dialog"
       :max-width="400"
-      :persistent="!isEmpty"
+      :persistent="!!persistent"
     >
       <v-card>
         <v-card-title>
@@ -92,8 +92,8 @@ export default {
     ...mapState('key', [
       'key',
     ]),
-    isEmpty() {
-      return !this.title && !this.content;
+    persistent() {
+      return this.title || this.content;
     },
   },
   watch: {

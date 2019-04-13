@@ -6,6 +6,7 @@ export default {
   state: {
     keys: [],
     key: null,
+    pagination: true,
     pages: 1,
     strict: false,
     approval: false,
