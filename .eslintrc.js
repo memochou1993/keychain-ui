@@ -24,6 +24,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': ['error', { 'props': false }],
     'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
+    'func-names': ['error', 'never'],
     'vue/component-name-in-template-casing': 'off',
     'vue/attribute-hyphenation': 'off',
   },

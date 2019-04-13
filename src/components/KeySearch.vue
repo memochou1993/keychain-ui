@@ -21,14 +21,14 @@ export default {
   },
   watch: {
     query() {
-      this.search();
+      this.queryKeys();
     },
   },
   methods: {
     ...mapActions([
       'setQuery',
     ]),
-    search: _.debounce(function anonymous() {
+    queryKeys: _.debounce(function () {
       this.setQuery(this.query);
     }, 250),
   },
