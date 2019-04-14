@@ -2,7 +2,6 @@
   <div>
     <v-text-field
       v-model="query"
-      :disabled="!keys.length"
       flat
       hide-details
       solo-inverted
@@ -13,18 +12,13 @@
 
 <script>
 import _ from 'lodash';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       query: '',
     };
-  },
-  computed: {
-    ...mapState('key', [
-      'keys',
-    ]),
   },
   watch: {
     query() {
