@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import _ from 'lodash';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -29,12 +29,14 @@ export default {
       'setQuery',
     ]),
     ...mapActions('key', [
+      'setKeys',
       'setScroll',
     ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
+      this.setKeys([]);
       this.setScroll(true);
-    }, 250),
+    }, 500),
   },
 };
 </script>

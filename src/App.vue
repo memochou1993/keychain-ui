@@ -6,7 +6,7 @@
       <TheToolbar />
       <v-content>
         <v-container
-          grid-list-xl
+          class="pb-0"
         >
           <router-view />
         </v-container>

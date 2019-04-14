@@ -30,16 +30,9 @@
                 class="text-xs-left"
               >
                 <div
-                  v-if="isToggled(props.item)"
                   class="content"
                 >
-                  {{ props.item.content }}
-                </div>
-                <div
-                  v-else
-                  class="content"
-                >
-                  {{ bullets }}
+                  {{ isToggled(props.item) ? props.item.content : bullets }}
                 </div>
               </td>
               <td
@@ -75,18 +68,26 @@
           </v-data-table>
         </v-card>
         <div
-          class="text-xs-center my-3"
+          class="text-xs-center"
         >
           <v-pagination
             v-if="pagination && pages > 1"
             v-model="page"
             :length="pages"
+            class="my-4"
             @input="getKeys"
           />
           <div
             v-if="!pagination"
+            ref="more"
             v-scroll="scrollKeys"
-          />
+            class="my-5"
+          >
+            <AppProgressCircular
+              v-show="page > 1"
+              :loading="!noData"
+            />
+          </div>
         </div>
         <KeyCreateDialog
           v-if="createDialog"
@@ -106,8 +107,10 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { mapState, mapActions, mapGetters } from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
+import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
 import KeyCreateDialog from '@/components/KeyCreateDialog.vue';
@@ -118,6 +121,7 @@ import KeyEditDialog from '@/components/KeyEditDialog.vue';
 export default {
   components: {
     AppProgressLinear,
+    AppProgressCircular,
     AppNoData,
     KeyMenu,
     KeyCreateDialog,
@@ -175,7 +179,6 @@ export default {
   watch: {
     query() {
       this.setPage(1);
-      this.setKeys([]);
       this.getKeys();
     },
     refresh(value) {
@@ -215,7 +218,6 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
-      'setKeys',
       'setScroll',
       'setApproval',
       'setAction',
@@ -300,15 +302,13 @@ export default {
       }
       return this.setExposedKeys([...this.exposedKeys, key.id]);
     },
-    scrollKeys() {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    scrollKeys: _.debounce(function () {
       const { innerHeight } = window;
-      const { offsetHeight } = document.documentElement;
-      if (this.scroll && !this.loading && scrollTop + innerHeight + 100 > offsetHeight) {
+      if (this.$refs.more.getBoundingClientRect().top < innerHeight) {
         this.setPage(this.page + 1);
         this.getKeys();
       }
-    },
+    }, 500),
   },
 };
 </script>
