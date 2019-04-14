@@ -8,9 +8,13 @@
         <v-card-text>
           <div
             v-if="!loading"
-            class="content my-3"
+            class="my-3"
           >
-            <span>{{ key.content }}</span>
+            <div
+              class="content"
+            >
+              <span>{{ key.content }}</span>
+            </div>
           </div>
           <AppNoData
             v-else

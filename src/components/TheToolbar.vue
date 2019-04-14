@@ -2,6 +2,7 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
+      :width="250"
       app
       clipped
       disable-resize-watcher
