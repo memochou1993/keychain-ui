@@ -1,5 +1,4 @@
 import axios from 'axios';
-import qs from 'qs';
 
 export default {
   namespaced: true,
@@ -111,7 +110,7 @@ export default {
         axios({
           method: 'POST',
           url: `/users/me/keys/${state.selectedKey.id}`,
-          data: qs.stringify(params),
+          params,
         })
           .then(({ data }) => {
             setTimeout(() => {
@@ -132,7 +131,7 @@ export default {
         axios({
           method: 'POST',
           url: '/users/me/keys',
-          data: qs.stringify(params),
+          data: params,
         })
           .then(({ data }) => {
             const { keys } = state;
@@ -153,7 +152,7 @@ export default {
         axios({
           method: 'PATCH',
           url: `/users/me/keys/${state.selectedKey.id}`,
-          data: qs.stringify(params),
+          data: params,
         })
           .then(({ data }) => {
             const { keys } = state;

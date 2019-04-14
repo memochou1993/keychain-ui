@@ -37,6 +37,11 @@
               label="Content"
               class="my-3"
             />
+            <v-switch
+              v-model="password"
+              color="primary"
+              label="Lock"
+            />
           </v-form>
           <AppNoData
             v-else
@@ -86,6 +91,7 @@ export default {
       valid: false,
       title: '',
       content: '',
+      password: false,
     };
   },
   computed: {
@@ -123,6 +129,7 @@ export default {
           with: '',
           title: this.title,
           content: this.content,
+          password: this.password,
         },
       })
         .then(() => {
