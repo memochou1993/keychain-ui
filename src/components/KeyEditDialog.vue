@@ -85,13 +85,13 @@ export default {
   data() {
     return {
       dialog: false,
-      loading: false,
-      noData: false,
-      error: null,
       valid: false,
       title: '',
       content: '',
       password: false,
+      loading: false,
+      noData: false,
+      error: null,
     };
   },
   computed: {

@@ -9,6 +9,7 @@
     >
       <v-list>
         <v-list-tile
+          :disabled="!keys.length"
           @click="createKey"
         >
           <v-list-tile-action>
@@ -25,6 +26,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile
+          :disabled="!keys.length"
           @click="refreshKeys"
         >
           <v-list-tile-action>
@@ -78,6 +80,9 @@ export default {
   computed: {
     ...mapState([
       'refresh',
+    ]),
+    ...mapState('key', [
+      'keys',
     ]),
   },
   methods: {

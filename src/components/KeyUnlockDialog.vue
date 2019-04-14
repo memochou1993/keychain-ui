@@ -41,13 +41,13 @@ export default {
   data() {
     return {
       dialog: false,
-      loading: false,
-      noData: false,
-      error: null,
       valid: false,
       errorMessages: [],
       password: '',
       capsLock: false,
+      loading: false,
+      noData: false,
+      error: null,
     };
   },
   computed: {

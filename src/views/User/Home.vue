@@ -145,10 +145,10 @@ export default {
       ],
       paginate: 15,
       page: 1,
+      bullets: '••••••••••',
       loading: false,
       noData: false,
       error: null,
-      bullets: '••••••••••',
     };
   },
   computed: {
