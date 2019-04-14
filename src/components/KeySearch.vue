@@ -2,9 +2,9 @@
   <div>
     <v-text-field
       v-model="query"
+      flat
       hide-details
       solo-inverted
-      class="mx-3"
     />
   </div>
 </template>

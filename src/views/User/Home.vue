@@ -311,7 +311,7 @@ export default {
 
 <style lang="stylus" scoped>
 .content
-  width: 150px;
+  width: 125px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
