@@ -10,7 +10,7 @@ export default new Vuex.Store({
     key,
   },
   state: {
-    refresh: false,
+    refresh: 0,
     query: '',
   },
   mutations: {

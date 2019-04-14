@@ -68,20 +68,18 @@
           </v-data-table>
         </v-card>
         <div
-          class="text-xs-center"
+          class="text-xs-center my-4"
         >
           <v-pagination
             v-if="pagination && pages > 1"
             v-model="page"
             :length="pages"
-            class="my-4"
             @input="getKeys"
           />
           <div
             v-if="!pagination"
             ref="more"
             v-scroll="scrollKeys"
-            class="my-5"
           >
             <AppProgressCircular
               v-show="page > 1"
@@ -181,11 +179,9 @@ export default {
       this.setPage(1);
       this.getKeys();
     },
-    refresh(value) {
-      if (value) {
-        this.setRefresh(false);
-        this.getKeys();
-      }
+    refresh() {
+      this.setPage(1);
+      this.getKeys();
     },
     approval(value) {
       if (value) {
@@ -304,7 +300,7 @@ export default {
     },
     scrollKeys: _.debounce(function () {
       const { innerHeight } = window;
-      if (this.$refs.more.getBoundingClientRect().top < innerHeight) {
+      if (!this.noData && this.$refs.more.getBoundingClientRect().top < innerHeight) {
         this.setPage(this.page + 1);
         this.getKeys();
       }

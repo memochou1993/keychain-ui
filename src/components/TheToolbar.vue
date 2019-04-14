@@ -24,7 +24,7 @@
         </v-btn>
         <v-btn
           icon
-          @click="setRefresh(true)"
+          @click="refreshKeys"
         >
           <v-icon>
             mdi-refresh
@@ -37,22 +37,32 @@
 
 <script>
 import KeySearch from '@/components/KeySearch.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   components: {
     KeySearch,
+  },
+  computed: {
+    ...mapState([
+      'refresh',
+    ]),
   },
   methods: {
     ...mapActions([
       'setRefresh',
     ]),
     ...mapActions('key', [
+      'setKeys',
       'setCreateDialog',
     ]),
     createKey() {
       this.setCreateDialog(true);
     },
+    refreshKeys() {
+      this.setRefresh(this.refresh + 1);
+      this.setKeys([]);
+    }
   },
 };
 </script>

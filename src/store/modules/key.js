@@ -45,9 +45,6 @@ export default {
     setKey(state, key) {
       state.key = key;
     },
-    setPagination(state, pagination) {
-      state.pagination = pagination;
-    },
     setScroll(state, scroll) {
       state.scroll = scroll;
     },
@@ -191,12 +188,6 @@ export default {
     },
     setKey({ commit }, key) {
       commit('setKey', key);
-    },
-    setPages({ commit }, pages) {
-      commit('setPages', pages);
-    },
-    setPagination({ commit }, pagination) {
-      commit('setPagination', pagination);
     },
     setScroll({ commit }, scroll) {
       commit('setScroll', scroll);
