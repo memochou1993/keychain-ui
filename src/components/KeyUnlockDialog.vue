@@ -53,9 +53,9 @@ export default {
   computed: {
     ...mapState('key', [
       'key',
-      'action',
-      'selectedKey',
+      'attemption',
       'exposedKeys',
+      'selectedKey',
     ]),
   },
   watch: {
@@ -73,8 +73,8 @@ export default {
   methods: {
     ...mapActions('key', [
       'fetchKey',
-      'setApproval',
-      'setAction',
+      'setApproved',
+      'setAttemption',
       'setExposedKeys',
       'setDeprecatedKeys',
       'setUnlockDialog',
@@ -114,22 +114,22 @@ export default {
         });
     },
     process() {
-      this.setApproval(true);
-      if (this.action === 'toggle') {
+      this.setApproved(true);
+      if (this.attemption === 'toggle') {
         this.toggleKey();
       }
-      if (this.action === 'view') {
+      if (this.attemption === 'view') {
         this.viewKey();
       }
-      if (this.action === 'edit') {
+      if (this.attemption === 'edit') {
         this.editKey();
       }
-      if (this.action === 'remove') {
+      if (this.attemption === 'remove') {
         this.removeKey();
       }
     },
     processed() {
-      this.setAction('');
+      this.setAttemption('');
       this.setUnlockDialog(false);
     },
     setLoading(loading) {

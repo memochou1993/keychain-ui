@@ -9,7 +9,7 @@
         offset-md2
       >
         <AppProgressLinear
-          :color="error ? 'error' : noData && !keys.length ? 'warning' : 'success'"
+          :color="error ? 'error' : noData ? 'warning' : 'success'"
           :error="!!error"
           :loading="loading"
         />
@@ -75,17 +75,18 @@
             v-show="pages > 1"
           >
             <div
-              v-if="pagination"
+              v-if="settings.pagination"
             >
               <v-pagination
                 v-model="page"
                 :length="pages"
+                :total-visible="breakpoint.lgAndUp ? 9 : 5"
                 @input="getKeys"
               />
             </div>
             <div
               v-else
-              ref="more"
+              ref="load"
               v-scroll="scrollKeys"
             >
               <AppProgressCircular
@@ -163,10 +164,9 @@ export default {
   computed: {
     ...mapState('key', [
       'keys',
-      'pagination',
-      'scroll',
       'pages',
-      'approval',
+      'scrollable',
+      'approved',
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
@@ -174,6 +174,7 @@ export default {
       'unlockDialog',
       'viewDialog',
       'editDialog',
+      'settings',
     ]),
     ...mapState([
       'refresh',
@@ -182,6 +183,9 @@ export default {
     ...mapGetters('key', [
       'isApproved',
     ]),
+    breakpoint() {
+      return this.$vuetify.breakpoint;
+    },
     isLastPage() {
       return this.page === this.pages;
     },
@@ -195,10 +199,10 @@ export default {
       this.setPage(1);
       this.getKeys();
     },
-    approval(value) {
+    approved(value) {
       if (value) {
         setTimeout(() => {
-          this.setApproval(false);
+          this.setApproved(false);
           this.setUnlockedKeys([]);
           this.setExposedKeys([]);
         }, 1000 * 300);
@@ -213,7 +217,7 @@ export default {
     },
     noData(value) {
       if (value) {
-        this.setScroll(false);
+        this.setScrollable(false);
       }
     },
   },
@@ -226,9 +230,9 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
-      'setScroll',
-      'setApproval',
-      'setAction',
+      'setScrollable',
+      'setApproved',
+      'setAttemption',
       'setUnlockedKeys',
       'setExposedKeys',
       'setDeprecatedKeys',
@@ -298,8 +302,8 @@ export default {
       }
       return this.exposedKeys.includes(key.id);
     },
-    attempt(action, key) {
-      this.setAction(action);
+    attempt(attemption, key) {
+      this.setAttemption(attemption);
       this.setSelectedKey(key);
     },
     toggleKey(key) {
@@ -313,17 +317,21 @@ export default {
       return this.setExposedKeys([...this.exposedKeys, key.id]);
     },
     scrollKeys: _.debounce(function () {
-      if (this.isLastPage) {
-        this.setLoading(true);
-        setTimeout(() => {
-          this.setLoading(false);
-        }, 1000);
-      }
       const { innerHeight } = window;
-      if (!this.isLastPage && this.$refs.more.getBoundingClientRect().top < innerHeight) {
+      const isAsking = this.$refs.load.getBoundingClientRect().top < innerHeight;
+      if (!isAsking) {
+        return false;
+      }
+      if (!this.isLastPage) {
         this.setPage(this.page + 1);
         this.getKeys();
+        return false;
       }
+      this.setLoading(true);
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
+      return false;
     }, 500),
   },
 };

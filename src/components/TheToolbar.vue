@@ -33,7 +33,7 @@
             </v-list-tile>
           </template>
           <v-list-tile
-            :disabled="loading"
+            :disabled="!loaded"
             @click="createKey"
           >
             <v-list-tile-action>
@@ -50,7 +50,7 @@
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile
-            :disabled="loading"
+            :disabled="!loaded"
             @click="refreshKeys"
           >
             <v-list-tile-action>
@@ -122,7 +122,7 @@ export default {
       'refresh',
     ]),
     ...mapState('key', [
-      'loading',
+      'loaded',
     ]),
     breakpoint() {
       return this.$vuetify.breakpoint;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-menu
-      :close-on-content-click="action !== 'remove'"
+      :close-on-content-click="attemption !== 'remove'"
       offset-x
     >
       <template
@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     ...mapState('key', [
-      'action',
+      'attemption',
       'deprecatedKeys',
     ]),
     ...mapGetters('key', [
@@ -72,15 +72,15 @@ export default {
   methods: {
     ...mapActions('key', [
       'destroyKey',
-      'setAction',
+      'setAttemption',
       'setDeprecatedKeys',
       'setSelectedKey',
       'setUnlockDialog',
       'setViewDialog',
       'setEditDialog',
     ]),
-    attempt(action, key) {
-      this.setAction(action);
+    attempt(attemption, key) {
+      this.setAttemption(attemption);
       this.setSelectedKey(key);
     },
     viewKey() {

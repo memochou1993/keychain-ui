@@ -31,12 +31,12 @@ export default {
     ]),
     ...mapActions('key', [
       'setKeys',
-      'setScroll',
+      'setScrollable',
     ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
       this.setKeys([]);
-      this.setScroll(true);
+      this.setScrollable(true);
     }, 500),
   },
 };

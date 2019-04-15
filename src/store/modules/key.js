@@ -6,12 +6,10 @@ export default {
     keys: [],
     key: null,
     pages: 1,
-    pagination: false,
-    loading: false,
-    scroll: true,
-    strict: false,
-    approval: false,
-    action: '',
+    loaded: false,
+    scrollable: true,
+    approved: false,
+    attemption: '',
     unlockedKeys: [],
     exposedKeys: [],
     deprecatedKeys: [],
@@ -20,19 +18,23 @@ export default {
     unlockDialog: false,
     viewDialog: false,
     editDialog: false,
+    settings: {
+      pagination: false,
+      strict: false,
+    },
   },
   getters: {
     isApproved(state) {
-      return !state.strict && state.approval;
+      return !state.settings.strict && state.approved;
     },
-    isUnlocked(state) {
+    isUnlocked(state, getters) {
       if (!state.selectedKey) {
         return false;
       }
       if (!state.selectedKey.password) {
         return true;
       }
-      if (!state.strict && state.approval) {
+      if (getters.isApproved) {
         return true;
       }
       return state.unlockedKeys.includes(state.selectedKey.id);
@@ -45,20 +47,20 @@ export default {
     setKey(state, key) {
       state.key = key;
     },
-    setScroll(state, scroll) {
-      state.scroll = scroll;
-    },
     setPages(state, pages) {
       state.pages = pages;
     },
-    setLoading(state, loading) {
-      state.loading = loading;
+    setLoaded(state, loaded) {
+      state.loaded = loaded;
     },
-    setApproval(state, approval) {
-      state.approval = approval;
+    setScrollable(state, scrollable) {
+      state.scrollable = scrollable;
     },
-    setAction(state, action) {
-      state.action = action;
+    setApproved(state, approved) {
+      state.approved = approved;
+    },
+    setAttemption(state, attemption) {
+      state.attemption = attemption;
     },
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
@@ -87,7 +89,7 @@ export default {
   },
   actions: {
     fetchKeys({ state, commit }, { params }) {
-      commit('setLoading', true);
+      commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -97,7 +99,7 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setPages', data.meta.last_page);
-              if (state.pagination) {
+              if (state.settings.pagination) {
                 return commit('setKeys', data.data);
               }
               return commit('setKeys', [...state.keys, ...data.data]);
@@ -109,13 +111,13 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoading', false);
+              commit('setLoaded', true);
             }, 1000 * 0.25);
           });
       });
     },
     fetchKey({ state, getters, commit }, { params }) {
-      commit('setLoading', true);
+      commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -136,13 +138,13 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoading', false);
+              commit('setLoaded', true);
             }, 1000 * 0.25);
           });
       });
     },
     storeKey({ state, getters, commit }, { params }) {
-      commit('setLoading', true);
+      commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -163,13 +165,13 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoading', false);
+              commit('setLoaded', true);
             }, 1000 * 0.25);
           });
       });
     },
     updateKey({ state, commit }, { params }) {
-      commit('setLoading', true);
+      commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'PATCH',
@@ -187,13 +189,13 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoading', false);
+              commit('setLoaded', true);
             }, 1000 * 0.25);
           });
       });
     },
     destroyKey({ state, commit }) {
-      commit('setLoading', true);
+      commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -210,7 +212,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoading', false);
+              commit('setLoaded', true);
             }, 1000 * 0.25);
           });
       });
@@ -221,14 +223,14 @@ export default {
     setKey({ commit }, key) {
       commit('setKey', key);
     },
-    setScroll({ commit }, scroll) {
-      commit('setScroll', scroll);
+    setScrollable({ commit }, scrollable) {
+      commit('setScrollable', scrollable);
     },
-    setApproval({ commit }, approval) {
-      commit('setApproval', approval);
+    setApproved({ commit }, approved) {
+      commit('setApproved', approved);
     },
-    setAction({ commit }, action) {
-      commit('setAction', action);
+    setAttemption({ commit }, attemption) {
+      commit('setAttemption', attemption);
     },
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);
