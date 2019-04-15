@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog
-      v-model="dialog"
+      v-model="enabled"
       :max-width="400"
     >
       <v-card>
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      enabled: false,
       loading: false,
       noData: false,
       error: null,
@@ -49,7 +49,7 @@ export default {
     ]),
   },
   watch: {
-    dialog(value) {
+    enabled(value) {
       if (!value) {
         this.processed();
       }
@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.setDialog(true);
+      this.setEnabled(true);
     }, 0);
   },
   methods: {
@@ -106,8 +106,8 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setDialog(dialog) {
-      this.dialog = dialog;
+    setEnabled(enabled) {
+      this.enabled = enabled;
     },
   },
 };

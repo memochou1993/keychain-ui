@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog
-      v-model="dialog"
+      v-model="enabled"
       :max-width="400"
       :persistent="!!persistent"
     >
@@ -9,7 +9,7 @@
         <v-card-title>
           <v-spacer />
           <v-icon
-            @click="setDialog(false)"
+            @click="setEnabled(false)"
           >
             mdi-close
           </v-icon>
@@ -22,7 +22,7 @@
             v-model="valid"
           >
             <v-text-field
-              v-if="dialog"
+              v-if="enabled"
               v-model="title"
               :rules="[v => !!v || 'Title is required']"
               type="text"
@@ -84,7 +84,7 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      enabled: false,
       valid: false,
       title: '',
       content: '',
@@ -103,7 +103,7 @@ export default {
     },
   },
   watch: {
-    dialog(value) {
+    enabled(value) {
       if (!value) {
         this.processed();
       }
@@ -114,7 +114,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.setDialog(true);
+      this.setEnabled(true);
     }, 0);
   },
   methods: {
@@ -196,8 +196,8 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setDialog(dialog) {
-      this.dialog = dialog;
+    setEnabled(enabled) {
+      this.enabled = enabled;
     },
     setTitle(title) {
       this.title = title;

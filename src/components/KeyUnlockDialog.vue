@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog
-      v-model="dialog"
+      v-model="enabled"
       :max-width="400"
     >
       <v-card>
@@ -11,7 +11,7 @@
             @submit.prevent="unlockKey"
           >
             <v-text-field
-              v-if="dialog"
+              v-if="enabled"
               v-model="password"
               :error="!!error"
               :rules="[v => !!v || 'Password is required']"
@@ -40,7 +40,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      dialog: false,
+      enabled: false,
       valid: false,
       errorMessages: [],
       password: '',
@@ -59,7 +59,7 @@ export default {
     ]),
   },
   watch: {
-    dialog(value) {
+    enabled(value) {
       if (!value) {
         this.processed();
       }
@@ -67,7 +67,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.setDialog(true);
+      this.setEnabled(true);
     }, 0);
   },
   methods: {
@@ -141,8 +141,8 @@ export default {
     setError(error) {
       this.error = error;
     },
-    setDialog(dialog) {
-      this.dialog = dialog;
+    setEnabled(enabled) {
+      this.enabled = enabled;
     },
     setErrorMessages(errorMessages) {
       this.errorMessages = errorMessages;
