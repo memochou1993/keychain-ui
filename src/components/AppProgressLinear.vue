@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-progress-linear
-      :color="error ? 'error' : 'success'"
+      :color="color"
       :height="2"
       :indeterminate="loading"
       class="my-0"
@@ -12,12 +12,12 @@
 <script>
 export default {
   props: {
-    loading: {
-      type: Boolean,
+    color: {
+      type: String,
       required: false,
-      default: false,
+      default: 'success',
     },
-    error: {
+    loading: {
       type: Boolean,
       required: false,
       default: false,

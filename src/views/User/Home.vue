@@ -9,6 +9,7 @@
         offset-md2
       >
         <AppProgressLinear
+          :color="error ? 'error' : noData && !keys.length ? 'warning' : 'success'"
           :error="!!error"
           :loading="loading"
         />
@@ -88,7 +89,8 @@
               v-scroll="scrollKeys"
             >
               <AppProgressCircular
-                v-show="!noData && keys.length"
+                v-show="keys.length"
+                :color="isLastPage ? 'warning' : 'primary'"
                 :loading="loading"
               />
             </div>
@@ -180,6 +182,9 @@ export default {
     ...mapGetters('key', [
       'isApproved',
     ]),
+    isLastPage() {
+      return this.page === this.pages;
+    },
   },
   watch: {
     query() {
@@ -308,8 +313,14 @@ export default {
       return this.setExposedKeys([...this.exposedKeys, key.id]);
     },
     scrollKeys: _.debounce(function () {
+      if (this.isLastPage) {
+        this.setLoading(true);
+        setTimeout(() => {
+          this.setLoading(false);
+        }, 1000);
+      }
       const { innerHeight } = window;
-      if (!this.noData && this.$refs.more.getBoundingClientRect().top < innerHeight) {
+      if (!this.isLastPage && this.$refs.more.getBoundingClientRect().top < innerHeight) {
         this.setPage(this.page + 1);
         this.getKeys();
       }
