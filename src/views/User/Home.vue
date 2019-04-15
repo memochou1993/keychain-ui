@@ -97,17 +97,17 @@
             </div>
           </div>
         </div>
-        <KeyCreateDialog
-          v-if="createDialog"
-        />
         <KeyUnlockDialog
-          v-if="unlockDialog"
+          v-if="dialog.unlock"
+        />
+        <KeyCreateDialog
+          v-if="dialog.create"
         />
         <KeyViewDialog
-          v-if="viewDialog"
+          v-if="dialog.view"
         />
         <KeyEditDialog
-          v-if="editDialog"
+          v-if="dialog.edit"
         />
       </v-flex>
     </v-layout>
@@ -170,10 +170,7 @@ export default {
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
-      'createDialog',
-      'unlockDialog',
-      'viewDialog',
-      'editDialog',
+      'dialog',
       'settings',
     ]),
     ...mapState([

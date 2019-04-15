@@ -14,10 +14,12 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
-    createDialog: false,
-    unlockDialog: false,
-    viewDialog: false,
-    editDialog: false,
+    dialog: {
+      unlock: false,
+      create: false,
+      view: false,
+      edit: false,
+    },
     settings: {
       pagination: false,
       strict: false,
@@ -75,16 +77,16 @@ export default {
       state.selectedKey = selectedKey;
     },
     setCreateDialog(state, createDialog) {
-      state.createDialog = createDialog;
+      state.dialog.create = createDialog;
     },
     setUnlockDialog(state, unlockDialog) {
-      state.unlockDialog = unlockDialog;
+      state.dialog.unlock = unlockDialog;
     },
     setViewDialog(state, viewDialog) {
-      state.viewDialog = viewDialog;
+      state.dialog.view = viewDialog;
     },
     setEditDialog(state, editDialog) {
-      state.editDialog = editDialog;
+      state.dialog.edit = editDialog;
     },
   },
   actions: {
