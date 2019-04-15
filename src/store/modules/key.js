@@ -7,6 +7,7 @@ export default {
     key: null,
     pages: 1,
     pagination: false,
+    loading: false,
     scroll: true,
     strict: false,
     approval: false,
@@ -50,6 +51,9 @@ export default {
     setPages(state, pages) {
       state.pages = pages;
     },
+    setLoading(state, loading) {
+      state.loading = loading;
+    },
     setApproval(state, approval) {
       state.approval = approval;
     },
@@ -83,6 +87,7 @@ export default {
   },
   actions: {
     fetchKeys({ state, commit }, { params }) {
+      commit('setLoading', true);
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -91,10 +96,9 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
+              commit('setPages', data.meta.last_page);
               if (state.pagination) {
-                commit('setKeys', data.data);
-                commit('setPages', data.meta.last_page);
-                return true;
+                return commit('setKeys', data.data);
               }
               return commit('setKeys', [...state.keys, ...data.data]);
             }, 1000 * 0.25);
@@ -102,10 +106,16 @@ export default {
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoading', false);
+            }, 1000 * 0.25);
           });
       });
     },
     fetchKey({ state, getters, commit }, { params }) {
+      commit('setLoading', true);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -123,10 +133,16 @@ export default {
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoading', false);
+            }, 1000 * 0.25);
           });
       });
     },
     storeKey({ state, getters, commit }, { params }) {
+      commit('setLoading', true);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -144,10 +160,16 @@ export default {
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoading', false);
+            }, 1000 * 0.25);
           });
       });
     },
     updateKey({ state, commit }, { params }) {
+      commit('setLoading', true);
       return new Promise((resolve, reject) => {
         axios({
           method: 'PATCH',
@@ -162,10 +184,16 @@ export default {
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoading', false);
+            }, 1000 * 0.25);
           });
       });
     },
     destroyKey({ state, commit }) {
+      commit('setLoading', true);
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -179,6 +207,11 @@ export default {
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoading', false);
+            }, 1000 * 0.25);
           });
       });
     },

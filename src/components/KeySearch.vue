@@ -3,9 +3,9 @@
     <v-text-field
       v-model="query"
       flat
+      label="Search"
       hide-details
       solo-inverted
-      append-icon="mdi-file-search-outline"
     />
   </div>
 </template>

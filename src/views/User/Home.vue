@@ -70,21 +70,28 @@
         <div
           class="text-xs-center my-4"
         >
-          <v-pagination
-            v-if="pagination && pages > 1"
-            v-model="page"
-            :length="pages"
-            @input="getKeys"
-          />
           <div
-            v-if="!pagination"
-            ref="more"
-            v-scroll="scrollKeys"
+            v-show="pages > 1"
           >
-            <AppProgressCircular
-              v-show="page > 1"
-              :loading="!noData"
-            />
+            <div
+              v-if="pagination"
+            >
+              <v-pagination
+                v-model="page"
+                :length="pages"
+                @input="getKeys"
+              />
+            </div>
+            <div
+              v-else
+              ref="more"
+              v-scroll="scrollKeys"
+            >
+              <AppProgressCircular
+                v-show="!noData && keys.length"
+                :loading="loading"
+              />
+            </div>
           </div>
         </div>
         <KeyCreateDialog
@@ -239,7 +246,9 @@ export default {
         },
       })
         .then(({ data }) => {
-          this.process(data);
+          setTimeout(() => {
+            this.process(data);
+          }, 1000 * 1);
         })
         .catch((error) => {
           this.setNoData(true);

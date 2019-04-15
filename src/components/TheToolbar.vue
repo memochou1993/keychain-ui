@@ -5,40 +5,79 @@
       :width="250"
       app
       clipped
-      disable-resize-watcher
     >
       <v-list>
-        <v-list-tile
-          :disabled="!keys.length"
-          @click="createKey"
-        >
+        <v-list-tile>
           <v-list-tile-action>
             <v-icon>
-              mdi-plus
+              mdi-account-circle-outline
             </v-icon>
           </v-list-tile-action>
           <v-list-tile-content
             class="subheading"
           >
             <v-list-tile-title>
-              Create
+              Profile
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile
-          :disabled="!keys.length"
-          @click="refreshKeys"
+        <v-list-group
+          :value="true"
+          prepend-icon="mdi-key-outline"
         >
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>
+                Keys
+              </v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile
+            :disabled="loading"
+            @click="createKey"
+          >
+            <v-list-tile-action>
+              <v-icon>
+                mdi-plus
+              </v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content
+              class="subheading"
+            >
+              <v-list-tile-title>
+                Create
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            :disabled="loading"
+            @click="refreshKeys"
+          >
+            <v-list-tile-action>
+              <v-icon>
+                mdi-refresh
+              </v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content
+              class="subheading"
+            >
+              <v-list-tile-title>
+                Refresh
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-tile>
           <v-list-tile-action>
             <v-icon>
-              mdi-refresh
+              mdi-settings-outline
             </v-icon>
           </v-list-tile-action>
           <v-list-tile-content
             class="subheading"
           >
             <v-list-tile-title>
-              Refresh
+              Settings
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -51,6 +90,7 @@
       color="primary"
     >
       <v-toolbar-side-icon
+        class="hidden-lg-and-up"
         @click.stop="setDrawer(!drawer)"
       />
       <v-toolbar-title
@@ -74,7 +114,7 @@ export default {
   },
   data() {
     return {
-      drawer: false,
+      drawer: true,
     };
   },
   computed: {
@@ -82,8 +122,11 @@ export default {
       'refresh',
     ]),
     ...mapState('key', [
-      'keys',
+      'loading',
     ]),
+    breakpoint() {
+      return this.$vuetify.breakpoint;
+    },
   },
   methods: {
     ...mapActions([
@@ -97,11 +140,15 @@ export default {
       this.drawer = drawer;
     },
     createKey() {
-      this.setDrawer(false);
+      if (!this.breakpoint.lgAndUp) {
+        this.setDrawer(false);
+      }
       this.setCreateDialog(true);
     },
     refreshKeys() {
-      this.setDrawer(false);
+      if (!this.breakpoint.lgAndUp) {
+        this.setDrawer(false);
+      }
       this.setRefresh(this.refresh + 1);
       this.setKeys([]);
     },
