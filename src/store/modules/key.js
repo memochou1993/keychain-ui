@@ -76,11 +76,14 @@ export default {
     setSelectedKey(state, selectedKey) {
       state.selectedKey = selectedKey;
     },
-    setCreateDialog(state, createDialog) {
-      state.dialog.create = createDialog;
+    setDialog(state, dialog) {
+      state.dialog = { ...state.dialog, ...dialog };
     },
     setUnlockDialog(state, unlockDialog) {
       state.dialog.unlock = unlockDialog;
+    },
+    setCreateDialog(state, createDialog) {
+      state.dialog.create = createDialog;
     },
     setViewDialog(state, viewDialog) {
       state.dialog.view = viewDialog;
@@ -246,11 +249,14 @@ export default {
     setSelectedKey({ commit }, selectedKey) {
       commit('setSelectedKey', selectedKey);
     },
-    setCreateDialog({ commit }, createDialog) {
-      commit('setCreateDialog', createDialog);
+    setDialog({ commit }, dialog) {
+      commit('setDialog', dialog);
     },
     setUnlockDialog({ commit }, unlockDialog) {
       commit('setUnlockDialog', unlockDialog);
+    },
+    setCreateDialog({ commit }, createDialog) {
+      commit('setCreateDialog', createDialog);
     },
     setViewDialog({ commit }, viewDialog) {
       commit('setViewDialog', viewDialog);

@@ -121,8 +121,8 @@ import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
-import KeyCreateDialog from '@/components/KeyCreateDialog.vue';
 import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
+import KeyCreateDialog from '@/components/KeyCreateDialog.vue';
 import KeyViewDialog from '@/components/KeyViewDialog.vue';
 import KeyEditDialog from '@/components/KeyEditDialog.vue';
 
@@ -132,8 +132,8 @@ export default {
     AppProgressCircular,
     AppNoData,
     KeyMenu,
-    KeyCreateDialog,
     KeyUnlockDialog,
+    KeyCreateDialog,
     KeyViewDialog,
     KeyEditDialog,
   },
