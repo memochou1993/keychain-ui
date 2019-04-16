@@ -33,7 +33,7 @@
                 <div
                   class="content"
                 >
-                  {{ isToggled(props.item) ? props.item.content : bullets }}
+                  {{ isVisible(props.item) ? props.item.content : bullets }}
                 </div>
               </td>
               <td
@@ -46,7 +46,7 @@
                   @click="toggleKey(props.item)"
                 >
                   <v-icon>
-                    {{ `mdi-eye${isToggled(props.item) ? '' : '-off'}` }}
+                    {{ `mdi-eye${isVisible(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
               </td>
@@ -281,19 +281,16 @@ export default {
     setPage(page) {
       this.page = page;
     },
+    isVisible(key) {
+      return !key.password || this.exposedKeys.includes(key.id);
+    },
+    isLocked(key) {
+      return key.password && !this.isApproved;
+    },
     isUnlocked(key) {
-      return this.isApproved || this.unlockedKeys.includes(key.id);
+      return !this.isLocked(key) || this.unlockedKeys.includes(key.id);
     },
     isExposed(key) {
-      return this.exposedKeys.includes(key.id);
-    },
-    isToggled(key) {
-      if (!key.password) {
-        return true;
-      }
-      if (!this.isUnlocked(key)) {
-        return false;
-      }
       return this.exposedKeys.includes(key.id);
     },
     attempt(attemption, key) {

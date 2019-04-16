@@ -22,7 +22,7 @@ export default {
     },
     settings: {
       pagination: false,
-      strict: false,
+      strict: true,
     },
   },
   getters: {
