@@ -115,17 +115,21 @@ export default {
     },
     process() {
       this.setApproved(true);
-      if (this.attemption === 'toggle') {
-        this.toggleKey();
-      }
-      if (this.attemption === 'view') {
-        this.viewKey();
-      }
-      if (this.attemption === 'edit') {
-        this.editKey();
-      }
-      if (this.attemption === 'remove') {
-        this.removeKey();
+      switch (this.attemption) {
+        case 'toggle':
+          this.toggleKey();
+          break;
+        case 'view':
+          this.viewKey();
+          break;
+        case 'edit':
+          this.editKey();
+          break;
+        case 'remove':
+          this.removeKey();
+          break;
+        default:
+          break;
       }
     },
     processed() {

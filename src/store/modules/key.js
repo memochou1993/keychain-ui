@@ -176,7 +176,7 @@ export default {
           });
       });
     },
-    destroyKey({ state, commit }) {
+    destroyKey({ state, commit, rootState }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
@@ -190,8 +190,8 @@ export default {
             resolve(data);
           })
           .then(() => {
-            if (state.keys.length <= state.paginate * 2 / 3) {
-              commit('setRefresh', true, { root: true });
+            if (state.pages !== 1 && state.keys.length <= state.paginate * 2 / 3) {
+              commit('setRefresh', rootState.refresh + 1, { root: true });
             }
           })
           .catch((error) => {

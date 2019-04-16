@@ -1,4 +1,4 @@
-const index = {
+const helper = {
   computed: {
     breakpoint() {
       return this.$vuetify.breakpoint;
@@ -11,4 +11,4 @@ const index = {
   },
 };
 
-export default index;
+export default helper;
