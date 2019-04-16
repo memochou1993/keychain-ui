@@ -97,16 +97,16 @@
             </div>
           </div>
         </div>
-        <KeyUnlockDialog
+        <KeyDialogUnlock
           v-if="dialog.unlock"
         />
-        <KeyCreateDialog
+        <KeyDialogCreate
           v-if="dialog.create"
         />
-        <KeyViewDialog
+        <KeyDialogView
           v-if="dialog.view"
         />
-        <KeyEditDialog
+        <KeyDialogEdit
           v-if="dialog.edit"
         />
       </v-flex>
@@ -121,10 +121,10 @@ import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
-import KeyUnlockDialog from '@/components/KeyUnlockDialog.vue';
-import KeyCreateDialog from '@/components/KeyCreateDialog.vue';
-import KeyViewDialog from '@/components/KeyViewDialog.vue';
-import KeyEditDialog from '@/components/KeyEditDialog.vue';
+import KeyDialogUnlock from '@/components/KeyDialogUnlock.vue';
+import KeyDialogCreate from '@/components/KeyDialogCreate.vue';
+import KeyDialogView from '@/components/KeyDialogView.vue';
+import KeyDialogEdit from '@/components/KeyDialogEdit.vue';
 
 export default {
   components: {
@@ -132,10 +132,10 @@ export default {
     AppProgressCircular,
     AppNoData,
     KeyMenu,
-    KeyUnlockDialog,
-    KeyCreateDialog,
-    KeyViewDialog,
-    KeyEditDialog,
+    KeyDialogUnlock,
+    KeyDialogCreate,
+    KeyDialogView,
+    KeyDialogEdit,
   },
   data() {
     return {
