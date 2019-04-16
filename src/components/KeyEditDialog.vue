@@ -123,7 +123,7 @@ export default {
       'updateKey',
       'setKey',
       'setSelectedKey',
-      'setEditDialog',
+      'setDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -185,7 +185,9 @@ export default {
     processed() {
       this.setKey(null);
       this.setSelectedKey(null);
-      this.setEditDialog(false);
+      this.setDialog({
+        edit: false,
+      });
     },
     setLoading(loading) {
       this.loading = loading;

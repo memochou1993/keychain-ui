@@ -68,7 +68,7 @@ export default {
       'fetchKey',
       'setKey',
       'setSelectedKey',
-      'setViewDialog',
+      'setDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -95,7 +95,9 @@ export default {
     processed() {
       this.setKey(null);
       this.setSelectedKey(null);
-      this.setViewDialog(false);
+      this.setDialog({
+        view: false,
+      });
     },
     setLoading(loading) {
       this.loading = loading;

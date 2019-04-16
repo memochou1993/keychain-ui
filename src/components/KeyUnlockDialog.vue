@@ -77,9 +77,7 @@ export default {
       'setAttemption',
       'setExposedKeys',
       'setDeprecatedKeys',
-      'setUnlockDialog',
-      'setViewDialog',
-      'setEditDialog',
+      'setDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -130,7 +128,9 @@ export default {
     },
     processed() {
       this.setAttemption('');
-      this.setUnlockDialog(false);
+      this.setDialog({
+        unlock: false,
+      });
     },
     setLoading(loading) {
       this.loading = loading;
@@ -169,10 +169,14 @@ export default {
       this.setExposedKeys([...this.exposedKeys, this.key.id]);
     },
     viewKey() {
-      this.setViewDialog(true);
+      this.setDialog({
+        view: true,
+      });
     },
     editKey() {
-      this.setEditDialog(true);
+      this.setDialog({
+        edit: true,
+      });
     },
     removeKey() {
       this.setDeprecatedKeys([this.selectedKey.id]);

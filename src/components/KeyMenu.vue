@@ -75,9 +75,7 @@ export default {
       'setAttemption',
       'setDeprecatedKeys',
       'setSelectedKey',
-      'setUnlockDialog',
-      'setViewDialog',
-      'setEditDialog',
+      'setDialog',
     ]),
     attempt(attemption, key) {
       this.setAttemption(attemption);
@@ -86,21 +84,31 @@ export default {
     viewKey() {
       this.attempt('view', this.selectedKey);
       if (!this.isUnlocked) {
-        return this.setUnlockDialog(true);
+        return this.setDialog({
+          unlock: true,
+        });
       }
-      return this.setViewDialog(true);
+      return this.setDialog({
+        view: true,
+      });
     },
     editKey() {
       this.attempt('edit', this.selectedKey);
       if (!this.isUnlocked) {
-        return this.setUnlockDialog(true);
+        return this.setDialog({
+          unlock: true,
+        });
       }
-      return this.setEditDialog(true);
+      return this.setDialog({
+        edit: true,
+      });
     },
     removeKey() {
       this.attempt('remove', this.selectedKey);
       if (!this.isUnlocked) {
-        return this.setUnlockDialog(true);
+        return this.setDialog({
+          unlock: true,
+        });
       }
       if (!this.isDeprecated) {
         return this.setDeprecatedKeys([this.selectedKey.id]);

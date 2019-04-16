@@ -134,7 +134,7 @@ export default {
     ]),
     ...mapActions('key', [
       'setKeys',
-      'setCreateDialog',
+      'setDialog',
     ]),
     setDrawer(drawer) {
       this.drawer = drawer;
@@ -143,7 +143,9 @@ export default {
       if (!this.breakpoint.lgAndUp) {
         this.setDrawer(false);
       }
-      this.setCreateDialog(true);
+      this.setDialog({
+        create: true,
+      });
     },
     refreshKeys() {
       if (!this.breakpoint.lgAndUp) {

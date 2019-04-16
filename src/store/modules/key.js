@@ -79,18 +79,6 @@ export default {
     setDialog(state, dialog) {
       state.dialog = { ...state.dialog, ...dialog };
     },
-    setUnlockDialog(state, unlockDialog) {
-      state.dialog.unlock = unlockDialog;
-    },
-    setCreateDialog(state, createDialog) {
-      state.dialog.create = createDialog;
-    },
-    setViewDialog(state, viewDialog) {
-      state.dialog.view = viewDialog;
-    },
-    setEditDialog(state, editDialog) {
-      state.dialog.edit = editDialog;
-    },
   },
   actions: {
     fetchKeys({ state, commit }, { params }) {
@@ -251,18 +239,6 @@ export default {
     },
     setDialog({ commit }, dialog) {
       commit('setDialog', dialog);
-    },
-    setUnlockDialog({ commit }, unlockDialog) {
-      commit('setUnlockDialog', unlockDialog);
-    },
-    setCreateDialog({ commit }, createDialog) {
-      commit('setCreateDialog', createDialog);
-    },
-    setViewDialog({ commit }, viewDialog) {
-      commit('setViewDialog', viewDialog);
-    },
-    setEditDialog({ commit }, editDialog) {
-      commit('setEditDialog', editDialog);
     },
   },
 };

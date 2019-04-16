@@ -234,7 +234,7 @@ export default {
       'setExposedKeys',
       'setDeprecatedKeys',
       'setSelectedKey',
-      'setUnlockDialog',
+      'setDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -306,7 +306,9 @@ export default {
     toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
-        return this.setUnlockDialog(true);
+        return this.setDialog({
+          unlock: true,
+        });
       }
       if (this.isExposed(key)) {
         return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));

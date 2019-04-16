@@ -115,7 +115,7 @@ export default {
     ...mapActions('key', [
       'storeKey',
       'setKey',
-      'setCreateDialog',
+      'setDialog',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -148,7 +148,9 @@ export default {
         });
     },
     processed() {
-      this.setCreateDialog(false);
+      this.setDialog({
+        create: false,
+      });
     },
     setLoading(loading) {
       this.loading = loading;
