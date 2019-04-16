@@ -33,7 +33,7 @@
                 <div
                   class="content"
                 >
-                  {{ isVisible(props.item) ? props.item.content : bullets }}
+                  {{ isVisible(props.item) ? props.item.content : '••••••••••' }}
                 </div>
               </td>
               <td
@@ -86,13 +86,13 @@
             </div>
             <div
               v-else
-              ref="load"
+              ref="ask"
               v-scroll="scrollKeys"
             >
               <AppProgressCircular
                 v-show="keys.length"
                 :color="isLastPage ? 'warning' : 'primary'"
-                :loading="loading"
+                :loading="asking"
               />
             </div>
           </div>
@@ -153,9 +153,8 @@ export default {
           text: '', value: '', align: 'center', sortable: false,
         },
       ],
-      paginate: 15,
       page: 1,
-      bullets: '••••••••••',
+      asking: false,
       loading: false,
       noData: false,
       error: null,
@@ -246,7 +245,7 @@ export default {
       this.fetchKeys({
         params: {
           with: '',
-          paginate: this.paginate,
+          paginate: 15,
           page: this.page,
           q: this.query,
         },
@@ -281,6 +280,9 @@ export default {
     setPage(page) {
       this.page = page;
     },
+    setAsking(asking) {
+      this.asking = asking;
+    },
     isVisible(key) {
       return !key.password || this.exposedKeys.includes(key.id);
     },
@@ -302,28 +304,24 @@ export default {
       if (!this.isUnlocked(key)) {
         return this.setDialog({ unlock: true });
       }
-      if (this.isExposed(key)) {
-        return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));
-      }
-      return this.setExposedKeys([...this.exposedKeys, key.id]);
+      return this.setExposedKeys(this.isExposed(key)
+        ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
+        : [...this.exposedKeys, key.id]);
     },
     scrollKeys: _.debounce(function () {
+      this.setAsking(true);
       const { innerHeight } = window;
-      const isAsking = this.$refs.load.getBoundingClientRect().top < innerHeight;
-      if (!isAsking) {
-        return false;
-      }
-      if (!this.isLastPage) {
+      const isAsking = this.$refs.ask.getBoundingClientRect().top < innerHeight;
+      if (isAsking && !this.isLastPage) {
         this.setPage(this.page + 1);
         this.getKeys();
         return false;
       }
-      this.setLoading(true);
       setTimeout(() => {
-        this.setLoading(false);
-      }, 1000);
+        this.setAsking(false);
+      }, 1000 * 1);
       return false;
-    }, 500),
+    }, 1000 * 0.5),
   },
 };
 </script>

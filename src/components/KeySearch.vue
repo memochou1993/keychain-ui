@@ -37,7 +37,7 @@ export default {
       this.setQuery(this.query);
       this.setKeys([]);
       this.setScrollable(true);
-    }, 500),
+    }, 1000 * 0.5),
   },
 };
 </script>
