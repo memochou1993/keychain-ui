@@ -95,9 +95,7 @@ export default {
     processed() {
       this.setKey(null);
       this.setSelectedKey(null);
-      this.setDialog({
-        view: false,
-      });
+      this.setDialog({ view: false });
     },
     setLoading(loading) {
       this.loading = loading;

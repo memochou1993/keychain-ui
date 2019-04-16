@@ -97,11 +97,11 @@
             </div>
           </div>
         </div>
-        <KeyDialogUnlock
-          v-if="dialog.unlock"
-        />
         <KeyDialogCreate
           v-if="dialog.create"
+        />
+        <KeyDialogUnlock
+          v-if="dialog.unlock"
         />
         <KeyDialogView
           v-if="dialog.view"
@@ -121,8 +121,8 @@ import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
-import KeyDialogUnlock from '@/components/KeyDialogUnlock.vue';
 import KeyDialogCreate from '@/components/KeyDialogCreate.vue';
+import KeyDialogUnlock from '@/components/KeyDialogUnlock.vue';
 import KeyDialogView from '@/components/KeyDialogView.vue';
 import KeyDialogEdit from '@/components/KeyDialogEdit.vue';
 
@@ -132,8 +132,8 @@ export default {
     AppProgressCircular,
     AppNoData,
     KeyMenu,
-    KeyDialogUnlock,
     KeyDialogCreate,
+    KeyDialogUnlock,
     KeyDialogView,
     KeyDialogEdit,
   },
@@ -306,9 +306,7 @@ export default {
     toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
-        return this.setDialog({
-          unlock: true,
-        });
+        return this.setDialog({ unlock: true });
       }
       if (this.isExposed(key)) {
         return this.setExposedKeys(this.exposedKeys.filter(exposedKey => exposedKey !== key.id));

@@ -143,9 +143,7 @@ export default {
       if (!this.breakpoint.lgAndUp) {
         this.setDrawer(false);
       }
-      this.setDialog({
-        create: true,
-      });
+      this.setDialog({ create: true });
     },
     refreshKeys() {
       if (!this.breakpoint.lgAndUp) {
