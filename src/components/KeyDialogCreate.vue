@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -95,6 +95,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('key', [
+      'dialogs',
+    ]),
     persistent() {
       return this.title || this.content;
     },
@@ -115,7 +118,7 @@ export default {
     ...mapActions('key', [
       'storeKey',
       'setKey',
-      'setDialog',
+      'setDialogs',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -148,7 +151,7 @@ export default {
         });
     },
     processed() {
-      this.setDialog('');
+      this.setDialogs([...this.dialogs.filter(dialog => dialog !== 'create')]);
     },
     setLoading(loading) {
       this.loading = loading;

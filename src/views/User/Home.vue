@@ -98,8 +98,8 @@
           </div>
         </div>
         <component
-          :is="`KeyDialog${capitalize(dialog)}`"
-          v-if="dialog"
+          :is="`KeyDialog${capitalize(dialogs[0])}`"
+          v-if="dialogs.length"
         />
       </v-flex>
     </v-layout>
@@ -165,7 +165,7 @@ export default {
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
-      'dialog',
+      'dialogs',
       'settings',
     ]),
     ...mapState([
@@ -219,7 +219,7 @@ export default {
       'setExposedKeys',
       'setDeprecatedKeys',
       'setSelectedKey',
-      'setDialog',
+      'setDialogs',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -288,7 +288,7 @@ export default {
     toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
-        return this.setDialog('unlock');
+        return this.setDialogs([...this.dialogs, 'unlock']);
       }
       return this.setExposedKeys(this.isExposed(key)
         ? this.exposedKeys.filter(key => key !== key.id)

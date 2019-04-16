@@ -14,7 +14,7 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
-    dialog: '',
+    dialogs: [],
     settings: {
       pagination: false,
       strict: false,
@@ -65,8 +65,8 @@ export default {
     setSelectedKey(state, selectedKey) {
       state.selectedKey = selectedKey;
     },
-    setDialog(state, dialog) {
-      state.dialog = dialog;
+    setDialogs(state, dialogs) {
+      state.dialogs = dialogs;
     },
   },
   actions: {
@@ -225,8 +225,8 @@ export default {
     setSelectedKey({ commit }, selectedKey) {
       commit('setSelectedKey', selectedKey);
     },
-    setDialog({ commit }, dialog) {
-      commit('setDialog', dialog);
+    setDialogs({ commit }, dialogs) {
+      commit('setDialogs', dialogs);
     },
   },
 };

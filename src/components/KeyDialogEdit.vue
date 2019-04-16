@@ -97,6 +97,7 @@ export default {
   computed: {
     ...mapState('key', [
       'key',
+      'dialogs',
     ]),
     persistent() {
       return this.title || this.content;
@@ -123,7 +124,7 @@ export default {
       'updateKey',
       'setKey',
       'setSelectedKey',
-      'setDialog',
+      'setDialogs',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -185,7 +186,7 @@ export default {
     processed() {
       this.setKey(null);
       this.setSelectedKey(null);
-      this.setDialog('');
+      this.setDialogs([...this.dialogs.filter(dialog => dialog !== 'edit')]);
     },
     setLoading(loading) {
       this.loading = loading;
