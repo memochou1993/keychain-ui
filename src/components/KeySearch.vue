@@ -30,12 +30,10 @@ export default {
       'setQuery',
     ]),
     ...mapActions('key', [
-      'setKeys',
       'setScrollable',
     ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
-      this.setKeys([]);
       this.setScrollable(true);
     }, 1000 * 0.5),
   },

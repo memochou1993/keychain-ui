@@ -135,7 +135,6 @@ export default {
       'setRefresh',
     ]),
     ...mapActions('key', [
-      'setKeys',
       'setDialogs',
     ]),
     setDrawer(drawer) {
@@ -152,7 +151,6 @@ export default {
         this.setDrawer(false);
       }
       this.setRefresh(this.refresh + 1);
-      this.setKeys([]);
     },
   },
 };

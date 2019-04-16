@@ -6,6 +6,7 @@ export default {
     keys: [],
     key: null,
     pages: 1,
+    paginate: 15,
     loaded: false,
     approved: false,
     attemption: '',
@@ -187,6 +188,11 @@ export default {
             keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1);
             commit('setKeys', keys);
             resolve(data);
+          })
+          .then(() => {
+            if (state.keys.length <= state.paginate * 2 / 3) {
+              commit('setRefresh', true, { root: true });
+            }
           })
           .catch((error) => {
             reject(error);

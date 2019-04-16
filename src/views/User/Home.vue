@@ -160,8 +160,9 @@ export default {
     ...mapState('key', [
       'keys',
       'pages',
-      'scrollable',
+      'paginate',
       'approved',
+      'scrollable',
       'unlockedKeys',
       'exposedKeys',
       'deprecatedKeys',
@@ -181,12 +182,10 @@ export default {
   },
   watch: {
     query() {
-      this.setPage(1);
-      this.getKeys();
+      this.reloadKeys();
     },
     refresh() {
-      this.setPage(1);
-      this.getKeys();
+      this.reloadKeys();
     },
     approved(value) {
       if (value) {
@@ -212,6 +211,7 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
+      'setKeys',
       'setApproved',
       'setAttemption',
       'setScrollable',
@@ -231,7 +231,7 @@ export default {
       this.fetchKeys({
         params: {
           with: '',
-          paginate: 15,
+          paginate: this.paginate,
           page: this.page,
           q: this.query,
         },
@@ -293,6 +293,11 @@ export default {
       return this.setExposedKeys(this.isExposed(key)
         ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
         : [...this.exposedKeys, key.id]);
+    },
+    reloadKeys() {
+      this.setKeys([]);
+      this.setPage(1);
+      this.getKeys();
     },
     scrollKeys: _.debounce(function () {
       const { innerHeight } = window;
