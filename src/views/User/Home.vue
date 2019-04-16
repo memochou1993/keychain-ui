@@ -98,7 +98,7 @@
           </div>
         </div>
         <component
-          :is="`KeyDialog${capitalize(this.dialog)}`"
+          :is="`KeyDialog${capitalize(dialog)}`"
           v-if="dialog"
         />
       </v-flex>
@@ -197,13 +197,6 @@ export default {
         }, 1000 * 300);
       }
     },
-    deprecatedKeys(value) {
-      if (value.length) {
-        setTimeout(() => {
-          this.setDeprecatedKeys([]);
-        }, 1000 * 2.5);
-      }
-    },
     noData(value) {
       if (value) {
         this.setScrollable(false);
@@ -298,13 +291,13 @@ export default {
         return this.setDialog('unlock');
       }
       return this.setExposedKeys(this.isExposed(key)
-        ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
+        ? this.exposedKeys.filter(key => key !== key.id)
         : [...this.exposedKeys, key.id]);
     },
     scrollKeys: _.debounce(function () {
-      this.setAsking(true);
       const { innerHeight } = window;
       const isAsking = this.$refs.ask.getBoundingClientRect().top < innerHeight;
+      this.setAsking(true);
       if (isAsking && !this.isLastPage) {
         this.setPage(this.page + 1);
         this.getKeys();

@@ -55,6 +55,7 @@ export default {
       'key',
       'attemption',
       'exposedKeys',
+      'deprecatedKeys',
       'selectedKey',
     ]),
   },
@@ -173,7 +174,10 @@ export default {
       this.setDialog('edit');
     },
     removeKey() {
-      this.setDeprecatedKeys([this.selectedKey.id]);
+      setTimeout(() => {
+        this.setDeprecatedKeys(this.deprecatedKeys.filter(key => key !== this.selectedKey.id));
+      }, 1000 * 2.5);
+      this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
     },
   },
 };

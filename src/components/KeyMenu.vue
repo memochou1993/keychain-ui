@@ -95,7 +95,10 @@ export default {
         return this.setDialog('unlock');
       }
       if (!this.isDeprecated) {
-        return this.setDeprecatedKeys([this.selectedKey.id]);
+        setTimeout(() => {
+          this.setDeprecatedKeys(this.deprecatedKeys.filter(key => key !== this.selectedKey.id));
+        }, 1000 * 2.5);
+        return this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
       }
       return this.destroyKey();
     },
