@@ -83,16 +83,16 @@ export default {
     },
     viewKey() {
       this.attempt('view', this.selectedKey);
-      this.setDialog(!this.isUnlocked ? { unlock: true } : { view: true });
+      this.setDialog(!this.isUnlocked ? 'unlock' : 'view');
     },
     editKey() {
       this.attempt('edit', this.selectedKey);
-      this.setDialog(!this.isUnlocked ? { unlock: true } : { edit: true });
+      this.setDialog(!this.isUnlocked ? 'unlock' : 'edit');
     },
     removeKey() {
       this.attempt('remove', this.selectedKey);
       if (!this.isUnlocked) {
-        return this.setDialog({ unlock: true });
+        return this.setDialog('unlock');
       }
       if (!this.isDeprecated) {
         return this.setDeprecatedKeys([this.selectedKey.id]);

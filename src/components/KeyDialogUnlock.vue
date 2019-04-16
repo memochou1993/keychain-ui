@@ -128,7 +128,7 @@ export default {
     },
     processed() {
       this.setAttemption('');
-      this.setDialog({ unlock: false });
+      this.setDialog('');
     },
     setLoading(loading) {
       this.loading = loading;
@@ -167,12 +167,10 @@ export default {
       this.setExposedKeys([...this.exposedKeys, this.key.id]);
     },
     viewKey() {
-      this.setDialog({ view: true });
+      this.setDialog('view');
     },
     editKey() {
-      this.setDialog({
-        edit: true,
-      });
+      this.setDialog('edit');
     },
     removeKey() {
       this.setDeprecatedKeys([this.selectedKey.id]);

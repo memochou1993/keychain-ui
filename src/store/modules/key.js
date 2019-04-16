@@ -14,12 +14,7 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
-    dialog: {
-      unlock: false,
-      create: false,
-      view: false,
-      edit: false,
-    },
+    dialog: '',
     settings: {
       pagination: false,
       strict: false,
@@ -71,7 +66,7 @@ export default {
       state.selectedKey = selectedKey;
     },
     setDialog(state, dialog) {
-      state.dialog = { ...state.dialog, ...dialog };
+      state.dialog = dialog;
     },
   },
   actions: {

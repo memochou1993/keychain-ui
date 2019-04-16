@@ -106,12 +106,16 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import helper from '@/helpers/helper';
 import KeySearch from '@/components/KeySearch.vue';
 
 export default {
   components: {
     KeySearch,
   },
+  mixins: [
+    helper,
+  ],
   data() {
     return {
       drawer: true,
@@ -124,9 +128,6 @@ export default {
     ...mapState('key', [
       'loaded',
     ]),
-    breakpoint() {
-      return this.$vuetify.breakpoint;
-    },
   },
   methods: {
     ...mapActions([
@@ -143,7 +144,7 @@ export default {
       if (!this.breakpoint.lgAndUp) {
         this.setDrawer(false);
       }
-      this.setDialog({ create: true });
+      this.setDialog('create');
     },
     refreshKeys() {
       if (!this.breakpoint.lgAndUp) {

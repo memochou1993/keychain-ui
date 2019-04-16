@@ -148,7 +148,7 @@ export default {
         });
     },
     processed() {
-      this.setDialog({ create: false });
+      this.setDialog('');
     },
     setLoading(loading) {
       this.loading = loading;

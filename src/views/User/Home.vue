@@ -97,17 +97,9 @@
             </div>
           </div>
         </div>
-        <KeyDialogCreate
-          v-if="dialog.create"
-        />
-        <KeyDialogUnlock
-          v-if="dialog.unlock"
-        />
-        <KeyDialogView
-          v-if="dialog.view"
-        />
-        <KeyDialogEdit
-          v-if="dialog.edit"
+        <component
+          :is="`KeyDialog${capitalize(this.dialog)}`"
+          v-if="dialog"
         />
       </v-flex>
     </v-layout>
@@ -117,6 +109,7 @@
 <script>
 import _ from 'lodash';
 import { mapState, mapActions, mapGetters } from 'vuex';
+import helper from '@/helpers/helper';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
@@ -137,6 +130,9 @@ export default {
     KeyDialogView,
     KeyDialogEdit,
   },
+  mixins: [
+    helper,
+  ],
   data() {
     return {
       headers: [
@@ -179,9 +175,6 @@ export default {
     ...mapGetters('key', [
       'isApproved',
     ]),
-    breakpoint() {
-      return this.$vuetify.breakpoint;
-    },
     isLastPage() {
       return this.page === this.pages;
     },
@@ -302,7 +295,7 @@ export default {
     toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
-        return this.setDialog({ unlock: true });
+        return this.setDialog('unlock');
       }
       return this.setExposedKeys(this.isExposed(key)
         ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
