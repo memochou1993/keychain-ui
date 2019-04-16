@@ -179,7 +179,7 @@ export default {
         this.setDeprecatedKeys(this.deprecatedKeys.filter(
           deprecatedKey => deprecatedKey !== this.selectedKey.id,
         ));
-      }, 1000 * 2.5);
+      }, 1000 * 1);
       this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
     },
   },
