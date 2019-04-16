@@ -282,10 +282,7 @@ export default {
       this.page = page;
     },
     isUnlocked(key) {
-      if (this.isApproved) {
-        return true;
-      }
-      return this.unlockedKeys.includes(key.id);
+      return this.isApproved || this.unlockedKeys.includes(key.id);
     },
     isExposed(key) {
       return this.exposedKeys.includes(key.id);

@@ -29,17 +29,11 @@ export default {
     isApproved(state) {
       return !state.settings.strict && state.approved;
     },
+    isLocked(state, getters) {
+      return state.selectedKey && state.selectedKey.password && !getters.isApproved;
+    },
     isUnlocked(state, getters) {
-      if (!state.selectedKey) {
-        return false;
-      }
-      if (!state.selectedKey.password) {
-        return true;
-      }
-      if (getters.isApproved) {
-        return true;
-      }
-      return state.unlockedKeys.includes(state.selectedKey.id);
+      return !getters.isLocked || state.unlockedKeys.includes(state.selectedKey.id);
     },
   },
   mutations: {
