@@ -7,9 +7,9 @@ export default {
     key: null,
     pages: 1,
     loaded: false,
-    scrollable: true,
     approved: false,
     attemption: '',
+    scrollable: true,
     unlockedKeys: [],
     exposedKeys: [],
     deprecatedKeys: [],
@@ -49,14 +49,14 @@ export default {
     setLoaded(state, loaded) {
       state.loaded = loaded;
     },
-    setScrollable(state, scrollable) {
-      state.scrollable = scrollable;
-    },
     setApproved(state, approved) {
       state.approved = approved;
     },
     setAttemption(state, attemption) {
       state.attemption = attemption;
+    },
+    setScrollable(state, scrollable) {
+      state.scrollable = scrollable;
     },
     setUnlockedKeys(state, unlockedKeys) {
       state.unlockedKeys = unlockedKeys;
@@ -85,11 +85,10 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
+              commit('setKeys', state.settings.pagination
+                ? data.data
+                : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);
-              if (state.settings.pagination) {
-                return commit('setKeys', data.data);
-              }
-              return commit('setKeys', [...state.keys, ...data.data]);
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -114,9 +113,9 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setKey', data.data);
-              if (!getters.isUnlocked) {
-                commit('setUnlockedKeys', [...state.unlockedKeys, data.data.id]);
-              }
+              commit('setUnlockedKeys', [...state.unlockedKeys, !getters.isUnlocked
+                ? data.data.id
+                : 0]);
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -142,9 +141,9 @@ export default {
             const { keys } = state;
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
-            if (!getters.isUnlocked) {
-              commit('setUnlockedKeys', [...state.unlockedKeys, data.data.id]);
-            }
+            commit('setUnlockedKeys', [...state.unlockedKeys, !getters.isUnlocked
+              ? data.data.id
+              : 0]);
             resolve(data);
           })
           .catch((error) => {
@@ -210,14 +209,14 @@ export default {
     setKey({ commit }, key) {
       commit('setKey', key);
     },
-    setScrollable({ commit }, scrollable) {
-      commit('setScrollable', scrollable);
-    },
     setApproved({ commit }, approved) {
       commit('setApproved', approved);
     },
     setAttemption({ commit }, attemption) {
       commit('setAttemption', attemption);
+    },
+    setScrollable({ commit }, scrollable) {
+      commit('setScrollable', scrollable);
     },
     setUnlockedKeys({ commit }, unlockedKeys) {
       commit('setUnlockedKeys', unlockedKeys);

@@ -226,9 +226,9 @@ export default {
     ]),
     ...mapActions('key', [
       'fetchKeys',
-      'setScrollable',
       'setApproved',
       'setAttemption',
+      'setScrollable',
       'setUnlockedKeys',
       'setExposedKeys',
       'setDeprecatedKeys',
