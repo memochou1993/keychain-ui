@@ -291,7 +291,7 @@ export default {
         return this.setDialogs([...this.dialogs, 'unlock']);
       }
       return this.setExposedKeys(this.isExposed(key)
-        ? this.exposedKeys.filter(key => key !== key.id)
+        ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
         : [...this.exposedKeys, key.id]);
     },
     scrollKeys: _.debounce(function () {

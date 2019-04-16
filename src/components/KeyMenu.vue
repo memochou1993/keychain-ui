@@ -97,7 +97,9 @@ export default {
       }
       if (!this.isDeprecated) {
         setTimeout(() => {
-          this.setDeprecatedKeys(this.deprecatedKeys.filter(key => key !== this.selectedKey.id));
+          this.setDeprecatedKeys(this.deprecatedKeys.filter(
+            deprecatedKey => deprecatedKey !== this.selectedKey.id,
+          ));
         }, 1000 * 2.5);
         return this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
       }
