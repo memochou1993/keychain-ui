@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -54,7 +54,6 @@ export default {
     ...mapState('key', [
       'key',
       'attemption',
-      'exposedKeys',
       'deprecatedKeys',
       'selectedKey',
       'dialogs',
@@ -73,14 +72,16 @@ export default {
     }, 0);
   },
   methods: {
-    ...mapActions('key', [
-      'fetchKey',
+    ...mapMutations('key', [
       'setApproved',
       'setAttemption',
-      'setExposedKeys',
+      'pushExposedKeys',
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
       'setDialogs',
+    ]),
+    ...mapActions('key', [
+      'fetchKey',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -171,7 +172,7 @@ export default {
       return this.getKey();
     },
     toggleKey() {
-      this.setExposedKeys([...this.exposedKeys, this.key.id]);
+      this.pushExposedKeys(this.key.id);
     },
     viewKey() {
       this.setDialogs([...this.dialogs, 'view']);

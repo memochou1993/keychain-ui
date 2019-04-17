@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -115,10 +115,12 @@ export default {
     }, 0);
   },
   methods: {
-    ...mapActions('key', [
-      'storeKey',
+    ...mapMutations('key', [
       'setKey',
       'setDialogs',
+    ]),
+    ...mapActions('key', [
+      'storeKey',
     ]),
     beforeProcess() {
       this.setLoading(true);

@@ -60,6 +60,12 @@ export default {
     setExposedKeys(state, exposedKeys) {
       state.exposedKeys = exposedKeys;
     },
+    pushExposedKeys(state, exposedKeys) {
+      state.exposedKeys.push(exposedKeys);
+    },
+    filterExposedKeys(state, exposedKeys) {
+      state.exposedKeys = state.exposedKeys.filter(exposedKey => exposedKey !== exposedKeys);
+    },
     pushDeprecatedKeys(state, deprecatedKeys) {
       state.deprecatedKeys.push(deprecatedKeys);
     },
@@ -206,39 +212,6 @@ export default {
             }, 1000 * 0.25);
           });
       });
-    },
-    setKeys({ commit }, keys) {
-      commit('setKeys', keys);
-    },
-    setKey({ commit }, key) {
-      commit('setKey', key);
-    },
-    setApproved({ commit }, approved) {
-      commit('setApproved', approved);
-    },
-    setAttemption({ commit }, attemption) {
-      commit('setAttemption', attemption);
-    },
-    setScrollable({ commit }, scrollable) {
-      commit('setScrollable', scrollable);
-    },
-    setUnlockedKeys({ commit }, unlockedKeys) {
-      commit('setUnlockedKeys', unlockedKeys);
-    },
-    setExposedKeys({ commit }, exposedKeys) {
-      commit('setExposedKeys', exposedKeys);
-    },
-    pushDeprecatedKeys({ commit }, deprecatedKeys) {
-      commit('pushDeprecatedKeys', deprecatedKeys);
-    },
-    shiftDeprecatedKeys({ commit }, deprecatedKeys) {
-      commit('shiftDeprecatedKeys', deprecatedKeys);
-    },
-    setSelectedKey({ commit }, selectedKey) {
-      commit('setSelectedKey', selectedKey);
-    },
-    setDialogs({ commit }, dialogs) {
-      commit('setDialogs', dialogs);
     },
   },
 };

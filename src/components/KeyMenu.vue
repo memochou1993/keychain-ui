@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   props: {
@@ -71,13 +71,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions('key', [
-      'destroyKey',
+    ...mapMutations('key', [
       'setAttemption',
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
       'setSelectedKey',
       'setDialogs',
+    ]),
+    ...mapActions('key', [
+      'destroyKey',
     ]),
     attempt(attemption, key) {
       this.setAttemption(attemption);

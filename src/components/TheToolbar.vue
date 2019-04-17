@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import helper from '@/helpers/helper';
 import KeySearch from '@/components/KeySearch.vue';
 
@@ -131,10 +131,10 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions([
+    ...mapMutations([
       'setRefresh',
     ]),
-    ...mapActions('key', [
+    ...mapMutations('key', [
       'setDialogs',
     ]),
     setDrawer(drawer) {

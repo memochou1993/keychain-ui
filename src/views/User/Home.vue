@@ -108,7 +108,7 @@
 
 <script>
 import _ from 'lodash';
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import helper from '@/helpers/helper';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
@@ -205,19 +205,20 @@ export default {
     this.getKeys();
   },
   methods: {
-    ...mapActions([
-      'setRefresh',
-    ]),
-    ...mapActions('key', [
-      'fetchKeys',
+    ...mapMutations('key', [
       'setKeys',
       'setApproved',
       'setAttemption',
       'setScrollable',
       'setUnlockedKeys',
       'setExposedKeys',
+      'pushExposedKeys',
+      'filterExposedKeys',
       'setSelectedKey',
       'setDialogs',
+    ]),
+    ...mapActions('key', [
+      'fetchKeys',
     ]),
     beforeProcess() {
       this.setLoading(true);
@@ -288,9 +289,7 @@ export default {
       if (!this.isUnlocked(key)) {
         return this.setDialogs([...this.dialogs, 'unlock']);
       }
-      return this.setExposedKeys(this.isExposed(key)
-        ? this.exposedKeys.filter(exposedKey => exposedKey !== key.id)
-        : [...this.exposedKeys, key.id]);
+      return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys(key.id);
     },
     reloadKeys() {
       this.setKeys([]);
