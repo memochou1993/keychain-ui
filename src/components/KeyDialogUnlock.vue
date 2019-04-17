@@ -78,7 +78,8 @@ export default {
       'setApproved',
       'setAttemption',
       'setExposedKeys',
-      'setDeprecatedKeys',
+      'pushDeprecatedKeys',
+      'shiftDeprecatedKeys',
       'setDialogs',
     ]),
     beforeProcess() {
@@ -180,11 +181,9 @@ export default {
     },
     removeKey() {
       setTimeout(() => {
-        this.setDeprecatedKeys(this.deprecatedKeys.filter(
-          deprecatedKey => deprecatedKey !== this.selectedKey.id,
-        ));
-      }, 1000 * 1);
-      this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
+        this.shiftDeprecatedKeys();
+      }, 1000 * 2);
+      this.pushDeprecatedKeys(this.selectedKey.id);
     },
   },
 };

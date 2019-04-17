@@ -60,8 +60,11 @@ export default {
     setExposedKeys(state, exposedKeys) {
       state.exposedKeys = exposedKeys;
     },
-    setDeprecatedKeys(state, deprecatedKeys) {
-      state.deprecatedKeys = deprecatedKeys;
+    pushDeprecatedKeys(state, deprecatedKeys) {
+      state.deprecatedKeys.push(deprecatedKeys);
+    },
+    shiftDeprecatedKeys(state) {
+      state.deprecatedKeys.shift();
     },
     setSelectedKey(state, selectedKey) {
       state.selectedKey = selectedKey;
@@ -225,8 +228,11 @@ export default {
     setExposedKeys({ commit }, exposedKeys) {
       commit('setExposedKeys', exposedKeys);
     },
-    setDeprecatedKeys({ commit }, deprecatedKeys) {
-      commit('setDeprecatedKeys', deprecatedKeys);
+    pushDeprecatedKeys({ commit }, deprecatedKeys) {
+      commit('pushDeprecatedKeys', deprecatedKeys);
+    },
+    shiftDeprecatedKeys({ commit }, deprecatedKeys) {
+      commit('shiftDeprecatedKeys', deprecatedKeys);
     },
     setSelectedKey({ commit }, selectedKey) {
       commit('setSelectedKey', selectedKey);

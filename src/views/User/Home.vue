@@ -216,7 +216,6 @@ export default {
       'setScrollable',
       'setUnlockedKeys',
       'setExposedKeys',
-      'setDeprecatedKeys',
       'setSelectedKey',
       'setDialogs',
     ]),

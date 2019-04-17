@@ -74,7 +74,8 @@ export default {
     ...mapActions('key', [
       'destroyKey',
       'setAttemption',
-      'setDeprecatedKeys',
+      'pushDeprecatedKeys',
+      'shiftDeprecatedKeys',
       'setSelectedKey',
       'setDialogs',
     ]),
@@ -97,11 +98,9 @@ export default {
       }
       if (!this.isDeprecated) {
         setTimeout(() => {
-          this.setDeprecatedKeys(this.deprecatedKeys.filter(
-            deprecatedKey => deprecatedKey !== this.selectedKey.id,
-          ));
-        }, 1000 * 1);
-        return this.setDeprecatedKeys([...this.deprecatedKeys, this.selectedKey.id]);
+          this.shiftDeprecatedKeys();
+        }, 1000 * 2);
+        return this.pushDeprecatedKeys(this.selectedKey.id);
       }
       return this.destroyKey();
     },
