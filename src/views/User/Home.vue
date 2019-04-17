@@ -108,8 +108,10 @@
 
 <script>
 import _ from 'lodash';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import helper from '@/helpers/helper';
+import {
+  mapState, mapGetters, mapMutations, mapActions,
+} from 'vuex';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
@@ -160,7 +162,6 @@ export default {
     ...mapState('key', [
       'keys',
       'pages',
-      'paginate',
       'dialog',
       'approved',
       'scrollable',
@@ -230,7 +231,7 @@ export default {
       this.fetchKeys({
         params: {
           with: '',
-          paginate: this.paginate,
+          paginate: this.settings.paginate,
           page: this.page,
           q: this.query,
         },

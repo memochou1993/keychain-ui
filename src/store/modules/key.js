@@ -6,7 +6,6 @@ export default {
     keys: [],
     key: null,
     pages: 1,
-    paginate: 15,
     dialog: '',
     loaded: false,
     approved: false,
@@ -17,8 +16,9 @@ export default {
     deprecatedKeys: [],
     selectedKey: null,
     settings: {
-      pagination: false,
       strict: false,
+      paginate: 10,
+      pagination: false,
     },
   },
   getters: {
@@ -198,7 +198,7 @@ export default {
             resolve(data);
           })
           .then(() => {
-            if (state.pages !== 1 && state.keys.length <= state.paginate * 2 / 3) {
+            if (state.pages !== 1 && state.keys.length <= state.settings.paginate * 2 / 3) {
               commit('setRefresh', rootState.refresh + 1, { root: true });
             }
           })
