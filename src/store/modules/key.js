@@ -121,7 +121,9 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setKey', data.data);
-              commit('setUnlockedKeys', [!getters.isUnlocked ? data.data.id : 0]);
+              if (!getters.isUnlocked) {
+                commit('pushUnlockedKeys', [data.data.id]);
+              }
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -147,7 +149,9 @@ export default {
             const { keys } = state;
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
-            commit('setUnlockedKeys', [!getters.isUnlocked ? data.data.id : 0]);
+            if (!getters.isUnlocked) {
+              commit('pushUnlockedKeys', [data.data.id]);
+            }
             resolve(data);
           })
           .catch((error) => {

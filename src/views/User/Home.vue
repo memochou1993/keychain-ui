@@ -5,8 +5,8 @@
       wrap
     >
       <v-flex
-        md8
-        offset-md2
+        md10
+        offset-md1
       >
         <AppProgressLinear
           :color="error ? 'error' : noData ? 'warning' : 'success'"
@@ -37,10 +37,24 @@
                 </div>
               </td>
               <td
-                class="text-xs-center"
+                class="text-xs-center px-0"
               >
                 <v-btn
-                  :disabled="!props.item.password"
+                  v-if="linkify(props.item.content)"
+                  icon
+                  class="primary--text text--lighten-2"
+                  @click="linkKey(props.item)"
+                >
+                  <v-icon>
+                    mdi-link
+                  </v-icon>
+                </v-btn>
+              </td>
+              <td
+                class="text-xs-center px-0"
+              >
+                <v-btn
+                  v-if="props.item.password"
                   icon
                   class="primary--text text--lighten-2"
                   @click="toggleKey(props.item)"
@@ -49,9 +63,15 @@
                     {{ `mdi-eye${isVisible(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
+                <v-icon
+                  v-else
+                  class="primary--text text--lighten-2"
+                >
+                  mdi-eye
+                </v-icon>
               </td>
               <td
-                class="text-xs-center"
+                class="text-xs-center px-0"
               >
                 <KeyMenu
                   :selectedKey="props.item"
@@ -145,6 +165,9 @@ export default {
         },
         {
           text: 'Content', value: 'content', align: 'left', sortable: false,
+        },
+        {
+          text: '', value: '', align: 'center', sortable: false,
         },
         {
           text: '', value: '', align: 'center', sortable: false,
@@ -282,6 +305,9 @@ export default {
       }
       return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys([key.id]);
     },
+    linkKey(key) {
+      window.open(this.linkify(key.content));
+    },
     reloadKeys() {
       this.setKeys([]);
       this.setPage(1);
@@ -307,8 +333,10 @@ export default {
 
 <style lang="stylus" scoped>
 .content
-  width: 125px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width 150px
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+.link
+  text-decoration none
 </style>
