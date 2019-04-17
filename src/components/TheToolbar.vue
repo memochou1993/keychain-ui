@@ -106,7 +106,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import helper from '@/helpers/helper';
+import helper from '@/mixins/helper';
 import KeySearch from '@/components/KeySearch.vue';
 
 export default {

@@ -16,7 +16,7 @@ export default {
     deprecatedKeys: [],
     selectedKey: null,
     settings: {
-      strict: false,
+      strict: true,
       paginate: 10,
       pagination: false,
     },
@@ -26,7 +26,7 @@ export default {
       return !state.settings.strict && state.approved;
     },
     isLocked(state, getters) {
-      return state.selectedKey && state.selectedKey.password && !getters.isApproved;
+      return !!state.selectedKey && state.selectedKey.password && !getters.isApproved;
     },
     isUnlocked(state, getters) {
       return !getters.isLocked || state.unlockedKeys.includes(state.selectedKey.id);
