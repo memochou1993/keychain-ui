@@ -56,7 +56,6 @@ export default {
       'attemption',
       'deprecatedKeys',
       'selectedKey',
-      'dialogs',
     ]),
   },
   watch: {
@@ -73,12 +72,12 @@ export default {
   },
   methods: {
     ...mapMutations('key', [
+      'setDialog',
       'setApproved',
       'setAttemption',
       'pushExposedKeys',
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
-      'setDialogs',
     ]),
     ...mapActions('key', [
       'fetchKey',
@@ -100,6 +99,10 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.process();
+          }, 1000 * 0.25);
+        })
+        .then(() => {
+          setTimeout(() => {
             this.processed();
           }, 1000 * 0.25);
         })
@@ -117,6 +120,8 @@ export default {
     },
     process() {
       this.setApproved(true);
+    },
+    processed() {
       switch (this.attemption) {
         case 'toggle':
           this.toggleKey();
@@ -133,10 +138,7 @@ export default {
         default:
           break;
       }
-    },
-    processed() {
       this.setAttemption('');
-      this.setDialogs([...this.dialogs.filter(dialog => dialog !== 'unlock')]);
     },
     setLoading(loading) {
       this.loading = loading;
@@ -175,10 +177,10 @@ export default {
       this.pushExposedKeys([this.key.id]);
     },
     viewKey() {
-      this.setDialogs([...this.dialogs, 'view']);
+      this.setDialog('view');
     },
     editKey() {
-      this.setDialogs([...this.dialogs, 'edit']);
+      this.setDialog('edit');
     },
     removeKey() {
       setTimeout(() => {

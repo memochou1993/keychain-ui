@@ -98,8 +98,8 @@
           </div>
         </div>
         <component
-          :is="`KeyDialog${capitalize(dialogs[0])}`"
-          v-if="dialogs.length"
+          :is="`KeyDialog${capitalize(dialog)}`"
+          v-if="dialog"
         />
       </v-flex>
     </v-layout>
@@ -161,11 +161,11 @@ export default {
       'keys',
       'pages',
       'paginate',
+      'dialog',
       'approved',
       'scrollable',
       'unlockedKeys',
       'exposedKeys',
-      'dialogs',
       'settings',
     ]),
     ...mapState([
@@ -207,6 +207,7 @@ export default {
   methods: {
     ...mapMutations('key', [
       'setKeys',
+      'setDialog',
       'setApproved',
       'setAttemption',
       'setScrollable',
@@ -215,7 +216,6 @@ export default {
       'pushExposedKeys',
       'filterExposedKeys',
       'setSelectedKey',
-      'setDialogs',
     ]),
     ...mapActions('key', [
       'fetchKeys',
@@ -287,7 +287,7 @@ export default {
     toggleKey(key) {
       this.attempt('toggle', key);
       if (!this.isUnlocked(key)) {
-        return this.setDialogs([...this.dialogs, 'unlock']);
+        return this.setDialog('unlock');
       }
       return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys([key.id]);
     },

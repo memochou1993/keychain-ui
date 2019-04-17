@@ -46,7 +46,6 @@ export default {
   computed: {
     ...mapState('key', [
       'key',
-      'dialogs',
     ]),
   },
   watch: {
@@ -67,8 +66,8 @@ export default {
   methods: {
     ...mapMutations('key', [
       'setKey',
+      'setDialog',
       'setSelectedKey',
-      'setDialogs',
     ]),
     ...mapActions('key', [
       'fetchKey',
@@ -98,7 +97,7 @@ export default {
     processed() {
       this.setKey(null);
       this.setSelectedKey(null);
-      this.setDialogs([...this.dialogs.filter(dialog => dialog !== 'view')]);
+      this.setDialog('');
     },
     setLoading(loading) {
       this.loading = loading;

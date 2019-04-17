@@ -8,6 +8,7 @@ export default {
     pages: 1,
     paginate: 15,
     loaded: false,
+    dialog: '',
     approved: false,
     attemption: '',
     scrollable: true,
@@ -15,7 +16,6 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
-    dialogs: [],
     settings: {
       pagination: false,
       strict: false,
@@ -44,6 +44,9 @@ export default {
     },
     setLoaded(state, loaded) {
       state.loaded = loaded;
+    },
+    setDialog(state, dialog) {
+      state.dialog = dialog;
     },
     setApproved(state, approved) {
       state.approved = approved;
@@ -77,9 +80,6 @@ export default {
     },
     setSelectedKey(state, key) {
       state.selectedKey = key;
-    },
-    setDialogs(state, dialogs) {
-      state.dialogs = dialogs;
     },
   },
   actions: {

@@ -127,7 +127,6 @@ export default {
     ]),
     ...mapState('key', [
       'loaded',
-      'dialogs',
     ]),
   },
   methods: {
@@ -135,7 +134,7 @@ export default {
       'setRefresh',
     ]),
     ...mapMutations('key', [
-      'setDialogs',
+      'setDialog',
     ]),
     setDrawer(drawer) {
       this.drawer = drawer;
@@ -144,7 +143,7 @@ export default {
       if (!this.breakpoint.lgAndUp) {
         this.setDrawer(false);
       }
-      this.setDialogs([...this.dialogs, 'create']);
+      this.setDialog('create');
     },
     refreshKeys() {
       if (!this.breakpoint.lgAndUp) {

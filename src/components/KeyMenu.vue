@@ -61,7 +61,6 @@ export default {
     ...mapState('key', [
       'attemption',
       'deprecatedKeys',
-      'dialogs',
     ]),
     ...mapGetters('key', [
       'isUnlocked',
@@ -72,11 +71,11 @@ export default {
   },
   methods: {
     ...mapMutations('key', [
+      'setDialog',
       'setAttemption',
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
       'setSelectedKey',
-      'setDialogs',
     ]),
     ...mapActions('key', [
       'destroyKey',
@@ -87,16 +86,16 @@ export default {
     },
     viewKey() {
       this.attempt('view', this.selectedKey);
-      this.setDialogs([...this.dialogs, !this.isUnlocked ? 'unlock' : 'view']);
+      this.setDialog(!this.isUnlocked ? 'unlock' : 'view');
     },
     editKey() {
       this.attempt('edit', this.selectedKey);
-      this.setDialogs([...this.dialogs, !this.isUnlocked ? 'unlock' : 'edit']);
+      this.setDialog(!this.isUnlocked ? 'unlock' : 'edit');
     },
     removeKey() {
       this.attempt('remove', this.selectedKey);
       if (!this.isUnlocked) {
-        return this.setDialogs([...this.dialogs, 'unlock']);
+        return this.setDialog('unlock');
       }
       if (!this.isDeprecated) {
         setTimeout(() => {
