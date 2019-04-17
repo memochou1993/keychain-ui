@@ -108,7 +108,8 @@
 
 <script>
 import _ from 'lodash';
-import helper from '@/helpers/helper';
+import api from '@/mixins/api';
+import helper from '@/mixins/helper';
 import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
@@ -133,6 +134,7 @@ export default {
     KeyDialogEdit,
   },
   mixins: [
+    api,
     helper,
   ],
   data() {
@@ -153,9 +155,6 @@ export default {
       ],
       page: 1,
       asking: false,
-      loading: false,
-      noData: false,
-      error: null,
     };
   },
   computed: {
@@ -222,18 +221,18 @@ export default {
       'fetchKeys',
     ]),
     beforeProcess() {
-      this.setLoading(true);
-      this.setNoData(false);
       this.setError(null);
+      this.setNoData(false);
+      this.setLoading(true);
     },
     getKeys() {
       this.beforeProcess();
       this.fetchKeys({
         params: {
-          with: '',
-          paginate: this.settings.paginate,
-          page: this.page,
           q: this.query,
+          with: '',
+          page: this.page,
+          paginate: this.settings.paginate,
         },
       })
         .then(({ data }) => {
@@ -242,8 +241,8 @@ export default {
           }, 1000 * 1);
         })
         .catch((error) => {
-          this.setNoData(true);
           this.setError(error);
+          this.setNoData(true);
         })
         .finally(() => {
           setTimeout(() => {
@@ -253,15 +252,6 @@ export default {
     },
     process(key) {
       this.setNoData(!key.length);
-    },
-    setLoading(loading) {
-      this.loading = loading;
-    },
-    setNoData(noData) {
-      this.noData = noData;
-    },
-    setError(error) {
-      this.error = error;
     },
     setPage(page) {
       this.page = page;

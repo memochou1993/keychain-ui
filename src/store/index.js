@@ -10,23 +10,23 @@ export default new Vuex.Store({
     key,
   },
   state: {
-    refresh: 0,
     query: '',
+    refresh: 0,
   },
   mutations: {
-    setRefresh(state, refresh) {
-      state.refresh = refresh;
-    },
     setQuery(state, query) {
       state.query = query;
     },
+    setRefresh(state, refresh) {
+      state.refresh = refresh;
+    },
   },
   actions: {
-    setRefresh(context, refresh) {
-      context.commit('setRefresh', refresh);
-    },
     setQuery(context, query) {
       context.commit('setQuery', query);
+    },
+    setRefresh(context, refresh) {
+      context.commit('setRefresh', refresh);
     },
   },
 });

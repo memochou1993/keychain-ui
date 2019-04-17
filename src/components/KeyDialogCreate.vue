@@ -76,22 +76,24 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import api from '@/mixins/api';
+import dialog from '@/mixins/dialog';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
   components: {
     AppNoData,
   },
+  mixins: [
+    api,
+    dialog,
+  ],
   data() {
     return {
-      enabled: false,
       valid: false,
       title: '',
       content: '',
       password: false,
-      loading: false,
-      noData: false,
-      error: null,
     };
   },
   computed: {
@@ -105,6 +107,7 @@ export default {
     enabled(value) {
       if (!value) {
         this.processed();
+        console.log(1);
       }
     },
   },
@@ -122,9 +125,9 @@ export default {
       'storeKey',
     ]),
     beforeProcess() {
-      this.setLoading(true);
-      this.setNoData(false);
       this.setError(null);
+      this.setNoData(false);
+      this.setLoading(true);
     },
     createKey() {
       this.beforeProcess();
@@ -142,8 +145,8 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.setNoData(true);
           this.setError(error);
+          this.setNoData(true);
         })
         .finally(() => {
           setTimeout(() => {
@@ -153,18 +156,6 @@ export default {
     },
     processed() {
       this.setDialog('');
-    },
-    setLoading(loading) {
-      this.loading = loading;
-    },
-    setNoData(noData) {
-      this.noData = noData;
-    },
-    setError(error) {
-      this.error = error;
-    },
-    setEnabled(enabled) {
-      this.enabled = enabled;
     },
   },
 };

@@ -36,25 +36,26 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import api from '@/mixins/api';
+import dialog from '@/mixins/dialog';
 
 export default {
+  mixins: [
+    api,
+    dialog,
+  ],
   data() {
     return {
-      enabled: false,
       valid: false,
       errorMessages: [],
       password: '',
       capsLock: false,
-      loading: false,
-      noData: false,
-      error: null,
     };
   },
   computed: {
     ...mapState('key', [
       'key',
       'attemption',
-      'deprecatedKeys',
       'selectedKey',
     ]),
   },
@@ -83,9 +84,9 @@ export default {
       'fetchKey',
     ]),
     beforeProcess() {
-      this.setLoading(true);
-      this.setNoData(false);
       this.setError(null);
+      this.setNoData(false);
+      this.setLoading(true);
     },
     getKey() {
       this.beforeProcess();
@@ -102,9 +103,9 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.setErrorMessages([...this.errorMessages, 'Password is invalid']);
-          this.setNoData(true);
           this.setError(error);
+          this.setNoData(true);
+          this.setErrorMessages([...this.errorMessages, 'Password is invalid']);
         })
         .finally(() => {
           setTimeout(() => {
@@ -136,18 +137,6 @@ export default {
     processed() {
       this.setDialog('');
       this.setAttemption('');
-    },
-    setLoading(loading) {
-      this.loading = loading;
-    },
-    setNoData(noData) {
-      this.noData = noData;
-    },
-    setError(error) {
-      this.error = error;
-    },
-    setEnabled(enabled) {
-      this.enabled = enabled;
     },
     setErrorMessages(errorMessages) {
       this.errorMessages = errorMessages;
