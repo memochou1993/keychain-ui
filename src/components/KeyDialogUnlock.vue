@@ -172,7 +172,7 @@ export default {
       return this.getKey();
     },
     toggleKey() {
-      this.pushExposedKeys(this.key.id);
+      this.pushExposedKeys([this.key.id]);
     },
     viewKey() {
       this.setDialogs([...this.dialogs, 'view']);
@@ -184,7 +184,7 @@ export default {
       setTimeout(() => {
         this.shiftDeprecatedKeys();
       }, 1000 * 2);
-      this.pushDeprecatedKeys(this.selectedKey.id);
+      this.pushDeprecatedKeys([this.selectedKey.id]);
     },
   },
 };

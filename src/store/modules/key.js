@@ -54,26 +54,29 @@ export default {
     setScrollable(state, scrollable) {
       state.scrollable = scrollable;
     },
-    setUnlockedKeys(state, unlockedKeys) {
-      state.unlockedKeys = unlockedKeys;
+    setUnlockedKeys(state, keys) {
+      state.unlockedKeys = keys;
     },
-    setExposedKeys(state, exposedKeys) {
-      state.exposedKeys = exposedKeys;
+    pushUnlockedKeys(state, keys) {
+      state.unlockedKeys = [...state.unlockedKeys, ...keys];
     },
-    pushExposedKeys(state, exposedKeys) {
-      state.exposedKeys.push(exposedKeys);
+    setExposedKeys(state, keys) {
+      state.exposedKeys = keys;
     },
-    filterExposedKeys(state, exposedKeys) {
-      state.exposedKeys = state.exposedKeys.filter(exposedKey => exposedKey !== exposedKeys);
+    pushExposedKeys(state, keys) {
+      state.exposedKeys = [...state.exposedKeys, ...keys];
     },
-    pushDeprecatedKeys(state, deprecatedKeys) {
-      state.deprecatedKeys.push(deprecatedKeys);
+    filterExposedKeys(state, key) {
+      state.exposedKeys = state.exposedKeys.filter(exposedKey => exposedKey !== key);
+    },
+    pushDeprecatedKeys(state, keys) {
+      state.deprecatedKeys = [...state.deprecatedKeys, ...keys];
     },
     shiftDeprecatedKeys(state) {
       state.deprecatedKeys.shift();
     },
-    setSelectedKey(state, selectedKey) {
-      state.selectedKey = selectedKey;
+    setSelectedKey(state, key) {
+      state.selectedKey = key;
     },
     setDialogs(state, dialogs) {
       state.dialogs = dialogs;
@@ -118,9 +121,7 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setKey', data.data);
-              commit('setUnlockedKeys', [...state.unlockedKeys, !getters.isUnlocked
-                ? data.data.id
-                : 0]);
+              commit('setUnlockedKeys', [!getters.isUnlocked ? data.data.id : 0]);
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -146,9 +147,7 @@ export default {
             const { keys } = state;
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
-            commit('setUnlockedKeys', [...state.unlockedKeys, !getters.isUnlocked
-              ? data.data.id
-              : 0]);
+            commit('setUnlockedKeys', [!getters.isUnlocked ? data.data.id : 0]);
             resolve(data);
           })
           .catch((error) => {
