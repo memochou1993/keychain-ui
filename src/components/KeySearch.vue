@@ -12,7 +12,7 @@
 
 <script>
 import _ from 'lodash';
-import { mapActions } from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -26,10 +26,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
+    ...mapMutations([
       'setQuery',
     ]),
-    ...mapActions('key', [
+    ...mapMutations('key', [
       'setScrollable',
     ]),
     queryKeys: _.debounce(function () {

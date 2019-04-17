@@ -101,11 +101,6 @@ export default {
             this.process();
           }, 1000 * 0.25);
         })
-        .then(() => {
-          setTimeout(() => {
-            this.processed();
-          }, 1000 * 0.25);
-        })
         .catch((error) => {
           this.setErrorMessages([...this.errorMessages, 'Password is invalid']);
           this.setNoData(true);
@@ -120,8 +115,6 @@ export default {
     },
     process() {
       this.setApproved(true);
-    },
-    processed() {
       switch (this.attemption) {
         case 'toggle':
           this.toggleKey();
@@ -138,6 +131,10 @@ export default {
         default:
           break;
       }
+      this.setAttemption('');
+    },
+    processed() {
+      this.setDialog('');
       this.setAttemption('');
     },
     setLoading(loading) {
@@ -174,6 +171,7 @@ export default {
       return this.getKey();
     },
     toggleKey() {
+      this.setDialog('');
       this.pushExposedKeys([this.key.id]);
     },
     viewKey() {
@@ -183,6 +181,7 @@ export default {
       this.setDialog('edit');
     },
     removeKey() {
+      this.setDialog('');
       setTimeout(() => {
         this.shiftDeprecatedKeys();
       }, 1000 * 2);

@@ -7,8 +7,8 @@ export default {
     key: null,
     pages: 1,
     paginate: 15,
-    loaded: false,
     dialog: '',
+    loaded: false,
     approved: false,
     attemption: '',
     scrollable: true,
@@ -42,11 +42,11 @@ export default {
     setPages(state, pages) {
       state.pages = pages;
     },
-    setLoaded(state, loaded) {
-      state.loaded = loaded;
-    },
     setDialog(state, dialog) {
       state.dialog = dialog;
+    },
+    setLoaded(state, loaded) {
+      state.loaded = loaded;
     },
     setApproved(state, approved) {
       state.approved = approved;

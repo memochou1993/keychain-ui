@@ -186,8 +186,8 @@ export default {
     },
     processed() {
       this.setKey(null);
-      this.setSelectedKey(null);
       this.setDialog('');
+      this.setSelectedKey(null);
     },
     setLoading(loading) {
       this.loading = loading;
