@@ -2,7 +2,8 @@
   <div>
     <v-menu
       :close-on-content-click="attemption !== 'remove'"
-      offset-x
+      :left="!breakpoint.mdAndUp"
+      :offset-x="!breakpoint.mdAndUp"
     >
       <template
         v-slot:activator="{ on }"
@@ -20,6 +21,15 @@
       <v-list
         dense
       >
+        <v-list-tile
+          v-if="linkify(selectedKey.content)"
+          color="info"
+          @click="openKey"
+        >
+          <v-list-tile-title>
+            Open Link
+          </v-list-tile-title>
+        </v-list-tile>
         <v-list-tile
           @click="viewKey"
         >
@@ -39,7 +49,7 @@
           @click="removeKey"
         >
           <v-list-tile-title>
-            {{ isDeprecated ? 'Click to confirm' : 'Remove' }}
+            {{ isDeprecated ? 'Click to Confirm' : 'Remove' }}
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -48,11 +58,15 @@
 </template>
 
 <script>
+import helper from '@/mixins/helper';
 import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
 
 export default {
+  mixins: [
+    helper,
+  ],
   props: {
     selectedKey: {
       type: Object,
@@ -85,6 +99,9 @@ export default {
     attempt(attemption, key) {
       this.setAttemption(attemption);
       this.setSelectedKey(key);
+    },
+    openKey() {
+      window.open(this.linkify(this.selectedKey.content));
     },
     viewKey() {
       this.attempt('view', this.selectedKey);

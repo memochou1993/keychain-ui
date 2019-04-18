@@ -17,7 +17,7 @@ export default {
     selectedKey: null,
     settings: {
       strict: true,
-      paginate: 10,
+      paginate: 15,
       pagination: false,
     },
   },

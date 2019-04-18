@@ -40,20 +40,6 @@
                 class="text-xs-center px-0"
               >
                 <v-btn
-                  v-if="linkify(props.item.content)"
-                  icon
-                  class="primary--text text--lighten-2"
-                  @click="linkKey(props.item)"
-                >
-                  <v-icon>
-                    mdi-link
-                  </v-icon>
-                </v-btn>
-              </td>
-              <td
-                class="text-xs-center px-0"
-              >
-                <v-btn
                   v-if="props.item.password"
                   icon
                   class="primary--text text--lighten-2"
@@ -165,9 +151,6 @@ export default {
         },
         {
           text: 'Content', value: 'content', align: 'left', sortable: false,
-        },
-        {
-          text: '', value: '', align: 'center', sortable: false,
         },
         {
           text: '', value: '', align: 'center', sortable: false,
@@ -305,9 +288,6 @@ export default {
       }
       return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys([key.id]);
     },
-    linkKey(key) {
-      window.open(this.linkify(key.content));
-    },
     reloadKeys() {
       this.setKeys([]);
       this.setPage(1);
@@ -333,10 +313,17 @@ export default {
 
 <style lang="stylus" scoped>
 .content
-  width 150px
+  width 280px
   overflow hidden
   white-space nowrap
   text-overflow ellipsis
-.link
-  text-decoration none
+@media screen and (max-width: 1264px)
+  .content
+    width 220px
+@media screen and (max-width: 960px)
+  .content
+    width 160px
+@media screen and (max-width: 600px)
+  .content
+    width 100px
 </style>
