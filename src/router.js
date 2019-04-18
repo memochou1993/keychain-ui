@@ -12,6 +12,11 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/login',
+      name: 'auth.login',
+      component: () => import('@/views/Auth/Login.vue'),
+    },
+    {
       path: '/keys',
       name: 'user.keys',
       component: () => import('@/views/User/Keys.vue'),

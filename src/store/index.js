@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import auth from './modules/auth';
 import key from './modules/key';
 
 Vue.use(Vuex);
@@ -7,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   namespaced: true,
   modules: {
+    auth,
     key,
   },
   state: {

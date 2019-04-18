@@ -70,11 +70,6 @@ export default {
     ...mapActions('key', [
       'fetchKey',
     ]),
-    beforeProcess() {
-      this.setError(null);
-      this.setNoData(false);
-      this.setLoading(true);
-    },
     getKey() {
       this.beforeProcess();
       this.fetchKey({

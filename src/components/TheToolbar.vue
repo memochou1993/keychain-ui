@@ -117,7 +117,9 @@
         Keychain
       </v-toolbar-title>
       <v-spacer />
-      <KeySearch />
+      <KeySearch
+        v-if="$route.name === 'user.keys'"
+      />
     </v-toolbar>
   </div>
 </template>

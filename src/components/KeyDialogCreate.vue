@@ -123,11 +123,6 @@ export default {
     ...mapActions('key', [
       'storeKey',
     ]),
-    beforeProcess() {
-      this.setError(null);
-      this.setNoData(false);
-      this.setLoading(true);
-    },
     createKey() {
       this.beforeProcess();
       this.storeKey({

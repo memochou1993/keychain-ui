@@ -16,6 +16,11 @@ const api = {
     setLoading(loading) {
       this.loading = loading;
     },
+    beforeProcess() {
+      this.setError(null);
+      this.setNoData(false);
+      this.setLoading(true);
+    },
   },
 };
 

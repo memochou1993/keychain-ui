@@ -129,11 +129,6 @@ export default {
       'fetchKey',
       'updateKey',
     ]),
-    beforeProcess() {
-      this.setError(null);
-      this.setNoData(false);
-      this.setLoading(true);
-    },
     getKey() {
       this.beforeProcess();
       this.fetchKey({

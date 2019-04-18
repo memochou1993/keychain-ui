@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <v-container
+    class="pb-0"
+  >
     <v-layout
       row
       wrap
+      justify-center
     >
       <v-flex
         md10
-        offset-md1
       >
         <AppProgressLinear
           :color="error ? 'error' : noData ? 'warning' : 'success'"
@@ -109,7 +111,7 @@
         />
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -226,11 +228,6 @@ export default {
     ...mapActions('key', [
       'fetchKeys',
     ]),
-    beforeProcess() {
-      this.setError(null);
-      this.setNoData(false);
-      this.setLoading(true);
-    },
     getKeys() {
       this.beforeProcess();
       this.fetchKeys({

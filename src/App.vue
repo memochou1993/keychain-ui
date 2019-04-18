@@ -5,11 +5,7 @@
     <v-app>
       <TheToolbar />
       <v-content>
-        <v-container
-          class="pb-0"
-        >
-          <router-view />
-        </v-container>
+        <router-view />
       </v-content>
       <TheFooter />
     </v-app>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-layout
       row
       wrap
@@ -11,5 +11,5 @@
         Profile
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
