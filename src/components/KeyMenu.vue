@@ -23,8 +23,9 @@
       >
         <v-list-tile
           v-if="linkify(selectedKey.content)"
-          color="info"
-          @click="openKey"
+          :href="linkify(selectedKey.content)"
+          color="info darken-2"
+          target="_blank"
         >
           <v-list-tile-title>
             Open Link
@@ -99,9 +100,6 @@ export default {
     attempt(attemption, key) {
       this.setAttemption(attemption);
       this.setSelectedKey(key);
-    },
-    openKey() {
-      window.open(this.linkify(this.selectedKey.content));
     },
     viewKey() {
       this.attempt('view', this.selectedKey);
