@@ -8,9 +8,7 @@
         md10
         offset-md1
       >
-				<v-card>
-					Profile
-				</v-card>
+        Profile
       </v-flex>
     </v-layout>
   </div>
