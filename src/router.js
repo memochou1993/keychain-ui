@@ -12,9 +12,14 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/home',
-      name: 'user.home',
-      component: () => import('@/views/User/Home.vue'),
+      path: '/keys',
+      name: 'user.keys',
+      component: () => import('@/views/User/Keys.vue'),
+    },
+    {
+      path: '/profile',
+      name: 'user.profile',
+      component: () => import('@/views/User/Profile.vue'),
     },
   ],
 });

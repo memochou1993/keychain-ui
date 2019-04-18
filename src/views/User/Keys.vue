@@ -208,7 +208,7 @@ export default {
     },
   },
   created() {
-    this.getKeys();
+    this.reloadKeys();
   },
   methods: {
     ...mapMutations('key', [

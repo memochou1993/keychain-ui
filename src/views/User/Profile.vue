@@ -1,0 +1,17 @@
+<template>
+  <div>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        md10
+        offset-md1
+      >
+				<v-card>
+					Profile
+				</v-card>
+      </v-flex>
+    </v-layout>
+  </div>
+</template>

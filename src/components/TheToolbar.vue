@@ -7,7 +7,9 @@
       clipped
     >
       <v-list>
-        <v-list-tile>
+        <v-list-tile
+          @click="go('user.profile')"
+        >
           <v-list-tile-action>
             <v-icon>
               mdi-account-circle-outline
@@ -22,7 +24,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-list-group
-          :value="true"
+          :value="groups.keys"
           prepend-icon="mdi-key-outline"
         >
           <template v-slot:activator>
@@ -33,7 +35,23 @@
             </v-list-tile>
           </template>
           <v-list-tile
-            :disabled="!loaded"
+            @click="go('user.keys')"
+          >
+            <v-list-tile-action>
+              <v-icon>
+                mdi-table-of-contents
+              </v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content
+              class="subheading"
+            >
+              <v-list-tile-title>
+                Overview
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            :disabled="!loaded || $route.name !== 'user.keys'"
             @click="createKey"
           >
             <v-list-tile-action>
@@ -50,7 +68,7 @@
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile
-            :disabled="!loaded"
+            :disabled="!loaded || $route.name !== 'user.keys'"
             @click="refreshKeys"
           >
             <v-list-tile-action>
@@ -119,6 +137,9 @@ export default {
   data() {
     return {
       drawer: true,
+      groups: {
+        keys: true,
+      },
     };
   },
   computed: {
@@ -138,6 +159,11 @@ export default {
     ]),
     setDrawer(drawer) {
       this.drawer = drawer;
+    },
+    go(name) {
+      this.$router.push({
+        name,
+      });
     },
     createKey() {
       if (!this.breakpoint.lgAndUp) {

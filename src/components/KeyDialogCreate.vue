@@ -107,7 +107,6 @@ export default {
     enabled(value) {
       if (!value) {
         this.processed();
-        console.log(1);
       }
     },
   },
