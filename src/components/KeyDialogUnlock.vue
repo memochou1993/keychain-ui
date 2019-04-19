@@ -26,6 +26,7 @@
               class="my-3"
               @keyup="detectCapsLock"
               @keydown="detectCapsLock"
+              @keypress="input"
             />
           </v-form>
         </v-card-text>
@@ -100,11 +101,11 @@ export default {
         .catch((error) => {
           this.setError(error);
           this.setNoData(true);
+          this.setPassword('');
           this.setErrorMessages([...this.errorMessages, 'Password is invalid']);
         })
         .finally(() => {
           setTimeout(() => {
-            this.setPassword('');
             this.setLoading(false);
           }, 1000 * 0.25);
         });
@@ -141,6 +142,10 @@ export default {
     },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
+    },
+    input() {
+      this.setError(null);
+      this.setErrorMessages([]);
     },
     detectCapsLock(event) {
       const isCapsLock = event.getModifierState('CapsLock');

@@ -12,6 +12,14 @@
       <v-flex
         md4
       >
+        <v-alert
+          v-if="!loading"
+          :value="!!error"
+          type="error"
+          outline
+        >
+          {{ errorMessage }}
+        </v-alert>
         <v-card>
           <v-form
             ref="form"
@@ -24,23 +32,23 @@
               >
                 <v-text-field
                   v-model="username"
-                  :error="!!error"
                   :rules="[v => !!v || 'Username is required']"
-                  type="username"
-                  label="Username"
                   :autofocus="!error"
+                  type="text"
+                  label="Username"
                   class="my-3"
                 />
                 <v-text-field
                   v-model="password"
-                  :error="!!error"
                   :rules="[v => !!v || 'Password is required']"
-                  :error-messages="errorMessages"
+                  :autofocus="!!error"
+                  :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"
                   label="Password"
-                  :autofocus="!!error"
                   autocomplete
                   class="my-3"
+                  @keyup="detectCapsLock"
+                  @keydown="detectCapsLock"
                 />
               </div>
               <AppNoData
@@ -58,7 +66,6 @@
                 Clear
               </v-btn>
               <v-spacer />
-              {{valid}}
               <v-btn
                 :disabled="!valid || loading"
                 type="submit"
@@ -90,18 +97,16 @@ export default {
   data() {
     return {
       valid: false,
-      errorMessages: [],
+      errorMessage: 'Incorrect username or password',
       username: '',
       password: '',
+      capsLock: false,
     };
   },
   methods: {
     ...mapActions('auth', [
       'fetchToken',
     ]),
-    setErrorMessages(errorMessages) {
-      this.errorMessages = errorMessages;
-    },
     setPassword(password) {
       this.password = password;
     },
@@ -124,17 +129,25 @@ export default {
         .catch((error) => {
           this.setError(error);
           this.setNoData(true);
-          this.setErrorMessages([...this.errorMessages, 'Incorrect username or password']);
+          this.setPassword('');
         })
         .finally(() => {
           setTimeout(() => {
-            this.setPassword('');
             this.setLoading(false);
           }, 1000 * 0.25);
         });
     },
     processed() {
       //
+    },
+    setCapsLock(capsLock) {
+      this.capsLock = capsLock;
+    },
+    detectCapsLock(event) {
+      const isCapsLock = event.getModifierState('CapsLock');
+      if (this.capsLock !== isCapsLock) {
+        this.setCapsLock(isCapsLock);
+      }
     },
   },
 };
