@@ -85,6 +85,7 @@
 <script>
 import { mapActions } from 'vuex';
 import api from '@/mixins/api';
+import helper from '@/mixins/helper';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -93,6 +94,7 @@ export default {
   },
   mixins: [
     api,
+    helper,
   ],
   data() {
     return {
@@ -100,7 +102,6 @@ export default {
       errorMessage: 'Incorrect username or password',
       username: '',
       password: '',
-      capsLock: false,
     };
   },
   methods: {
@@ -139,15 +140,6 @@ export default {
     },
     processed() {
       //
-    },
-    setCapsLock(capsLock) {
-      this.capsLock = capsLock;
-    },
-    detectCapsLock(event) {
-      const isCapsLock = event.getModifierState('CapsLock');
-      if (this.capsLock !== isCapsLock) {
-        this.setCapsLock(isCapsLock);
-      }
     },
   },
 };

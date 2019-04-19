@@ -202,7 +202,7 @@ export default {
             resolve(data);
           })
           .then(() => {
-            if (state.pages !== 1 && state.keys.length <= state.settings.paginate * 2 / 3) {
+            if (state.pages > 1 && state.keys.length <= state.settings.paginate * 2 / 3) {
               commit('setRefresh', rootState.refresh + 1, { root: true });
             }
           })

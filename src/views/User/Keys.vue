@@ -98,7 +98,7 @@
               v-scroll="scrollKeys"
             >
               <AppProgressCircular
-                v-show="keys.length"
+                v-show="!!keys.length"
                 :color="isLastPage ? 'warning' : 'primary'"
                 :loading="asking"
               />

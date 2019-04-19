@@ -13,7 +13,7 @@
             <v-text-field
               v-if="enabled"
               v-model="password"
-              :error="!!error"
+              :error="!!errorMessages.length"
               :rules="[v => !!v || 'Password is required']"
               :loading="loading"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
@@ -26,7 +26,6 @@
               class="my-3"
               @keyup="detectCapsLock"
               @keydown="detectCapsLock"
-              @keypress="input"
             />
           </v-form>
         </v-card-text>
@@ -39,18 +38,19 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
+import helper from '@/mixins/helper';
 
 export default {
   mixins: [
     api,
     dialog,
+    helper,
   ],
   data() {
     return {
       valid: false,
       errorMessages: [],
       password: '',
-      capsLock: false,
     };
   },
   computed: {
@@ -66,6 +66,11 @@ export default {
         this.processed();
       }
     },
+    password(value) {
+      if (value && !!this.errorMessages.length) {
+        this.setErrorMessages([]);
+      }
+    }
   },
   mounted() {
     setTimeout(() => {
@@ -139,19 +144,6 @@ export default {
     },
     setPassword(password) {
       this.password = password;
-    },
-    setCapsLock(capsLock) {
-      this.capsLock = capsLock;
-    },
-    input() {
-      this.setError(null);
-      this.setErrorMessages([]);
-    },
-    detectCapsLock(event) {
-      const isCapsLock = event.getModifierState('CapsLock');
-      if (this.capsLock !== isCapsLock) {
-        this.setCapsLock(isCapsLock);
-      }
     },
     unlockKey() {
       if (!this.password) {
