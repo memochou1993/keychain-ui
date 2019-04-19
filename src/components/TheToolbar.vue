@@ -99,6 +99,22 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile
+          @click="go('auth.logout')"
+        >
+          <v-list-tile-action>
+            <v-icon>
+              mdi-logout-variant
+            </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content
+            class="subheading"
+          >
+            <v-list-tile-title>
+              Logout
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar

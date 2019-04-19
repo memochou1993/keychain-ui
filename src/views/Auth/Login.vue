@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import api from '@/mixins/api';
 import helper from '@/mixins/helper';
 import AppNoData from '@/components/AppNoData.vue';
@@ -124,7 +124,7 @@ export default {
       })
         .then(() => {
           setTimeout(() => {
-            this.processed();
+            this.process();
           }, 1000 * 0.25);
         })
         .catch((error) => {
@@ -138,8 +138,10 @@ export default {
           }, 1000 * 0.25);
         });
     },
-    processed() {
-      //
+    process() {
+      this.$router.push({
+        name: 'user.keys',
+      });
     },
   },
 };

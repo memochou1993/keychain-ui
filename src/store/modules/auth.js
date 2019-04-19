@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookie from 'vue-cookie';
 
 export default {
   namespaced: true,
@@ -6,6 +7,33 @@ export default {
     user: null,
     loaded: false,
     payload: null,
+  },
+  getters: {
+    authentication(state) {
+      let authentication = cookie.get('payload');
+      if (authentication) {
+        authentication = JSON.parse(window.atob(authentication));
+      }
+      return state.payload || authentication;
+    },
+    authorization(state, getters) {
+      if (!getters.authentication) {
+        return null;
+      }
+      return `${getters.authentication.token_type} ${getters.authentication.access_token}`;
+    },
+    accessToken(state, getters) {
+      if (!getters.authentication) {
+        return null;
+      }
+      return getters.authentication.access_token;
+    },
+    refreshToken(state, getters) {
+      if (!getters.authentication) {
+        return null;
+      }
+      return getters.authentication.refresh_token;
+    },
   },
   mutations: {
     setUser(state, user) {
@@ -28,6 +56,7 @@ export default {
           data: params,
         })
           .then(({ data }) => {
+            cookie.set('payload', window.btoa(JSON.stringify(data), { expires: `${data.expires_in}s` }));
             commit('setPayload', data);
             dispatch('fetchUser');
             resolve(data);
@@ -40,14 +69,37 @@ export default {
           });
       });
     },
-    fetchUser({ state, commit }) {
+    destroyToken({ getters, commit }) {
+      commit('setLoaded', false);
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'POST',
+          url: '/auth/logout',
+          headers: {
+            Authorization: getters.authorization,
+          },
+        })
+          .then(({ data }) => {
+            cookie.delete('payload');
+            commit('setPayload', null);
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            commit('setLoaded', true);
+          });
+      });
+    },
+    fetchUser({ getters, commit }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
           url: '/auth/user',
           headers: {
-            Authorization: `${state.payload.token_type} ${state.payload.access_token}`,
+            Authorization: getters.authorization,
           },
         })
           .then(({ data }) => {

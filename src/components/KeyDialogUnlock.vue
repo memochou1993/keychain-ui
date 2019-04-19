@@ -70,7 +70,7 @@ export default {
       if (value && !!this.errorMessages.length) {
         this.setErrorMessages([]);
       }
-    }
+    },
   },
   mounted() {
     setTimeout(() => {

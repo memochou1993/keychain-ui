@@ -166,6 +166,10 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      'refresh',
+      'query',
+    ]),
     ...mapState('key', [
       'keys',
       'pages',
@@ -176,9 +180,8 @@ export default {
       'exposedKeys',
       'settings',
     ]),
-    ...mapState([
-      'refresh',
-      'query',
+    ...mapGetters('auth', [
+      'accessToken',
     ]),
     ...mapGetters('key', [
       'isApproved',

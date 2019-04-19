@@ -17,6 +17,11 @@ export default new Router({
       component: () => import('@/views/Auth/Login.vue'),
     },
     {
+      path: '/logout',
+      name: 'auth.logout',
+      component: () => import('@/views/Auth/Logout.vue'),
+    },
+    {
       path: '/keys',
       name: 'user.keys',
       component: () => import('@/views/User/Keys.vue'),
