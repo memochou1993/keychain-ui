@@ -180,7 +180,6 @@ export default {
       'pages',
       'dialog',
       'approved',
-      'scrollable',
       'unlockedKeys',
       'exposedKeys',
       'settings',
@@ -211,11 +210,6 @@ export default {
         }, 1000 * 300);
       }
     },
-    noData(value) {
-      if (value) {
-        this.setScrollable(false);
-      }
-    },
   },
   created() {
     this.reloadKeys();
@@ -226,7 +220,6 @@ export default {
       'setDialog',
       'setApproved',
       'setAttemption',
-      'setScrollable',
       'setUnlockedKeys',
       'setExposedKeys',
       'pushExposedKeys',

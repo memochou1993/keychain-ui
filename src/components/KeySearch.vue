@@ -29,9 +29,6 @@ export default {
     ...mapMutations([
       'setQuery',
     ]),
-    ...mapMutations('key', [
-      'setScrollable',
-    ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
     }, 1000 * 0.5),

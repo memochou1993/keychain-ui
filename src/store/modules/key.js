@@ -10,7 +10,6 @@ export default {
     loaded: false,
     approved: false,
     attemption: '',
-    scrollable: true,
     unlockedKeys: [],
     exposedKeys: [],
     deprecatedKeys: [],
@@ -53,9 +52,6 @@ export default {
     },
     setAttemption(state, attemption) {
       state.attemption = attemption;
-    },
-    setScrollable(state, scrollable) {
-      state.scrollable = scrollable;
     },
     setUnlockedKeys(state, keys) {
       state.unlockedKeys = keys;
