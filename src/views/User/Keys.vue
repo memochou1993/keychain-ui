@@ -98,7 +98,7 @@
             <div
               v-else
               ref="ask"
-              v-scroll="scrollKeys"
+              v-scroll="scroll"
             >
               <AppProgressCircular
                 v-show="!!keys.length"
@@ -196,10 +196,10 @@ export default {
   },
   watch: {
     query() {
-      this.reloadKeys();
+      this.loadKeys();
     },
     refresh() {
-      this.reloadKeys();
+      this.loadKeys();
     },
     approved(value) {
       if (value) {
@@ -212,7 +212,7 @@ export default {
     },
   },
   created() {
-    this.reloadKeys();
+    this.loadKeys();
   },
   methods: {
     ...mapMutations('key', [
@@ -286,27 +286,27 @@ export default {
       }
       return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys(key.id);
     },
-    reloadKeys() {
+    loadKeys() {
       this.setKeys([]);
       this.setPage(1);
       this.getKeys();
     },
-    scrollKeys: _.debounce(function () {
-      if (!this.$refs.ask) {
-        return false;
-      }
+    askKeys() {
+      this.setAsking(true);
       const { innerHeight } = window;
       const isAsking = this.$refs.ask.getBoundingClientRect().top < innerHeight;
-      this.setAsking(true);
       if (isAsking && !this.isLastPage) {
         this.setPage(this.page + 1);
         this.getKeys();
-        return false;
       }
       setTimeout(() => {
         this.setAsking(false);
       }, 1000 * 1);
-      return false;
+    },
+    scroll: _.debounce(function () {
+      if (this.$refs.ask) {
+        this.askKeys();
+      }
     }, 1000 * 0.5),
   },
 };
