@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-if="payload"
       v-model="drawer"
       :width="250"
       app
@@ -12,6 +11,7 @@
           v-for="(link, index) in links"
           :key="index"
           :to="link.to"
+          :class="[$route.name === link.to.name && 'secondary lighten-4']"
           exact
         >
           <v-list-tile-action>
@@ -32,11 +32,10 @@
     <v-toolbar
       app
       dark
-      clipped-left
       color="primary"
+      clipped-left
     >
       <v-toolbar-side-icon
-        v-if="payload"
         class="hidden-lg-and-up"
         @click.stop="setDrawer(!drawer)"
       />
@@ -56,13 +55,23 @@ export default {
   data() {
     return {
       drawer: true,
-      links: [
+    };
+  },
+  computed: {
+    ...mapState('auth', [
+      'payload',
+    ]),
+    links() {
+      return [
         {
           title: 'Profile',
           to: {
             name: 'user.profile',
           },
           icon: 'mdi-account-circle-outline',
+          meta: {
+            requiresAuth: true,
+          },
         },
         {
           title: 'Keys',
@@ -70,6 +79,9 @@ export default {
             name: 'user.keys',
           },
           icon: 'mdi-key-outline',
+          meta: {
+            requiresAuth: true,
+          },
         },
         // {
         //   title: 'Settings',
@@ -77,30 +89,36 @@ export default {
         //     name: 'user.settings',
         //   },
         //   icon: 'mdi-settings-outline',
+        //   meta: {
+        //     requiresAuth: true,
+        //   },
         // },
+        {
+          title: 'Login',
+          to: {
+            name: 'auth.login',
+          },
+          icon: 'mdi-login-variant',
+          meta: {
+            requiresAuth: false,
+          },
+        },
         {
           title: 'Logout',
           to: {
             name: 'auth.logout',
           },
           icon: 'mdi-logout-variant',
+          meta: {
+            requiresAuth: true,
+          },
         },
-      ],
-    };
-  },
-  computed: {
-    ...mapState('auth', [
-      'payload',
-    ]),
+      ].filter(link => link.meta.requiresAuth === !!this.payload);
+    },
   },
   methods: {
     setDrawer(drawer) {
       this.drawer = drawer;
-    },
-    goTo(name) {
-      this.$router.push({
-        name,
-      });
     },
   },
 };

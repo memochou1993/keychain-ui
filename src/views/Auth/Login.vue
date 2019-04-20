@@ -11,6 +11,7 @@
     >
       <v-flex
         md4
+        sm6
       >
         <v-alert
           v-if="!loading"
