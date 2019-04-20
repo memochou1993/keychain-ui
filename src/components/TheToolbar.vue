@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
+      v-if="authentication"
       v-model="drawer"
       :width="250"
       app
@@ -124,6 +125,7 @@
       color="primary"
     >
       <v-toolbar-side-icon
+        v-if="authentication"
         class="hidden-lg-and-up"
         @click.stop="setDrawer(!drawer)"
       />
@@ -141,7 +143,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import helper from '@/mixins/helper';
 import KeySearch from '@/components/KeySearch.vue';
 
@@ -166,6 +168,9 @@ export default {
     ]),
     ...mapState('key', [
       'loaded',
+    ]),
+    ...mapGetters('auth', [
+      'authentication',
     ]),
   },
   methods: {
