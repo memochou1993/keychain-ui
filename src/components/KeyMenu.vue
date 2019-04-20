@@ -118,7 +118,7 @@ export default {
         setTimeout(() => {
           this.shiftDeprecatedKeys();
         }, 1000 * 2);
-        return this.pushDeprecatedKeys([this.selectedKey.id]);
+        return this.pushDeprecatedKeys(this.selectedKey.id);
       }
       return this.destroyKey();
     },

@@ -60,20 +60,20 @@ export default {
     setUnlockedKeys(state, keys) {
       state.unlockedKeys = keys;
     },
-    pushUnlockedKeys(state, keys) {
-      state.unlockedKeys = [...state.unlockedKeys, ...keys];
+    pushUnlockedKeys(state, key) {
+      state.unlockedKeys.push(key);
     },
     setExposedKeys(state, keys) {
       state.exposedKeys = keys;
     },
-    pushExposedKeys(state, keys) {
-      state.exposedKeys = [...state.exposedKeys, ...keys];
+    pushExposedKeys(state, key) {
+      state.exposedKeys.push(key);
     },
     filterExposedKeys(state, key) {
       state.exposedKeys = state.exposedKeys.filter(exposedKey => exposedKey !== key);
     },
-    pushDeprecatedKeys(state, keys) {
-      state.deprecatedKeys = [...state.deprecatedKeys, ...keys];
+    pushDeprecatedKeys(state, key) {
+      state.deprecatedKeys.push(key);
     },
     shiftDeprecatedKeys(state) {
       state.deprecatedKeys.shift();
@@ -132,7 +132,7 @@ export default {
             setTimeout(() => {
               commit('setKey', data.data);
               if (!getters.isUnlocked) {
-                commit('pushUnlockedKeys', [data.data.id]);
+                commit('pushUnlockedKeys', data.data.id);
               }
             }, 1000 * 0.25);
             resolve(data);
@@ -165,7 +165,7 @@ export default {
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
             if (!getters.isUnlocked) {
-              commit('pushUnlockedKeys', [data.data.id]);
+              commit('pushUnlockedKeys', data.data.id);
             }
             resolve(data);
           })

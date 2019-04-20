@@ -286,7 +286,7 @@ export default {
       if (!this.isUnlocked(key)) {
         return this.setDialog('unlock');
       }
-      return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys([key.id]);
+      return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys(key.id);
     },
     reloadKeys() {
       this.setKeys([]);
