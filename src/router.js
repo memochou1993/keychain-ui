@@ -12,9 +12,17 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/keys',
-      name: 'user.keys',
-      component: () => import('@/views/User/Keys.vue'),
+      path: '/login',
+      name: 'auth.login',
+      component: () => import('@/views/Auth/Login.vue'),
+      meta: {
+        requiresVisitor: true,
+      },
+    },
+    {
+      path: '/logout',
+      name: 'auth.logout',
+      component: () => import('@/views/Auth/Logout.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -28,17 +36,9 @@ export default new Router({
       },
     },
     {
-      path: '/login',
-      name: 'auth.login',
-      component: () => import('@/views/Auth/Login.vue'),
-      meta: {
-        requiresVisitor: true,
-      },
-    },
-    {
-      path: '/logout',
-      name: 'auth.logout',
-      component: () => import('@/views/Auth/Logout.vue'),
+      path: '/keys',
+      name: 'user.keys',
+      component: () => import('@/views/User/Keys.vue'),
       meta: {
         requiresAuth: true,
       },

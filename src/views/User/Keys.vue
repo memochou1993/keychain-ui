@@ -292,6 +292,9 @@ export default {
       this.getKeys();
     },
     scrollKeys: _.debounce(function () {
+      if (!this.$refs.ask) {
+        return false;
+      }
       const { innerHeight } = window;
       const isAsking = this.$refs.ask.getBoundingClientRect().top < innerHeight;
       this.setAsking(true);
