@@ -46,7 +46,9 @@ export default {
     },
   },
   actions: {
-    fetchToken({ commit, dispatch }, { params }) {
+    fetchToken({
+      commit, dispatch,
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
@@ -69,7 +71,9 @@ export default {
           });
       });
     },
-    destroyToken({ getters, commit }) {
+    destroyToken({
+      getters, commit,
+    }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
@@ -92,7 +96,9 @@ export default {
           });
       });
     },
-    fetchUser({ getters, commit }) {
+    fetchUser({
+      getters, commit,
+    }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({

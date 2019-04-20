@@ -83,12 +83,17 @@ export default {
     },
   },
   actions: {
-    fetchKeys({ state, commit }, { params }) {
+    fetchKeys({
+      state, commit, rootGetters,
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
           url: '/users/me/keys',
+          headers: {
+            Authorization: rootGetters['auth/authorization'],
+          },
           params,
         })
           .then(({ data }) => {
@@ -110,12 +115,17 @@ export default {
           });
       });
     },
-    fetchKey({ state, getters, commit }, { params }) {
+    fetchKey({
+      state, getters, commit, rootGetters,
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
           url: `/users/me/keys/${state.selectedKey.id}`,
+          headers: {
+            Authorization: rootGetters['auth/authorization'],
+          },
           params,
         })
           .then(({ data }) => {
@@ -137,12 +147,17 @@ export default {
           });
       });
     },
-    storeKey({ state, getters, commit }, { params }) {
+    storeKey({
+      state, getters, commit, rootGetters,
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
           url: '/users/me/keys',
+          headers: {
+            Authorization: rootGetters['auth/authorization'],
+          },
           data: params,
         })
           .then(({ data }) => {
@@ -164,12 +179,17 @@ export default {
           });
       });
     },
-    updateKey({ state, commit }, { params }) {
+    updateKey({
+      state, commit, rootGetters,
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'PATCH',
           url: `/users/me/keys/${state.selectedKey.id}`,
+          headers: {
+            Authorization: rootGetters['auth/authorization'],
+          },
           data: params,
         })
           .then(({ data }) => {
@@ -188,12 +208,17 @@ export default {
           });
       });
     },
-    destroyKey({ state, commit, rootState }) {
+    destroyKey({
+      state, commit, rootState, rootGetters,
+    }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
           url: `/users/me/keys/${state.selectedKey.id}`,
+          headers: {
+            Authorization: rootGetters['auth/authorization'],
+          },
         })
           .then(({ data }) => {
             const { keys } = state;
