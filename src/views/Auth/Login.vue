@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import api from '@/mixins/api';
 import helper from '@/mixins/helper';
 import AppNoData from '@/components/AppNoData.vue';

@@ -6,15 +6,14 @@ export default {
   state: {
     user: null,
     loaded: false,
-    payload: null,
+    payload: cookie.get('payload'),
   },
   getters: {
     authentication(state) {
-      let authentication = cookie.get('payload');
-      if (authentication) {
-        authentication = JSON.parse(window.atob(authentication));
+      if (!state.payload) {
+        return null;
       }
-      return state.payload || authentication;
+      return JSON.parse(window.atob(state.payload));
     },
     authorization(state, getters) {
       if (!getters.authentication) {
@@ -56,8 +55,9 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            cookie.set('payload', window.btoa(JSON.stringify(data), { expires: `${data.expires_in}s` }));
-            commit('setPayload', data);
+            const payload = window.btoa(JSON.stringify(data), { expires: `${data.expires_in}s` });
+            cookie.set('payload', payload);
+            commit('setPayload', payload);
             dispatch('fetchUser');
             resolve(data);
           })

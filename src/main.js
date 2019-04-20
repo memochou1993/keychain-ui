@@ -26,6 +26,27 @@ Vue.directive('scroll', {
   },
 });
 
+router.beforeEach((to, from, next) => {
+  const { payload } = store.state.auth;
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!payload) {
+      next({
+        name: 'auth.login',
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (payload) {
+      next({
+        name: 'user.keys',
+      });
+    } else {
+      next();
+    }
+  }
+});
+
 new Vue({
   router,
   store,

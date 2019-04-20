@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-if="authentication"
+      v-if="payload"
       v-model="drawer"
       :width="250"
       app
@@ -125,7 +125,7 @@
       color="primary"
     >
       <v-toolbar-side-icon
-        v-if="authentication"
+        v-if="payload"
         class="hidden-lg-and-up"
         @click.stop="setDrawer(!drawer)"
       />
@@ -166,11 +166,11 @@ export default {
     ...mapState([
       'refresh',
     ]),
+    ...mapState('auth', [
+      'payload',
+    ]),
     ...mapState('key', [
       'loaded',
-    ]),
-    ...mapGetters('auth', [
-      'authentication',
     ]),
   },
   methods: {
