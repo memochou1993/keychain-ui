@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="pb-0"
+    class="py-0"
   >
     <v-layout
       row
@@ -10,8 +10,11 @@
       <v-flex
         md10
       >
+        <KeyToolbar
+          class="my-3"
+        />
         <AppProgressLinear
-          :color="error ? 'error' : noData ? 'warning' : 'success'"
+          :color="error ? 'error' : 'success'"
           :error="!!error"
           :loading="loading"
         />
@@ -124,6 +127,7 @@ import {
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
+import KeyToolbar from '@/components/KeyToolbar.vue';
 import KeyMenu from '@/components/KeyMenu.vue';
 import KeyDialogCreate from '@/components/KeyDialogCreate.vue';
 import KeyDialogUnlock from '@/components/KeyDialogUnlock.vue';
@@ -135,6 +139,7 @@ export default {
     AppProgressLinear,
     AppProgressCircular,
     AppNoData,
+    KeyToolbar,
     KeyMenu,
     KeyDialogCreate,
     KeyDialogUnlock,

@@ -2,10 +2,10 @@
   <div>
     <v-text-field
       v-model="query"
-      flat
-      label="Search"
+      solo
+      clearable
+      placeholder="Search"
       hide-details
-      solo-inverted
     />
   </div>
 </template>
@@ -34,7 +34,6 @@ export default {
     ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
-      this.setScrollable(true);
     }, 1000 * 0.5),
   },
 };
