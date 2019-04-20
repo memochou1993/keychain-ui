@@ -47,7 +47,7 @@ export default {
   },
   actions: {
     fetchToken({
-      commit, dispatch,
+      commit,
     }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
@@ -60,7 +60,6 @@ export default {
             const payload = window.btoa(JSON.stringify(data), { expires: `${data.expires_in}s` });
             cookie.set('payload', payload);
             commit('setPayload', payload);
-            dispatch('fetchUser');
             resolve(data);
           })
           .catch((error) => {
