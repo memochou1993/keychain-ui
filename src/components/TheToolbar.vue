@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -71,13 +71,13 @@ export default {
           },
           icon: 'mdi-key-outline',
         },
-        {
-          title: 'Settings',
-          to: {
-            name: 'user.settings',
-          },
-          icon: 'mdi-settings-outline',
-        },
+        // {
+        //   title: 'Settings',
+        //   to: {
+        //     name: 'user.settings',
+        //   },
+        //   icon: 'mdi-settings-outline',
+        // },
         {
           title: 'Logout',
           to: {
