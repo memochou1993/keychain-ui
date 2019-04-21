@@ -17,7 +17,7 @@ export default new Vuex.Store({
     refresh: 0,
     settings: {
       auth: {
-        keep: 7,
+        keepDays: 7,
       },
       key: {
         strict: true,

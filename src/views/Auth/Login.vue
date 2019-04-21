@@ -120,9 +120,7 @@ export default {
       this.password = password;
     },
     login() {
-      cache.set('keep', {
-        enabled: this.keep,
-      });
+      cache.set('keep', this.keep);
       this.beforeProcess();
       this.fetchToken({
         params: {

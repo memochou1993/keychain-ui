@@ -1,17 +1,14 @@
 const cache = {
   set(key, value) {
-    localStorage.setItem(key, JSON.stringify({
-      created_at: Date.now(),
-      data: value,
-    }));
+    localStorage.setItem(key, this.encode(value));
   },
   get(key) {
-    return JSON.parse(localStorage.getItem(key));
+    return this.decode(localStorage.getItem(key));
   },
   encode(value) {
     return window.btoa(JSON.stringify({
-      created_at: Date.now(),
       data: value,
+      created_at: Date.now(),
     }));
   },
   decode(value) {

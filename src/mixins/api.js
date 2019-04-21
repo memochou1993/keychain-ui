@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { mapGetters, mapActions } from 'vuex';
 
 const api = {
@@ -32,8 +33,8 @@ const api = {
       this.setLoading(true);
     },
     refreshToken() {
-      const x = new Date() - new Date(this.authentication.created_at);
-      if (x / 1000 < this.authentication.data.expires_in) {
+      const duration = moment.duration(moment().diff(moment(this.authentication.created_at)));
+      if (duration.asSeconds() < this.authentication.data.expires_in) {
         return false;
       }
       return this.fetchToken({

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cookie from 'vue-cookie';
+import moment from 'moment';
 import cache from '@/helpers/cache';
 
 export default {
@@ -48,15 +49,10 @@ export default {
           .then(({ data }) => {
             const payload = cache.encode(data);
             const keep = cache.get('keep');
-            let expires = null;
-            if (keep && keep.data.enabled) {
-              const date = new Date(parseInt(keep.created_at, 10));
-              date.setDate(date.getDate() + rootState.settings.auth.keep);
-              expires = {
-                expires: date,
-              };
-            }
-            cookie.set('payload', payload, expires);
+            const date = keep && keep.data
+              ? { expires: moment(parseInt(keep.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').format() }
+              : null;
+            cookie.set('payload', payload, date);
             commit('setPayload', payload);
             resolve(data);
           })

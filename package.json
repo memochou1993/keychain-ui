@@ -12,6 +12,7 @@
     "@vue/eslint-config-airbnb": "^4.0.0",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "qs": "^6.7.0",
     "roboto-fontface": "*",
     "vue": "^2.5.17",
