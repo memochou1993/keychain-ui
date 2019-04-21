@@ -119,6 +119,7 @@ export default {
       this.password = password;
     },
     login() {
+      localStorage.setItem('keep', this.keep);
       this.beforeProcess();
       this.fetchToken({
         params: {
@@ -128,7 +129,6 @@ export default {
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
         },
-        keep: this.keep,
       })
         .then(() => {
           setTimeout(() => {

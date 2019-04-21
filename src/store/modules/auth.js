@@ -36,7 +36,7 @@ export default {
   actions: {
     fetchToken({
       commit, rootState,
-    }, { params, keep }) {
+    }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
@@ -46,6 +46,7 @@ export default {
         })
           .then(({ data }) => {
             const payload = window.btoa(JSON.stringify(data));
+            const keep = localStorage.getItem('keep') === 'true';
             const expires = keep ? { expires: `${rootState.settings.auth.keep}D` } : null;
             cookie.set('payload', payload, expires);
             commit('setPayload', payload);

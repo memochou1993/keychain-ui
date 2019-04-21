@@ -35,9 +35,10 @@ export default {
     ...mapActions('auth', [
       'destroyToken',
     ]),
-    logout() {
+    async logout() {
       this.beforeProcess();
-      this.destroyToken()
+      await this.refreshToken();
+      await this.destroyToken()
         .then(() => {
           setTimeout(() => {
             this.process();
