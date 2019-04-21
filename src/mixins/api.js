@@ -32,12 +32,16 @@ const api = {
       this.setLoading(true);
     },
     refreshToken() {
+      const x = new Date() - new Date(this.authentication.created_at);
+      if (x / 1000 < this.authentication.data.expires_in) {
+        return false;
+      }
       return this.fetchToken({
         params: {
           grant_type: 'refresh_token',
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
-          refresh_token: this.authentication.refresh_token,
+          refresh_token: this.authentication.data.refresh_token,
         },
       });
     },

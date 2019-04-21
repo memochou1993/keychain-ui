@@ -19,7 +19,7 @@ export default {
       if (!getters.authentication) {
         return null;
       }
-      return `${getters.authentication.token_type} ${getters.authentication.access_token}`;
+      return `${getters.authentication.data.token_type} ${getters.authentication.data.access_token}`;
     },
   },
   mutations: {
@@ -45,11 +45,14 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const payload = window.btoa(JSON.stringify(data));
-            const keep = localStorage.getItem('keep');
+            const payload = window.btoa(JSON.stringify({
+              data,
+              created_at: Date.now(),
+            }));
+            const keep = JSON.parse(localStorage.getItem('keep'));
             let expires = null;
-            if (keep !== 'null') {
-              const date = new Date(parseInt(keep, 10));
+            if (keep && keep.enabled) {
+              const date = new Date(parseInt(keep.created_at, 10));
               date.setDate(date.getDate() + rootState.settings.auth.keep);
               expires = {
                 expires: date,

@@ -119,7 +119,10 @@ export default {
       this.password = password;
     },
     login() {
-      localStorage.setItem('keep', this.keep ? Date.now() : null);
+      localStorage.setItem('keep', JSON.stringify({
+        enabled: this.keep,
+        created_at: Date.now(),
+      }));
       this.beforeProcess();
       this.fetchToken({
         params: {
