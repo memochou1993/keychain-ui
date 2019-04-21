@@ -51,6 +51,11 @@
                   @keyup="detectCapsLock"
                   @keydown="detectCapsLock"
                 />
+                <v-switch
+                  v-model="keep"
+                  color="primary"
+                  label="Remember me"
+                />
               </div>
               <AppNoData
                 v-else
@@ -103,6 +108,7 @@ export default {
       errorMessage: 'Incorrect username or password',
       username: '',
       password: '',
+      keep: false,
     };
   },
   methods: {
@@ -122,6 +128,7 @@ export default {
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
         },
+        keep: this.keep,
       })
         .then(() => {
           setTimeout(() => {

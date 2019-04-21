@@ -48,7 +48,7 @@ export default {
   actions: {
     fetchToken({
       commit,
-    }, { params }) {
+    }, { params, keep }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
         axios({
@@ -57,12 +57,13 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const payload = window.btoa(JSON.stringify(data), { expires: `${data.expires_in}s` });
-            cookie.set('payload', payload);
+            const payload = window.btoa(JSON.stringify(data));
+            cookie.set('payload', payload, keep ? { expires: `${data.expires_in}s` } : null);
             commit('setPayload', payload);
             resolve(data);
           })
           .catch((error) => {
+            commit('setAbort', error.response.status, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -88,6 +89,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
+            commit('setAbort', error.response.status, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -112,6 +114,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
+            commit('setAbort', error.response.status, { root: true });
             reject(error);
           })
           .finally(() => {

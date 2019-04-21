@@ -12,6 +12,14 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/error',
+      name: 'error',
+      component: () => import('@/views/Error.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/login',
       name: 'auth.login',
       component: () => import('@/views/Auth/Login.vue'),

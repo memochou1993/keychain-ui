@@ -12,10 +12,14 @@ export default new Vuex.Store({
     key,
   },
   state: {
+    abort: 0,
     query: '',
     refresh: 0,
   },
   mutations: {
+    setAbort(state, abort) {
+      state.abort = abort;
+    },
     setQuery(state, query) {
       state.query = query;
     },
@@ -24,6 +28,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setAbort(context, abort) {
+      context.commit('setAbort', abort);
+    },
     setQuery(context, query) {
       context.commit('setQuery', query);
     },
