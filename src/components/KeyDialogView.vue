@@ -70,9 +70,10 @@ export default {
     ...mapActions('key', [
       'fetchKey',
     ]),
-    getKey() {
+    async getKey() {
       this.beforeProcess();
-      this.fetchKey({
+      await this.refreshToken();
+      await this.fetchKey({
         params: {
           with: '',
         },

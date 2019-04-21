@@ -129,9 +129,10 @@ export default {
       'fetchKey',
       'updateKey',
     ]),
-    getKey() {
+    async getKey() {
       this.beforeProcess();
-      this.fetchKey({
+      await this.refreshToken();
+      await this.fetchKey({
         params: {
           with: '',
         },
@@ -151,9 +152,10 @@ export default {
           }, 1000 * 0.25);
         });
     },
-    editKey() {
+    async editKey() {
       this.beforeProcess();
-      this.updateKey({
+      await this.refreshToken();
+      await this.updateKey({
         params: {
           with: '',
           title: this.title,

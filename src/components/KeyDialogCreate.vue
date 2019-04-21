@@ -123,9 +123,10 @@ export default {
     ...mapActions('key', [
       'storeKey',
     ]),
-    createKey() {
+    async createKey() {
       this.beforeProcess();
-      this.storeKey({
+      await this.refreshToken();
+      await this.storeKey({
         params: {
           with: '',
           title: this.title,

@@ -223,9 +223,6 @@ export default {
       'filterExposedKeys',
       'setSelectedKey',
     ]),
-    ...mapActions('auth', [
-      'fetchToken',
-    ]),
     ...mapActions('key', [
       'fetchKeys',
     ]),

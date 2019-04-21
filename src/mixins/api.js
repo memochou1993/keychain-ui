@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 const api = {
   data() {
@@ -14,6 +14,9 @@ const api = {
     ]),
   },
   methods: {
+    ...mapActions('auth', [
+      'fetchToken',
+    ]),
     setError(error) {
       this.error = error;
     },
