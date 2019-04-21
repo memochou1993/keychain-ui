@@ -90,6 +90,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import helper from '@/mixins/helper';
 import AppNoData from '@/components/AppNoData.vue';
@@ -119,10 +120,9 @@ export default {
       this.password = password;
     },
     login() {
-      localStorage.setItem('keep', JSON.stringify({
+      cache.set('keep', {
         enabled: this.keep,
-        created_at: Date.now(),
-      }));
+      });
       this.beforeProcess();
       this.fetchToken({
         params: {

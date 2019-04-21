@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cookie from 'vue-cookie';
+import cache from '@/helpers/cache';
 
 export default {
   namespaced: true,
@@ -13,7 +14,7 @@ export default {
       if (!state.payload) {
         return null;
       }
-      return JSON.parse(window.atob(state.payload));
+      return cache.decode(state.payload);
     },
     authorization(state, getters) {
       if (!getters.authentication) {
@@ -45,13 +46,10 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const payload = window.btoa(JSON.stringify({
-              data,
-              created_at: Date.now(),
-            }));
-            const keep = JSON.parse(localStorage.getItem('keep'));
+            const payload = cache.encode(data);
+            const keep = cache.get('keep');
             let expires = null;
-            if (keep && keep.enabled) {
+            if (keep && keep.data.enabled) {
               const date = new Date(parseInt(keep.created_at, 10));
               date.setDate(date.getDate() + rootState.settings.auth.keep);
               expires = {
