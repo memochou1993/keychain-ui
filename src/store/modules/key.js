@@ -97,7 +97,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -130,7 +130,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -163,7 +163,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -193,7 +193,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -227,7 +227,7 @@ export default {
             }
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {

@@ -23,29 +23,31 @@ export default {
     TheToolbar,
     TheFooter,
   },
-  watch: {
-    abort(value) {
-      switch (value) {
-        case 401:
-          this.$router.push({
-            name: 'error',
-          });
-          break;
-        default:
-          break;
-      }
-      this.setAbort(0);
-    },
-  },
   computed: {
     ...mapState([
-      'abort',
+      'error',
     ]),
+  },
+  watch: {
+    error(value) {
+      if (value) {
+        this.abort(value.response.status);
+        this.setError(null);
+      }
+    },
   },
   methods: {
     ...mapMutations([
-      'setAbort',
+      'setError',
     ]),
+    abort(status) {
+      this.$router.push({
+        name: 'error',
+        query: {
+          status,
+        },
+      });
+    },
   },
 };
 </script>

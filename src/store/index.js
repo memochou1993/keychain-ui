@@ -12,10 +12,13 @@ export default new Vuex.Store({
     key,
   },
   state: {
-    abort: 0,
+    error: null,
     query: '',
     refresh: 0,
     settings: {
+      auth: {
+        keep: 7,
+      },
       key: {
         strict: true,
         paginate: 15,
@@ -24,8 +27,8 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setAbort(state, abort) {
-      state.abort = abort;
+    setError(state, error) {
+      state.error = error;
     },
     setQuery(state, query) {
       state.query = query;
@@ -35,8 +38,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setAbort(context, abort) {
-      context.commit('setAbort', abort);
+    setError(context, error) {
+      context.commit('setError', error);
     },
     setQuery(context, query) {
       context.commit('setQuery', query);

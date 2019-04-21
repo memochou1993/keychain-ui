@@ -47,7 +47,7 @@ export default {
   },
   actions: {
     fetchToken({
-      commit,
+      commit, rootState,
     }, { params, keep }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
@@ -58,12 +58,13 @@ export default {
         })
           .then(({ data }) => {
             const payload = window.btoa(JSON.stringify(data));
-            cookie.set('payload', payload, keep ? { expires: `${data.expires_in}s` } : null);
+            const expires = keep ? { expires: `${rootState.settings.auth.keep}D` } : null;
+            cookie.set('payload', payload, expires);
             commit('setPayload', payload);
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -89,7 +90,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
@@ -114,7 +115,7 @@ export default {
             resolve(data);
           })
           .catch((error) => {
-            commit('setAbort', error.response.status, { root: true });
+            commit('setError', error, { root: true });
             reject(error);
           })
           .finally(() => {
