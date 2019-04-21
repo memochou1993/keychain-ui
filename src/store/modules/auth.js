@@ -21,18 +21,6 @@ export default {
       }
       return `${getters.authentication.token_type} ${getters.authentication.access_token}`;
     },
-    accessToken(state, getters) {
-      if (!getters.authentication) {
-        return null;
-      }
-      return getters.authentication.access_token;
-    },
-    refreshToken(state, getters) {
-      if (!getters.authentication) {
-        return null;
-      }
-      return getters.authentication.refresh_token;
-    },
   },
   mutations: {
     setUser(state, user) {

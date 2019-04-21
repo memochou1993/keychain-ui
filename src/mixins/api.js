@@ -1,3 +1,5 @@
+import { mapGetters } from 'vuex';
+
 const api = {
   data() {
     return {
@@ -5,6 +7,11 @@ const api = {
       noData: false,
       loading: false,
     };
+  },
+  computed: {
+    ...mapGetters('auth', [
+      'authentication',
+    ]),
   },
   methods: {
     setError(error) {
@@ -20,6 +27,16 @@ const api = {
       this.setError(null);
       this.setNoData(false);
       this.setLoading(true);
+    },
+    refreshToken() {
+      return this.fetchToken({
+        params: {
+          grant_type: 'refresh_token',
+          client_id: process.env.VUE_APP_API_CLIENT_ID,
+          client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
+          refresh_token: this.authentication.refresh_token,
+        },
+      });
     },
   },
 };

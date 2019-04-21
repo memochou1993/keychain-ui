@@ -124,7 +124,7 @@ export default {
         params: {
           username: this.username,
           password: this.password,
-          grant_type: process.env.VUE_APP_API_GRANT_TYPE,
+          grant_type: 'password',
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
         },

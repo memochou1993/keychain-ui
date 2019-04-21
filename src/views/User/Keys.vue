@@ -184,9 +184,6 @@ export default {
       'unlockedKeys',
       'exposedKeys',
     ]),
-    ...mapGetters('auth', [
-      'accessToken',
-    ]),
     ...mapGetters('key', [
       'isApproved',
     ]),
@@ -226,12 +223,16 @@ export default {
       'filterExposedKeys',
       'setSelectedKey',
     ]),
+    ...mapActions('auth', [
+      'fetchToken',
+    ]),
     ...mapActions('key', [
       'fetchKeys',
     ]),
-    getKeys() {
+    async getKeys() {
       this.beforeProcess();
-      this.fetchKeys({
+      await this.refreshToken();
+      await this.fetchKeys({
         params: {
           q: this.query,
           with: '',
