@@ -15,6 +15,13 @@ export default new Vuex.Store({
     abort: 0,
     query: '',
     refresh: 0,
+    settings: {
+      key: {
+        strict: true,
+        paginate: 15,
+        pagination: false,
+      },
+    },
   },
   mutations: {
     setAbort(state, abort) {

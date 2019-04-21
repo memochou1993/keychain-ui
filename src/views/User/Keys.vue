@@ -86,7 +86,7 @@
             v-show="pages > 1"
           >
             <div
-              v-if="settings.pagination"
+              v-if="settings.key.pagination"
             >
               <v-pagination
                 v-model="page"
@@ -172,8 +172,9 @@ export default {
   },
   computed: {
     ...mapState([
-      'refresh',
       'query',
+      'refresh',
+      'settings',
     ]),
     ...mapState('key', [
       'keys',
@@ -182,7 +183,6 @@ export default {
       'approved',
       'unlockedKeys',
       'exposedKeys',
-      'settings',
     ]),
     ...mapGetters('auth', [
       'accessToken',
@@ -236,7 +236,7 @@ export default {
           q: this.query,
           with: '',
           page: this.page,
-          paginate: this.settings.paginate,
+          paginate: this.settings.key.paginate,
         },
       })
         .then(({ data }) => {

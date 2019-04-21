@@ -14,15 +14,10 @@ export default {
     exposedKeys: [],
     deprecatedKeys: [],
     selectedKey: null,
-    settings: {
-      strict: true,
-      paginate: 15,
-      pagination: false,
-    },
   },
   getters: {
-    isApproved(state) {
-      return !state.settings.strict && state.approved;
+    isApproved(state, getters, rootState) {
+      return !rootState.settings.key.strict && state.approved;
     },
     isLocked(state, getters) {
       return !!state.selectedKey && !!state.selectedKey.password && !getters.isApproved;
@@ -80,7 +75,7 @@ export default {
   },
   actions: {
     fetchKeys({
-      state, commit, rootGetters,
+      state, commit, rootState, rootGetters,
     }, { params }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
@@ -94,7 +89,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', state.settings.pagination
+              commit('setKeys', rootState.settings.key.pagination
                 ? data.data
                 : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);
@@ -227,7 +222,7 @@ export default {
             resolve(data);
           })
           .then(() => {
-            if (state.pages > 1 && state.keys.length <= state.settings.paginate * 2 / 3) {
+            if (state.pages > 1 && state.keys.length <= rootState.settings.key.paginate * 2 / 3) {
               commit('setRefresh', rootState.refresh + 1, { root: true });
             }
           })
