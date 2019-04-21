@@ -46,8 +46,15 @@ export default {
         })
           .then(({ data }) => {
             const payload = window.btoa(JSON.stringify(data));
-            const keep = localStorage.getItem('keep') === 'true';
-            const expires = keep ? { expires: `${rootState.settings.auth.keep}D` } : null;
+            const keep = localStorage.getItem('keep');
+            let expires = null;
+            if (keep !== 'null') {
+              const date = new Date(parseInt(keep, 10));
+              date.setDate(date.getDate() + rootState.settings.auth.keep);
+              expires = {
+                expires: date,
+              };
+            }
             cookie.set('payload', payload, expires);
             commit('setPayload', payload);
             resolve(data);
