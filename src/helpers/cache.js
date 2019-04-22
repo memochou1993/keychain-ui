@@ -5,6 +5,9 @@ const cache = {
   get(key) {
     return this.decode(localStorage.getItem(key));
   },
+  delete(key) {
+    localStorage.removeItem(key);
+  },
   encode(value) {
     return window.btoa(JSON.stringify({
       data: value,

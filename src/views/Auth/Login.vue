@@ -52,7 +52,7 @@
                   @keydown="detectCapsLock"
                 />
                 <v-switch
-                  v-model="keep"
+                  v-model="keeper"
                   color="primary"
                   label="Remember me"
                 />
@@ -109,8 +109,11 @@ export default {
       errorMessage: 'Incorrect username or password',
       username: '',
       password: '',
-      keep: false,
+      keeper: false,
     };
+  },
+  created() {
+    cache.delete('keeper');
   },
   methods: {
     ...mapActions('auth', [
@@ -119,8 +122,13 @@ export default {
     setPassword(password) {
       this.password = password;
     },
+    keep() {
+      if (this.keeper) {
+        cache.set('keeper', this.keeper);
+      }
+    },
     login() {
-      cache.set('keep', this.keep);
+      this.keep();
       this.beforeProcess();
       this.fetchToken({
         params: {
