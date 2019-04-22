@@ -37,6 +37,12 @@
               label="Content"
               class="my-3"
             />
+            <v-text-field
+              v-model="link"
+              type="text"
+              label="Link"
+              class="my-3"
+            />
             <v-switch
               v-model="password"
               color="primary"
@@ -93,6 +99,7 @@ export default {
       valid: false,
       title: '',
       content: '',
+      link: '',
       password: false,
     };
   },
@@ -160,6 +167,7 @@ export default {
           with: '',
           title: this.title,
           content: this.content,
+          link: this.link,
           password: this.password,
         },
       })
@@ -181,6 +189,7 @@ export default {
     process() {
       this.setTitle(this.key.title);
       this.setContent(this.key.content);
+      this.setLink(this.key.link);
       this.setPassword(this.key.password);
     },
     processed() {
@@ -193,6 +202,9 @@ export default {
     },
     setContent(content) {
       this.content = content;
+    },
+    setLink(link) {
+      this.link = link;
     },
     setPassword(password) {
       this.password = password;

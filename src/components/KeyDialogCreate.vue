@@ -37,6 +37,12 @@
               label="Content"
               class="my-3"
             />
+            <v-text-field
+              v-model="link"
+              type="text"
+              label="Link"
+              class="my-3"
+            />
             <v-switch
               v-model="password"
               color="primary"
@@ -92,6 +98,7 @@ export default {
     return {
       valid: false,
       title: '',
+      link: '',
       content: '',
       password: false,
     };
@@ -131,6 +138,7 @@ export default {
           with: '',
           title: this.title,
           content: this.content,
+          link: this.link,
           password: this.password,
         },
       })

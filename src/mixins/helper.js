@@ -13,11 +13,6 @@ const helper = {
     capitalize(word) {
       return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
     },
-    linkify(text) {
-      const regex = new RegExp(/https?:\/\/[^\s]+[a-z]/g);
-      const link = text.match(regex);
-      return link ? link[0] : '';
-    },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
     },

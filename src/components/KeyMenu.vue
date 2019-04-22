@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-menu
+      offset-x
       :close-on-content-click="attemption !== 'remove'"
       :left="!breakpoint.mdAndUp"
-      :offset-x="!breakpoint.mdAndUp"
     >
       <template
         v-slot:activator="{ on }"
@@ -22,8 +22,8 @@
         dense
       >
         <v-list-tile
-          v-if="linkify(selectedKey.content)"
-          :href="linkify(selectedKey.content)"
+          v-if="selectedKey.link"
+          :href="selectedKey.link"
           color="info darken-2"
           target="_blank"
         >
