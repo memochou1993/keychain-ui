@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import api from '@/mixins/api';
 import helper from '@/mixins/helper';
 import {
   mapState, mapGetters, mapMutations, mapActions,
@@ -66,6 +67,7 @@ import {
 
 export default {
   mixins: [
+    api,
     helper,
   ],
   props: {
@@ -109,18 +111,23 @@ export default {
       this.attempt('edit', this.selectedKey);
       this.setDialog(!this.isUnlocked ? 'unlock' : 'edit');
     },
-    removeKey() {
+    deprecateKey() {
+      setTimeout(() => {
+        this.shiftDeprecatedKeys();
+      }, 1000 * 2);
+      this.pushDeprecatedKeys(this.selectedKey.id);
+    },
+    async removeKey() {
       this.attempt('remove', this.selectedKey);
       if (!this.isUnlocked) {
         return this.setDialog('unlock');
       }
       if (!this.isDeprecated) {
-        setTimeout(() => {
-          this.shiftDeprecatedKeys();
-        }, 1000 * 2);
-        return this.pushDeprecatedKeys(this.selectedKey.id);
+        return this.deprecateKey();
       }
-      return this.destroyKey();
+      await this.refreshToken();
+      await this.destroyKey();
+      return true;
     },
   },
 };
