@@ -50,7 +50,6 @@ export default {
           .then(({ data }) => {
             const payload = code.encode(data);
             const keeper = cache.get('keeper');
-            console.log('keeper', keeper);
             const date = keeper
               ? moment(parseInt(keeper.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').toDate()
               : null;

@@ -41,12 +41,18 @@ export default {
       'setError',
     ]),
     abort(status) {
-      this.$router.push({
-        name: 'error',
-        query: {
-          status,
-        },
-      });
+      switch (status) {
+        case 401:
+          this.$router.push({
+            name: 'error',
+            query: {
+              status,
+            },
+          });
+          break;
+        default:
+          break;
+      }
     },
   },
 };
