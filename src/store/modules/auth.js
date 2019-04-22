@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import code from '@/helpers/code';
 import cache from '@/helpers/cache';
 import cookie from '@/helpers/cookie';
 
@@ -15,7 +16,7 @@ export default {
       if (!state.payload) {
         return null;
       }
-      return cache.decode(state.payload);
+      return code.decode(state.payload);
     },
     authorization(state, getters) {
       if (!getters.authentication) {
@@ -47,7 +48,7 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const payload = cache.encode(data);
+            const payload = code.encode(data);
             const keeper = cache.get('keeper');
             console.log('keeper', keeper);
             const date = keeper
