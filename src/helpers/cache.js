@@ -12,6 +12,9 @@ const cache = {
     }));
   },
   decode(value) {
+    if (!value) {
+      return null;
+    }
     return JSON.parse(window.atob(value));
   },
 };

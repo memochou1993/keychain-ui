@@ -1,7 +1,7 @@
 import axios from 'axios';
-import cookie from 'vue-cookie';
 import moment from 'moment';
 import cache from '@/helpers/cache';
+import cookie from '@/helpers/cookie';
 
 export default {
   namespaced: true,
@@ -50,7 +50,7 @@ export default {
             const payload = cache.encode(data);
             const keep = cache.get('keep');
             const date = keep && keep.data
-              ? { expires: moment(parseInt(keep.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').format() }
+              ? moment(parseInt(keep.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').toDate()
               : null;
             cookie.set('payload', payload, date);
             commit('setPayload', payload);
