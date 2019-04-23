@@ -37,14 +37,14 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
+import common from '@/mixins/common';
 import dialog from '@/mixins/dialog';
-import helper from '@/mixins/helper';
 
 export default {
   mixins: [
     api,
+    common,
     dialog,
-    helper,
   ],
   data() {
     return {

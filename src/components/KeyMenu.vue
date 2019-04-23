@@ -59,16 +59,16 @@
 </template>
 
 <script>
-import api from '@/mixins/api';
-import helper from '@/mixins/helper';
 import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
+import api from '@/mixins/api';
+import common from '@/mixins/common';
 
 export default {
   mixins: [
     api,
-    helper,
+    common,
   ],
   props: {
     selectedKey: {

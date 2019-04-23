@@ -1,4 +1,4 @@
-const helper = {
+const common = {
   data() {
     return {
       capsLock: false,
@@ -29,4 +29,4 @@ const helper = {
   },
 };
 
-export default helper;
+export default common;

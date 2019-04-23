@@ -119,11 +119,11 @@
 
 <script>
 import _ from 'lodash';
-import api from '@/mixins/api';
-import helper from '@/mixins/helper';
 import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
+import api from '@/mixins/api';
+import common from '@/mixins/common';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
@@ -148,7 +148,7 @@ export default {
   },
   mixins: [
     api,
-    helper,
+    common,
   ],
   data() {
     return {

@@ -92,7 +92,7 @@
 import { mapActions } from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
-import helper from '@/mixins/helper';
+import common from '@/mixins/common';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -101,7 +101,7 @@ export default {
   },
   mixins: [
     api,
-    helper,
+    common,
   ],
   data() {
     return {
