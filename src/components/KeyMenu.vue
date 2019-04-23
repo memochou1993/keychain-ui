@@ -77,7 +77,13 @@ export default {
     },
   },
   computed: {
+    ...mapState([
+      'refresh',
+      'settings',
+    ]),
     ...mapState('key', [
+      'keys',
+      'pages',
       'attemption',
       'deprecatedKeys',
     ]),
@@ -95,6 +101,9 @@ export default {
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
       'setSelectedKey',
+    ]),
+    ...mapActions([
+      'setRefresh',
     ]),
     ...mapActions('key', [
       'destroyKey',
@@ -126,7 +135,17 @@ export default {
         return this.deprecateKey();
       }
       await this.refreshToken();
-      await this.destroyKey();
+      await this.destroyKey()
+        .then(() => {
+          if (this.pages > 1 && this.keys.length <= this.settings.key.paginate * 2 / 3) {
+            this.setRefresh(this.refresh + 1);
+          }
+        })
+        .then(() => {
+          if (!this.keys.length) {
+            this.setRefresh(this.refresh + 1);
+          }
+        });
       return true;
     },
   },

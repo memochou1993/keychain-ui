@@ -204,7 +204,7 @@ export default {
       });
     },
     destroyKey({
-      state, commit, rootState, rootGetters,
+      state, commit, rootGetters,
     }) {
       commit('setLoaded', false);
       return new Promise((resolve, reject) => {
@@ -220,11 +220,6 @@ export default {
             keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1);
             commit('setKeys', keys);
             resolve(data);
-          })
-          .then(() => {
-            if (state.pages > 1 && state.keys.length <= rootState.settings.key.paginate * 2 / 3) {
-              commit('setRefresh', rootState.refresh + 1, { root: true });
-            }
           })
           .catch((error) => {
             commit('setError', error, { root: true });
