@@ -37,10 +37,10 @@ const api = {
       });
     },
     isExpended() {
-      return moment.duration(moment().diff(moment(this.authentication.created_at))).asSeconds();
+      return moment.duration(moment().diff(moment(this.authentication.created_at))).seconds();
     },
     isExpired() {
-      return this.authentication && this.isExpended() > this.authentication.data.expires_in;
+      return this.authentication && this.isExpended() >= this.authentication.data.expires_in;
     },
     refreshToken() {
       if (!this.isExpired()) {
