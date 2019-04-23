@@ -71,8 +71,7 @@ export default {
       'fetchKey',
     ]),
     async getKey() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.fetchKey({
         params: {
           with: '',

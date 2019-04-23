@@ -131,8 +131,7 @@ export default {
       'storeKey',
     ]),
     async createKey() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.storeKey({
         params: {
           with: '',

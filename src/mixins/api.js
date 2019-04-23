@@ -28,13 +28,22 @@ const api = {
       this.loading = loading;
     },
     beforeProcess() {
-      this.setError(null);
-      this.setNoData(false);
-      this.setLoading(true);
+      return new Promise(async (resolve) => {
+        this.setError(null);
+        this.setNoData(false);
+        this.setLoading(true);
+        await this.refreshToken();
+        resolve();
+      });
+    },
+    isExpended() {
+      return moment.duration(moment().diff(moment(this.authentication.created_at))).asSeconds();
+    },
+    isExpired() {
+      return this.authentication && this.isExpended() > this.authentication.data.expires_in;
     },
     refreshToken() {
-      const duration = moment.duration(moment().diff(moment(this.authentication.created_at)));
-      if (duration.asSeconds() < this.authentication.data.expires_in) {
+      if (!this.isExpired()) {
         return false;
       }
       return this.fetchToken({

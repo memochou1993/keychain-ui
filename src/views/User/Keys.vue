@@ -227,8 +227,7 @@ export default {
       'fetchKeys',
     ]),
     async getKeys() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.fetchKeys({
         params: {
           q: this.query,

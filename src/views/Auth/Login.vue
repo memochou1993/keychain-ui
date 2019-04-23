@@ -127,10 +127,10 @@ export default {
         cache.set('keeper', this.keeper);
       }
     },
-    login() {
+    async login() {
       this.keep();
-      this.beforeProcess();
-      this.fetchToken({
+      await this.beforeProcess();
+      await this.fetchToken({
         params: {
           username: this.username,
           password: this.password,

@@ -36,8 +36,7 @@ export default {
       'destroyToken',
     ]),
     async logout() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.destroyToken()
         .then(() => {
           setTimeout(() => {

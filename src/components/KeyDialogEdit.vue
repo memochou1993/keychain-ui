@@ -137,8 +137,7 @@ export default {
       'updateKey',
     ]),
     async getKey() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.fetchKey({
         params: {
           with: '',
@@ -160,8 +159,7 @@ export default {
         });
     },
     async editKey() {
-      this.beforeProcess();
-      await this.refreshToken();
+      await this.beforeProcess();
       await this.updateKey({
         params: {
           with: '',
