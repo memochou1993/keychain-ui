@@ -10,11 +10,12 @@
 </template>
 
 <script>
+import cookie from '@/helpers/cookie';
 import { mapMutations } from 'vuex';
 
 export default {
   created() {
-    this.$cookie.delete('payload');
+    cookie.delete('payload');
     this.setPayload(null);
   },
   methods: {
