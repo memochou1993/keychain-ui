@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-progress-circular
-      :size="40"
+      :size="size"
       :color="color"
       :width="2"
       :indeterminate="loading"
@@ -12,6 +12,11 @@
 <script>
 export default {
   props: {
+    size: {
+      type: Number,
+      required: false,
+      default: 40,
+    },
     color: {
       type: String,
       required: false,
