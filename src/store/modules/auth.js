@@ -1,6 +1,5 @@
 import axios from 'axios';
 import moment from 'moment';
-import code from '@/helpers/code';
 import cache from '@/helpers/cache';
 import cookie from '@/helpers/cookie';
 
@@ -16,7 +15,7 @@ export default {
       if (!state.payload) {
         return null;
       }
-      return code.decode(state.payload);
+      return state.payload;
     },
     authorization(state, getters) {
       if (!getters.authentication) {
@@ -48,13 +47,12 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const payload = code.encode(data);
             const keeper = cache.get('keeper');
             const date = keeper
               ? moment(parseInt(keeper.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').toDate()
               : null;
-            cookie.set('payload', payload, date);
-            commit('setPayload', payload);
+            cookie.set('payload', data, date);
+            commit('setPayload', cookie.get('payload'));
             resolve(data);
           })
           .catch((error) => {
