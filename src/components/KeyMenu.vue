@@ -138,12 +138,10 @@ export default {
       await this.destroyKey()
         .then(() => {
           if (this.pages > 1 && this.keys.length <= this.settings.key.paginate * 2 / 3) {
-            this.setRefresh(this.refresh + 1);
+            return this.setRefresh(this.refresh + 1);
           }
-        })
-        .then(() => {
           if (!this.keys.length) {
-            this.setRefresh(this.refresh + 1);
+            return this.setRefresh(this.refresh + 1);
           }
         });
       return true;
