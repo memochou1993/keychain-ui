@@ -108,7 +108,7 @@ export default {
       'key',
     ]),
     persistent() {
-      return this.title || this.content;
+      return this.title || this.content || this.link;
     },
   },
   watch: {

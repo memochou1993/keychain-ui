@@ -98,8 +98,8 @@ export default {
     return {
       valid: false,
       title: '',
-      link: '',
       content: '',
+      link: '',
       password: false,
     };
   },
@@ -107,7 +107,7 @@ export default {
     ...mapState('key', [
     ]),
     persistent() {
-      return this.title || this.content;
+      return this.title || this.content || this.link;
     },
   },
   watch: {
