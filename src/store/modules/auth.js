@@ -11,17 +11,11 @@ export default {
     payload: cookie.get('payload'),
   },
   getters: {
-    authentication(state) {
+    authorization(state) {
       if (!state.payload) {
         return null;
       }
-      return state.payload;
-    },
-    authorization(state, getters) {
-      if (!getters.authentication) {
-        return null;
-      }
-      return `${getters.authentication.data.token_type} ${getters.authentication.data.access_token}`;
+      return `${state.payload.data.token_type} ${state.payload.data.access_token}`;
     },
   },
   mutations: {

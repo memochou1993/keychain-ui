@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 const api = {
   data() {
@@ -7,11 +7,12 @@ const api = {
       error: null,
       noData: false,
       loading: false,
+      buffer: 60,
     };
   },
   computed: {
-    ...mapGetters('auth', [
-      'authentication',
+    ...mapState('auth', [
+      'payload',
     ]),
   },
   methods: {
@@ -37,10 +38,10 @@ const api = {
       });
     },
     isExpended() {
-      return moment.duration(moment().diff(moment(this.authentication.createdAt))).seconds();
+      return moment.duration(moment().diff(moment(this.payload.createdAt))).seconds();
     },
     isExpired() {
-      return this.authentication && this.isExpended() >= this.authentication.data.expires_in;
+      return this.payload && this.isExpended() > this.payload.data.expires_in - this.buffer;
     },
     refreshToken() {
       if (!this.isExpired()) {
@@ -51,7 +52,7 @@ const api = {
           grant_type: 'refresh_token',
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
-          refresh_token: this.authentication.data.refresh_token,
+          refresh_token: this.payload.data.refresh_token,
         },
       });
     },
