@@ -2,7 +2,7 @@ const code = {
   encode(value) {
     return window.btoa(JSON.stringify({
       data: value,
-      created_at: Date.now(),
+      createdAt: Date.now(),
     }));
   },
   decode(value) {

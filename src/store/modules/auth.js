@@ -49,7 +49,7 @@ export default {
           .then(({ data }) => {
             const keeper = cache.get('keeper');
             const date = keeper
-              ? moment(parseInt(keeper.created_at, 10)).add(rootState.settings.auth.keepDays, 'd').toDate()
+              ? moment(parseInt(keeper.createdAt, 10)).add(rootState.settings.auth.keepDays, 'd').toDate()
               : null;
             cookie.set('payload', data, date);
             commit('setPayload', cookie.get('payload'));
