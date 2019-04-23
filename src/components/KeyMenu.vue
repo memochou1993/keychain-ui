@@ -143,6 +143,7 @@ export default {
           if (!this.keys.length) {
             return this.setRefresh(this.refresh + 1);
           }
+          return true;
         });
       return true;
     },
