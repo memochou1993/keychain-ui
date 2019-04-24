@@ -83,16 +83,16 @@ export default {
             requiresAuth: true,
           },
         },
-        // {
-        //   title: 'Settings',
-        //   to: {
-        //     name: 'user.settings',
-        //   },
-        //   icon: 'mdi-settings-outline',
-        //   meta: {
-        //     requiresAuth: true,
-        //   },
-        // },
+        {
+          title: 'Settings',
+          to: {
+            name: 'user.settings',
+          },
+          icon: 'mdi-settings-outline',
+          meta: {
+            requiresAuth: true,
+          },
+        },
         {
           title: 'Login',
           to: {

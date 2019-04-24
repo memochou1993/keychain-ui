@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import cache from '@/helpers/cache';
 import auth from './modules/auth';
 import key from './modules/key';
 
@@ -16,14 +17,16 @@ export default new Vuex.Store({
     query: '',
     loaded: false,
     refresh: 0,
-    settings: {
-      auth: {
-        keepDays: 7,
-      },
-      key: {
-        strict: true,
-        paginate: 15,
-        pagination: false,
+    settings: cache.get('settings') || {
+      data: {
+        auth: {
+          keepDays: 7,
+        },
+        key: {
+          strict: true,
+          paginate: 15,
+          pagination: false,
+        },
       },
     },
   },
@@ -39,6 +42,9 @@ export default new Vuex.Store({
     },
     setRefresh(state, refresh) {
       state.refresh = refresh;
+    },
+    setSettings(state, settings) {
+      state.settings = settings;
     },
   },
   actions: {

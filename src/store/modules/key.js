@@ -16,7 +16,7 @@ export default {
   },
   getters: {
     isApproved(state, getters, rootState) {
-      return !rootState.settings.key.strict && state.approved;
+      return !rootState.settings.data.key.strict && state.approved;
     },
     isLocked(state, getters) {
       return !!state.selectedKey && !!state.selectedKey.password && !getters.isApproved;
@@ -85,7 +85,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', rootState.settings.key.pagination
+              commit('setKeys', rootState.settings.data.key.pagination
                 ? data.data
                 : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);

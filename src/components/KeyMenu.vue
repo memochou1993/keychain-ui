@@ -137,7 +137,7 @@ export default {
       await this.refreshToken();
       await this.destroyKey()
         .then(() => {
-          if (this.pages > 1 && this.keys.length <= this.settings.key.paginate * 2 / 3) {
+          if (this.pages > 1 && this.keys.length <= this.settings.data.key.paginate * 2 / 3) {
             return this.setRefresh(this.refresh + 1);
           }
           if (!this.keys.length) {

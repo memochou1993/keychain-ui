@@ -86,7 +86,7 @@
             v-show="pages > 1"
           >
             <div
-              v-if="settings.key.pagination"
+              v-if="settings.data.key.pagination"
             >
               <v-pagination
                 v-model="page"
@@ -233,7 +233,7 @@ export default {
           q: this.query,
           with: '',
           page: this.page,
-          paginate: this.settings.key.paginate,
+          paginate: this.settings.data.key.paginate,
         },
       })
         .then(({ data }) => {

@@ -51,5 +51,13 @@ export default new Router({
         requiresAuth: true,
       },
     },
+    {
+      path: '/settings',
+      name: 'user.settings',
+      component: () => import('@/views/User/Settings.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });
