@@ -15,7 +15,7 @@
       >
         <v-alert
           v-if="!loading"
-          :value="!!error"
+          :value="!!error || !!barrier"
           type="error"
           outline
         >
@@ -33,7 +33,7 @@
               >
                 <v-text-field
                   v-model="username"
-                  :rules="[v => !!v || 'Username is required']"
+                  :rules="[v => !!v || 'Username is required.']"
                   :autofocus="!error"
                   type="text"
                   label="Username"
@@ -41,7 +41,7 @@
                 />
                 <v-text-field
                   v-model="password"
-                  :rules="[v => !!v || 'Password is required']"
+                  :rules="[v => !!v || 'Password is required.']"
                   :autofocus="!!error"
                   :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"
@@ -73,7 +73,7 @@
               </v-btn>
               <v-spacer />
               <v-btn
-                :disabled="!valid || loading"
+                :disabled="!valid || loading || !!barrier"
                 type="submit"
                 color="primary"
                 class="white--text"
@@ -93,6 +93,7 @@ import { mapActions } from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
+import throttle from '@/mixins/throttle';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -102,15 +103,22 @@ export default {
   mixins: [
     api,
     common,
+    throttle,
   ],
   data() {
     return {
       valid: false,
-      errorMessage: 'Incorrect username or password',
       username: '',
       password: '',
       keeper: false,
     };
+  },
+  computed: {
+    errorMessage() {
+      return this.barrier
+        ? `Too many login attempts. Please try again in ${this.counter} seconds.`
+        : 'Incorrect username or password.';
+    },
   },
   created() {
     cache.delete('keeper');
@@ -140,11 +148,13 @@ export default {
         },
       })
         .then(() => {
+          this.success();
           setTimeout(() => {
             this.process();
           }, 1000 * 0.25);
         })
         .catch((error) => {
+          this.fail();
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');
