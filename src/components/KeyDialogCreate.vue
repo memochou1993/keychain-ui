@@ -35,6 +35,7 @@
               :rules="[v => !!v || 'Content is required.']"
               type="text"
               label="Content"
+              auto-grow
               class="my-3"
             />
             <v-text-field

@@ -38,7 +38,7 @@
                 <div
                   class="content"
                 >
-                  {{ isVisible(props.item) ? props.item.content : '••••••••••' }}
+                  {{ isVisible(props.item) ? props.item.content.split('\n')[0] : '••••••••••' }}
                 </div>
               </td>
               <td

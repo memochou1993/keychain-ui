@@ -157,9 +157,6 @@ export default {
       paginate: 15,
     };
   },
-  created() {
-    this.fillSettings();
-  },
   computed: {
     settings() {
       return {
@@ -174,6 +171,9 @@ export default {
         },
       };
     },
+  },
+  created() {
+    this.fillSettings();
   },
   methods: {
     ...mapMutations([
