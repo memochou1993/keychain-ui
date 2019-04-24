@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
 import AppNoData from '@/components/AppNoData.vue';
@@ -104,8 +104,6 @@ export default {
     };
   },
   computed: {
-    ...mapState('key', [
-    ]),
     persistent() {
       return this.title || this.content || this.link;
     },
