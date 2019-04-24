@@ -31,7 +31,7 @@ export default {
     ]),
     queryKeys: _.debounce(function () {
       this.setQuery(this.query);
-    }, 1000 * 0.5),
+    }, 1000 * 0.75),
   },
 };
 </script>

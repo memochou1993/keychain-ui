@@ -104,7 +104,7 @@ export default {
     },
     refreshKeys: _.debounce(function () {
       this.setRefresh(this.refresh + 1);
-    }, 1000 * 0.5),
+    }, 1000 * 0.25),
   },
 };
 </script>
