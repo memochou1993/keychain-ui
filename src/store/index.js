@@ -24,8 +24,8 @@ export default new Vuex.Store({
         },
         key: {
           strict: true,
-          paginate: 15,
           pagination: false,
+          paginate: 15,
         },
       },
     },
