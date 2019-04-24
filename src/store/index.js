@@ -14,6 +14,7 @@ export default new Vuex.Store({
   state: {
     error: null,
     query: '',
+    loaded: false,
     refresh: 0,
     settings: {
       auth: {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setQuery(state, query) {
       state.query = query;
+    },
+    setLoaded(state, loaded) {
+      state.loaded = loaded;
     },
     setRefresh(state, refresh) {
       state.refresh = refresh;

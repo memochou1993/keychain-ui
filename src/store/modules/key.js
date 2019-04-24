@@ -7,7 +7,6 @@ export default {
     key: null,
     pages: 1,
     dialog: '',
-    loaded: false,
     approved: false,
     attemption: '',
     unlockedKeys: [],
@@ -38,9 +37,6 @@ export default {
     },
     setDialog(state, dialog) {
       state.dialog = dialog;
-    },
-    setLoaded(state, loaded) {
-      state.loaded = loaded;
     },
     setApproved(state, approved) {
       state.approved = approved;
@@ -77,7 +73,7 @@ export default {
     fetchKeys({
       state, commit, rootState, rootGetters,
     }, { params }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -102,7 +98,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoaded', true);
+              commit('setLoaded', true, { root: true });
             }, 1000 * 0.25);
           });
       });
@@ -110,7 +106,7 @@ export default {
     fetchKey({
       state, getters, commit, rootGetters,
     }, { params }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -135,7 +131,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoaded', true);
+              commit('setLoaded', true, { root: true });
             }, 1000 * 0.25);
           });
       });
@@ -143,7 +139,7 @@ export default {
     storeKey({
       state, getters, commit, rootGetters,
     }, { params }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -168,7 +164,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoaded', true);
+              commit('setLoaded', true, { root: true });
             }, 1000 * 0.25);
           });
       });
@@ -176,7 +172,7 @@ export default {
     updateKey({
       state, commit, rootGetters,
     }, { params }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'PATCH',
@@ -198,7 +194,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoaded', true);
+              commit('setLoaded', true, { root: true });
             }, 1000 * 0.25);
           });
       });
@@ -206,7 +202,7 @@ export default {
     destroyKey({
       state, commit, rootGetters,
     }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'DELETE',
@@ -227,7 +223,7 @@ export default {
           })
           .finally(() => {
             setTimeout(() => {
-              commit('setLoaded', true);
+              commit('setLoaded', true, { root: true });
             }, 1000 * 0.25);
           });
       });

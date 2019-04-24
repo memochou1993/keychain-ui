@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { mapState, mapMutations } from 'vuex';
 import KeySearch from '@/components/KeySearch.vue';
 
@@ -86,10 +85,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'refresh',
-    ]),
-    ...mapState('key', [
       'loaded',
+      'refresh',
     ]),
   },
   methods: {
@@ -102,9 +99,9 @@ export default {
     createKey() {
       this.setDialog('create');
     },
-    refreshKeys: _.debounce(function () {
+    refreshKeys() {
       this.setRefresh(this.refresh + 1);
-    }, 1000 * 0.25),
+    },
   },
 };
 </script>

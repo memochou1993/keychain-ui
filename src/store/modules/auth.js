@@ -33,7 +33,7 @@ export default {
     fetchToken({
       commit, rootState,
     }, { params }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -54,14 +54,14 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true);
+            commit('setLoaded', true, { root: true });
           });
       });
     },
     destroyToken({
       getters, commit,
     }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'POST',
@@ -80,14 +80,14 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true);
+            commit('setLoaded', true, { root: true });
           });
       });
     },
     fetchUser({
       getters, commit,
     }) {
-      commit('setLoaded', false);
+      commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
           method: 'GET',
@@ -105,7 +105,7 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true);
+            commit('setLoaded', true, { root: true });
           });
       });
     },
