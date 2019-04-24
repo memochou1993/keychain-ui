@@ -20,6 +20,38 @@
               v-model="valid"
             >
               <v-subheader>
+                Theme
+              </v-subheader>
+              <v-card-text
+                class="py-0"
+              >
+                <v-radio-group
+                  v-model="theme"
+                  row
+                >
+                  <v-radio
+                    color="primary"
+                    label="Indigo"
+                    value="indigo"
+                  />
+                  <v-radio
+                    color="primary"
+                    label="Blue"
+                    value="blue"
+                  />
+                  <v-radio
+                    color="primary"
+                    label="Cyan"
+                    value="cyan"
+                  />
+                  <v-radio
+                    color="primary"
+                    label="Teal"
+                    value="teal"
+                  />
+                </v-radio-group>
+              </v-card-text>
+              <v-subheader>
                 Remember Me Expiration
               </v-subheader>
               <v-card-text
@@ -50,7 +82,7 @@
                 />
               </v-card-text>
               <v-subheader>
-                Pagination Mode
+                Pagination
               </v-subheader>
               <v-card-text
                 class="py-0"
@@ -85,7 +117,7 @@
               :disabled="loading"
               flat
               color="primary"
-              @click="$refs.form.reset()"
+              @click="resetSettings"
             >
               Reset
             </v-btn>
@@ -118,6 +150,7 @@ export default {
     return {
       loading: false,
       valid: false,
+      theme: 'indigo',
       keepDays: 7,
       strict: false,
       pagination: false,
@@ -125,17 +158,12 @@ export default {
     };
   },
   created() {
-    const settings = cache.get('settings');
-    if (settings) {
-      this.setKeepDays(settings.data.key.keepDays);
-      this.setStrict(settings.data.key.strict);
-      this.setPagination(settings.data.key.pagination);
-      this.setPaginate(settings.data.key.paginate);
-    }
+    this.fillSettings();
   },
   computed: {
     settings() {
       return {
+        theme: this.theme,
         auth: {
           keepDays: this.keepDays || 1,
         },
@@ -154,6 +182,9 @@ export default {
     setLoading(loading) {
       this.loading = loading;
     },
+    setTheme(theme) {
+      this.theme = theme;
+    },
     setKeepDays(keepDays) {
       this.keepDays = keepDays;
     },
@@ -166,8 +197,38 @@ export default {
     setPaginate(paginate) {
       this.paginate = paginate;
     },
+    changeTheme() {
+      const settings = cache.get('settings');
+      if (settings && this.theme !== settings.data.theme) {
+        setTimeout(() => {
+          this.$router.go(0);
+        }, 1000 * 0.75);
+      }
+    },
+    fillSettings() {
+      const settings = cache.get('settings');
+      if (settings) {
+        this.setTheme(settings.data.theme);
+        this.setKeepDays(settings.data.auth.keepDays);
+        this.setStrict(settings.data.key.strict);
+        this.setPagination(settings.data.key.pagination);
+        this.setPaginate(settings.data.key.paginate);
+        return true;
+      }
+      return false;
+    },
+    resetSettings() {
+      if (!this.fillSettings()) {
+        this.setTheme('indigo');
+        this.setKeepDays(7);
+        this.setStrict(false);
+        this.setPagination(false);
+        this.setPaginate(15);
+      }
+    },
     saveSettings() {
       this.setLoading(true);
+      this.changeTheme();
       cache.set('settings', this.settings);
       this.setSettings(cache.get('settings'));
       setTimeout(() => {
