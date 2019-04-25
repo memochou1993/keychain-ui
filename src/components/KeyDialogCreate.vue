@@ -121,8 +121,9 @@ export default {
     },
     lock(value) {
       if (value !== this.settings.data.defaultLock) {
-        const defaultLock = this.lock;
-        const data = { ...this.settings.data, defaultLock };
+        const { lock } = this;
+        const key = { ...this.settings.data.key, lock };
+        const data = { ...this.settings.data, key };
         const settings = { ...this.settings, data };
         cache.set('settings', data);
         this.setSettings(settings);
@@ -130,7 +131,7 @@ export default {
     },
   },
   created() {
-    this.setLock(this.settings.data.defaultLock);
+    this.setLock(this.settings.data.key.lock);
   },
   mounted() {
     setTimeout(() => {

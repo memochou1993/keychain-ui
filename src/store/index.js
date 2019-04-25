@@ -19,11 +19,11 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
-        defaultLock: false,
         auth: {
           keepDays: 7,
         },
         key: {
+          lock: false,
           strict: false,
           pagination: false,
         },
