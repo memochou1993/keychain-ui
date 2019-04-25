@@ -45,7 +45,7 @@
               class="my-3"
             />
             <v-switch
-              v-model="password"
+              v-model="lock"
               color="primary"
               label="Lock"
             />
@@ -101,7 +101,7 @@ export default {
       title: '',
       content: '',
       link: '',
-      password: false,
+      lock: false,
     };
   },
   computed: {
@@ -167,7 +167,7 @@ export default {
           title: this.title,
           content: this.content,
           link: this.link,
-          password: this.password,
+          lock: this.lock,
         },
       })
         .then(() => {
@@ -189,7 +189,7 @@ export default {
       this.setTitle(this.key.title);
       this.setContent(this.key.content);
       this.setLink(this.key.link);
-      this.setPassword(this.key.password);
+      this.setLock(this.key.lock);
     },
     processed() {
       this.setKey(null);
@@ -205,8 +205,8 @@ export default {
     setLink(link) {
       this.link = link;
     },
-    setPassword(password) {
-      this.password = password;
+    setLock(lock) {
+      this.lock = lock;
     },
   },
 };

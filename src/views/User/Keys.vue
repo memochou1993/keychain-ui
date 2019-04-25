@@ -45,7 +45,7 @@
                 class="text-xs-center px-0"
               >
                 <v-btn
-                  v-if="props.item.password"
+                  v-if="props.item.lock"
                   icon
                   class="primary--text text--lighten-2"
                   @click="toggleKey(props.item)"
@@ -262,10 +262,10 @@ export default {
       this.asking = asking;
     },
     isVisible(key) {
-      return !key.password || this.exposedKeys.includes(key.id);
+      return !key.lock || this.exposedKeys.includes(key.id);
     },
     isLocked(key) {
-      return key.password && !this.isApproved;
+      return key.lock && !this.isApproved;
     },
     isUnlocked(key) {
       return !this.isLocked(key) || this.unlockedKeys.includes(key.id);

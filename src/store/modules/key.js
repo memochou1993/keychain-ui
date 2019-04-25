@@ -19,7 +19,7 @@ export default {
       return !rootState.settings.data.key.strict && state.approved;
     },
     isLocked(state, getters) {
-      return !!state.selectedKey && !!state.selectedKey.password && !getters.isApproved;
+      return !!state.selectedKey && !!state.selectedKey.lock && !getters.isApproved;
     },
     isUnlocked(state, getters) {
       return !getters.isLocked || state.unlockedKeys.includes(state.selectedKey.id);
