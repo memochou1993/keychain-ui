@@ -120,7 +120,7 @@ export default {
       }
     },
     lock(value) {
-      if (value !== this.settings.data.defaultLock) {
+      if (value !== this.settings.data.key.lock) {
         const { lock } = this;
         const key = { ...this.settings.data.key, lock };
         const data = { ...this.settings.data, key };

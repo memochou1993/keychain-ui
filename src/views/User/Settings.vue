@@ -136,7 +136,7 @@
 
 <script>
 import cache from '@/helpers/cache';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -157,26 +157,16 @@ export default {
     };
   },
   computed: {
-    settings() {
-      return {
-        theme: this.theme,
-        auth: {
-          keepDays: this.keepDays || 1,
-        },
-        key: {
-          strict: this.strict,
-          pagination: this.pagination,
-        },
-      };
-    },
+    ...mapState([
+      'settings',
+    ]),
   },
   watch: {
     keepDays() {
-      const settings = cache.get('settings');
       let hint = {
         keepDays: false,
       };
-      if (!settings || this.keepDays !== settings.data.auth.keepDays) {
+      if (!this.settings || this.keepDays !== this.settings.data.auth.keepDays) {
         hint = {
           keepDays: true,
         };
@@ -210,20 +200,18 @@ export default {
       this.pagination = pagination;
     },
     changeTheme() {
-      const settings = cache.get('settings');
-      if (settings && this.theme !== settings.data.theme) {
+      if (this.settings && this.theme !== this.settings.data.theme) {
         setTimeout(() => {
           this.$router.go(0);
         }, 1000 * 0.75);
       }
     },
     fillSettings() {
-      const settings = cache.get('settings');
-      if (settings) {
-        this.setTheme(settings.data.theme);
-        this.setKeepDays(settings.data.auth.keepDays);
-        this.setStrict(settings.data.key.strict);
-        this.setPagination(settings.data.key.pagination);
+      if (this.settings) {
+        this.setTheme(this.settings.data.theme);
+        this.setKeepDays(this.settings.data.auth.keepDays);
+        this.setStrict(this.settings.data.key.strict);
+        this.setPagination(this.settings.data.key.pagination);
         return true;
       }
       return false;
@@ -239,7 +227,19 @@ export default {
     saveSettings() {
       this.setLoading(true);
       this.changeTheme();
-      cache.set('settings', this.settings);
+      const settings = {
+        theme: this.theme,
+        auth: {
+          keep: this.settings.data.auth.keep,
+          keepDays: this.keepDays || 1,
+        },
+        key: {
+          lock: this.settings.data.key.lock,
+          strict: this.strict,
+          pagination: this.pagination,
+        },
+      };
+      cache.set('settings', settings);
       this.setSettings(cache.get('settings'));
       setTimeout(() => {
         this.setLoading(false);

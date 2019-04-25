@@ -52,7 +52,7 @@
                   @keydown="detectCapsLock"
                 />
                 <v-switch
-                  v-model="keeper"
+                  v-model="keep"
                   color="primary"
                   label="Remember me"
                 />
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
@@ -110,33 +110,49 @@ export default {
       valid: false,
       username: '',
       password: '',
-      keeper: false,
+      keep: false,
     };
   },
   computed: {
+    ...mapState([
+      'settings',
+    ]),
     errorMessage() {
       return this.barrier
         ? `Too many login attempts. Please try again in ${this.counter} seconds.`
         : 'Incorrect username or password.';
     },
   },
+  watch: {
+    keep(value) {
+      if (value !== this.settings.data.auth.keep) {
+        const { keep } = this;
+        const auth = { ...this.settings.data.auth, keep };
+        const data = { ...this.settings.data, auth };
+        const settings = { ...this.settings, data };
+        cache.set('settings', data);
+        this.setSettings(settings);
+      }
+    },
+  },
   created() {
     cache.delete('keeper');
+    this.setKeep(this.settings.data.auth.keep);
   },
   methods: {
+    ...mapMutations([
+      'setSettings',
+    ]),
     ...mapActions('auth', [
       'fetchToken',
     ]),
     setPassword(password) {
       this.password = password;
     },
-    keep() {
-      if (this.keeper) {
-        cache.set('keeper', this.keeper);
-      }
-    },
     async login() {
-      this.keep();
+      if (this.keep) {
+        cache.set('keeper', this.keep);
+      }
       await this.beforeProcess();
       await this.fetchToken({
         params: {
@@ -166,9 +182,13 @@ export default {
         });
     },
     process() {
+      console.log(1);
       this.$router.push({
         name: 'user.keys',
       });
+    },
+    setKeep(keep) {
+      this.keep = keep;
     },
   },
 };

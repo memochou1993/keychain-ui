@@ -20,6 +20,7 @@ export default new Vuex.Store({
     settings: cache.get('settings') || {
       data: {
         auth: {
+          keep: false,
           keepDays: 7,
         },
         key: {
