@@ -15,7 +15,7 @@
       >
         <v-alert
           v-if="!loading"
-          :value="!!error || !!barrier"
+          :value="!!error || isSuspended"
           type="error"
           outline
         >
@@ -73,7 +73,7 @@
               </v-btn>
               <v-spacer />
               <v-btn
-                :disabled="!valid || loading || !!barrier"
+                :disabled="!valid || loading || isSuspended"
                 type="submit"
                 color="primary"
                 class="white--text"
@@ -118,7 +118,7 @@ export default {
       'settings',
     ]),
     errorMessage() {
-      return this.barrier
+      return this.isSuspended
         ? `Too many login attempts. Please try again in ${this.counter} seconds.`
         : 'Incorrect username or password.';
     },
@@ -162,7 +162,7 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.fail();
+          this.suspend();
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');

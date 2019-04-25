@@ -4,68 +4,64 @@ import cookie from '@/helpers/cookie';
 const throttle = {
   data() {
     return {
-      max: 3,
+      limit: 3,
       period: 10,
-      barrier: cookie.get('barrier'),
       counter: 0,
-      attempts: [],
+      attempts: cookie.get('attempts') || [],
     };
   },
   watch: {
     attempts(value) {
-      if (value.length < this.max) {
-        return false;
+      if (!value.length) {
+        this.setError(null);
       }
-      const begin = value[value.length - this.max];
-      const end = value[value.length - 1];
-      const period = moment.duration(moment(end).diff(moment(begin))).seconds();
-      if (!this.barrier && period < this.period) {
-        this.lock();
+      if (this.isSuspended) {
+        this.countdown();
       }
-      return this.countdown();
     },
   },
   created() {
     const attempts = cookie.get('attempts');
     this.setAttempts(attempts ? attempts.data : []);
   },
-  methods: {
-    setBarrier(barrier) {
-      this.barrier = barrier;
+  computed: {
+    times() {
+      return this.attempts.length;
     },
+    isSuspended() {
+      if (this.times < this.limit) {
+        return false;
+      }
+      const begin = this.attempts[this.times - this.limit];
+      const end = this.attempts[this.times - 1];
+      return moment.duration(moment(end).diff(begin)).seconds() < this.period;
+    },
+  },
+  methods: {
     setCounter(counter) {
       this.counter = counter;
     },
     setAttempts(attempts) {
       this.attempts = attempts;
     },
-    fail() {
-      const date = moment().add(this.period, 's').toDate();
-      cookie.set('attempts', [...this.attempts, Date.now()], date);
-      this.setAttempts([...this.attempts, Date.now()]);
+    suspend() {
+      const attempts = [...this.attempts, Date.now()];
+      cookie.set('attempts', attempts, moment().add(this.period, 's').toDate());
+      this.setAttempts(attempts);
     },
     countdown() {
-      if (!this.barrier) {
-        return false;
-      }
-      const duration = moment.duration(moment(this.barrier.data).diff(moment())).seconds();
-      this.setCounter(duration);
+      const begin = this.attempts[this.times - 1];
+      const end = moment();
+      const duration = moment.duration(moment(end).diff(begin)).seconds();
+      const remaining = this.period - duration;
+      this.setCounter(remaining);
       const counter = setInterval(() => {
         this.setCounter(this.counter - 1);
       }, 1000 * 1);
       setTimeout(() => {
-        this.unlock();
+        this.setAttempts([]);
         clearInterval(counter);
-      }, 1000 * this.counter);
-      return true;
-    },
-    lock() {
-      cookie.set('barrier', moment().add(this.period, 's'), moment().add(this.period, 's').toDate());
-      this.setBarrier(cookie.get('barrier'));
-    },
-    unlock() {
-      this.setError(null);
-      this.setBarrier(null);
+      }, 1000 * remaining);
     },
   },
 };
