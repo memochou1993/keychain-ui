@@ -19,6 +19,7 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
+        theme: 'indigo',
         auth: {
           keep: false,
           keepDays: 7,

@@ -182,7 +182,6 @@ export default {
         });
     },
     process() {
-      console.log(1);
       this.$router.push({
         name: 'user.keys',
       });
