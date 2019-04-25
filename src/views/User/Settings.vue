@@ -77,7 +77,7 @@
               </div>
               <div>
                 <v-subheader>
-                  Access Mode
+                  Access Control
                 </v-subheader>
                 <v-card-text
                   class="py-0"
@@ -85,13 +85,13 @@
                   <v-switch
                     v-model="strict"
                     color="primary"
-                    label="Always prompt for password"
+                    label="Always ask password"
                   />
                 </v-card-text>
               </div>
               <div>
                 <v-subheader>
-                  View Mode
+                  Pagination
                 </v-subheader>
                 <v-card-text
                   class="py-0"
@@ -176,7 +176,7 @@ export default {
       let hint = {
         keepDays: false,
       };
-      if (settings && this.keepDays !== settings.data.auth.keepDays) {
+      if (!settings || this.keepDays !== settings.data.auth.keepDays) {
         hint = {
           keepDays: true,
         };
