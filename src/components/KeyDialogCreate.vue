@@ -82,7 +82,8 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex';
+import cache from '@/helpers/cache';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
 import AppNoData from '@/components/AppNoData.vue';
@@ -105,6 +106,9 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      'settings',
+    ]),
     persistent() {
       return this.title || this.content || this.link;
     },
@@ -115,6 +119,18 @@ export default {
         this.processed();
       }
     },
+    lock(value) {
+      if (value !== this.settings.data.defaultLock) {
+        const defaultLock = this.lock;
+        const data = { ...this.settings.data, defaultLock };
+        const settings = { ...this.settings, data };
+        cache.set('settings', data);
+        this.setSettings(settings);
+      }
+    },
+  },
+  created() {
+    this.setLock(this.settings.data.defaultLock);
   },
   mounted() {
     setTimeout(() => {
@@ -122,6 +138,9 @@ export default {
     }, 0);
   },
   methods: {
+    ...mapMutations([
+      'setSettings',
+    ]),
     ...mapMutations('key', [
       'setKey',
       'setDialog',
@@ -157,6 +176,9 @@ export default {
     },
     processed() {
       this.setDialog('');
+    },
+    setLock(lock) {
+      this.lock = lock;
     },
   },
 };

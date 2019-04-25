@@ -19,6 +19,7 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
+        defaultLock: false,
         auth: {
           keepDays: 7,
         },
