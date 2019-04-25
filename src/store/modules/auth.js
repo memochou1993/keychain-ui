@@ -7,7 +7,6 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    loaded: false,
     payload: cookie.get('payload'),
   },
   getters: {
@@ -21,9 +20,6 @@ export default {
   mutations: {
     setUser(state, user) {
       state.user = user;
-    },
-    setLoaded(state, loaded) {
-      state.loaded = loaded;
     },
     setPayload(state, payload) {
       state.payload = payload;
@@ -42,7 +38,7 @@ export default {
         })
           .then(({ data }) => {
             const keeper = cache.get('keeper');
-            const date = keeper
+            const date = keeper && keeper.data
               ? moment(parseInt(keeper.createdAt, 10)).add(rootState.settings.data.auth.keepDays, 'd').toDate()
               : null;
             cookie.set('payload', data, date);

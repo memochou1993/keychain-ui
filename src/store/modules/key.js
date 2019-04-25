@@ -104,7 +104,7 @@ export default {
       });
     },
     fetchKey({
-      state, getters, commit, rootGetters,
+      state, commit, rootGetters,
     }, { params }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -119,9 +119,7 @@ export default {
           .then(({ data }) => {
             setTimeout(() => {
               commit('setKey', data.data);
-              if (!getters.isUnlocked) {
-                commit('pushUnlockedKeys', data.data.id);
-              }
+              commit('pushUnlockedKeys', data.data.id);
             }, 1000 * 0.25);
             resolve(data);
           })
@@ -137,7 +135,7 @@ export default {
       });
     },
     storeKey({
-      state, getters, commit, rootGetters,
+      state, commit, rootGetters,
     }, { params }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -153,9 +151,7 @@ export default {
             const { keys } = state;
             keys.splice(0, 0, data.data);
             commit('setKeys', keys);
-            if (!getters.isUnlocked) {
-              commit('pushUnlockedKeys', data.data.id);
-            }
+            commit('pushUnlockedKeys', data.data.id);
             resolve(data);
           })
           .catch((error) => {

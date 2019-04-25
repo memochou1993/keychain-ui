@@ -39,16 +39,10 @@ const throttle = {
     setAttempts(attempts) {
       this.attempts = attempts;
     },
-    success() {
-      this.reset();
-    },
     fail() {
-      cookie.set('attempts', [...this.attempts, Date.now()]);
+      const date = moment().add(this.period, 's').toDate();
+      cookie.set('attempts', [...this.attempts, Date.now()], date);
       this.setAttempts([...this.attempts, Date.now()]);
-    },
-    reset() {
-      cookie.delete('attempts');
-      this.setAttempts([]);
     },
     countdown() {
       if (!this.barrier) {
@@ -60,7 +54,6 @@ const throttle = {
         this.setCounter(this.counter - 1);
       }, 1000 * 1);
       setTimeout(() => {
-        this.reset();
         this.unlock();
         clearInterval(counter);
       }, 1000 * this.counter);

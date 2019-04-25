@@ -95,15 +95,15 @@ export default {
     },
   },
   methods: {
+    ...mapMutations([
+      'setRefresh',
+    ]),
     ...mapMutations('key', [
       'setDialog',
       'setAttemption',
       'pushDeprecatedKeys',
       'shiftDeprecatedKeys',
       'setSelectedKey',
-    ]),
-    ...mapActions([
-      'setRefresh',
     ]),
     ...mapActions('key', [
       'destroyKey',

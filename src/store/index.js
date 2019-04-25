@@ -49,15 +49,4 @@ export default new Vuex.Store({
       state.settings = settings;
     },
   },
-  actions: {
-    setError(context, error) {
-      context.commit('setError', error);
-    },
-    setQuery(context, query) {
-      context.commit('setQuery', query);
-    },
-    setRefresh(context, refresh) {
-      context.commit('setRefresh', refresh);
-    },
-  },
 });

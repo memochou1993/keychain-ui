@@ -126,12 +126,10 @@ export default {
   watch: {
     keep(value) {
       if (value !== this.settings.data.auth.keep) {
-        const { keep } = this;
-        const auth = { ...this.settings.data.auth, keep };
-        const data = { ...this.settings.data, auth };
-        const settings = { ...this.settings, data };
+        const { data } = this.settings;
+        data.auth.keep = this.keep;
         cache.set('settings', data);
-        this.setSettings(settings);
+        this.setSettings({ ...this.settings, data });
       }
     },
   },
@@ -146,13 +144,8 @@ export default {
     ...mapActions('auth', [
       'fetchToken',
     ]),
-    setPassword(password) {
-      this.password = password;
-    },
     async login() {
-      if (this.keep) {
-        cache.set('keeper', this.keep);
-      }
+      cache.set('keeper', this.keep);
       await this.beforeProcess();
       await this.fetchToken({
         params: {
@@ -164,7 +157,6 @@ export default {
         },
       })
         .then(() => {
-          this.success();
           setTimeout(() => {
             this.process();
           }, 1000 * 0.25);
@@ -185,6 +177,9 @@ export default {
       this.$router.push({
         name: 'user.keys',
       });
+    },
+    setPassword(password) {
+      this.password = password;
     },
     setKeep(keep) {
       this.keep = keep;
