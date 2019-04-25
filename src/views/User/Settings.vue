@@ -19,93 +19,90 @@
               ref="form"
               v-model="valid"
             >
-              <v-subheader>
-                Theme
-              </v-subheader>
-              <v-card-text
-                class="py-0"
-              >
-                <v-radio-group
-                  v-model="theme"
-                  row
+              <div>
+                <v-subheader>
+                  Color Theme
+                </v-subheader>
+                <v-card-text
+                  class="py-0"
                 >
-                  <v-radio
-                    color="primary"
-                    label="Indigo"
-                    value="indigo"
-                  />
-                  <v-radio
-                    color="primary"
-                    label="Blue"
-                    value="blue"
-                  />
-                  <v-radio
-                    color="primary"
-                    label="Cyan"
-                    value="cyan"
-                  />
-                  <v-radio
-                    color="primary"
-                    label="Teal"
-                    value="teal"
-                  />
-                </v-radio-group>
-              </v-card-text>
-              <v-subheader>
-                Remember Me Expiration
-              </v-subheader>
-              <v-card-text
-                class="py-0"
-              >
-                <span
-                  class="secondary--text"
+                  <v-radio-group
+                    v-model="theme"
+                    row
+                  >
+                    <v-radio
+                      color="primary"
+                      label="Indigo"
+                      value="indigo"
+                    />
+                    <v-radio
+                      color="primary"
+                      label="Blue"
+                      value="blue"
+                    />
+                    <v-radio
+                      color="primary"
+                      label="Cyan"
+                      value="cyan"
+                    />
+                    <v-radio
+                      color="primary"
+                      label="Teal"
+                      value="teal"
+                    />
+                  </v-radio-group>
+                </v-card-text>
+              </div>
+              <div>
+                <v-subheader>
+                  Remember Me Expiration
+                </v-subheader>
+                <v-card-text
+                  class="py-0"
                 >
-                  This setting will take effect on next login.
-                </span>
-                <v-slider
-                  v-model="keepDays"
-                  :min="0"
-                  :max="14"
-                  :step="7"
-                  :tick-labels="[1, 7, 14]"
-                />
-              </v-card-text>
-              <v-subheader>
-                Strict Mode
-              </v-subheader>
-              <v-card-text
-                class="py-0"
-              >
-                <v-switch
-                  v-model="strict"
-                  color="primary"
-                />
-              </v-card-text>
-              <v-subheader>
-                Pagination
-              </v-subheader>
-              <v-card-text
-                class="py-0"
-              >
-                <v-switch
-                  v-model="pagination"
-                  color="primary"
-                />
-              </v-card-text>
-              <v-subheader>
-                Items per Page
-              </v-subheader>
-              <v-card-text
-                class="py-0"
-              >
-                <v-slider
-                  v-model="paginate"
-                  :min="10"
-                  :max="20"
-                  :step="5"
-                  :tick-labels="[10, 15, 20]"
-                />
-              </v-card-text>
+                  <span
+                    v-show="hint.keepDays"
+                    class="warning--text"
+                  >
+                    This setting will take effect on next login.
+                  </span>
+                  <v-slider
+                    v-model="keepDays"
+                    :min="0"
+                    :max="14"
+                    :step="7"
+                    :tick-labels="['1 day', '7 days', '14 days']"
+                  />
+                </v-card-text>
+              </div>
+              <div>
+                <v-subheader>
+                  Access Mode
+                </v-subheader>
+                <v-card-text
+                  class="py-0"
+                >
+                  <v-switch
+                    v-model="strict"
+                    color="primary"
+                    label="Always prompt for password"
+                  />
+                </v-card-text>
+              </div>
+              <div>
+                <v-subheader>
+                  View Mode
+                </v-subheader>
+                <v-card-text
+                  class="py-0"
+                >
+                  <v-switch
+                    v-model="pagination"
+                    color="primary"
+                    label="Use pagination instead of infinite scrolling"
+                  />
+                </v-card-text>
+              </div>
             </v-form>
             <AppNoData
               v-else
@@ -139,8 +136,8 @@
 
 <script>
 import cache from '@/helpers/cache';
-import AppNoData from '@/components/AppNoData.vue';
 import { mapMutations } from 'vuex';
+import AppNoData from '@/components/AppNoData.vue';
 
 export default {
   components: {
@@ -154,7 +151,9 @@ export default {
       keepDays: 7,
       strict: false,
       pagination: false,
-      paginate: 15,
+      hint: {
+        keepDays: false,
+      },
     };
   },
   computed: {
@@ -167,9 +166,22 @@ export default {
         key: {
           strict: this.strict,
           pagination: this.pagination,
-          paginate: this.paginate,
         },
       };
+    },
+  },
+  watch: {
+    keepDays() {
+      const settings = cache.get('settings');
+      let hint = {
+        keepDays: false,
+      };
+      if (settings && this.keepDays !== settings.data.auth.keepDays) {
+        hint = {
+          keepDays: true,
+        };
+      }
+      this.setHint({ ...this.hint, ...hint });
     },
   },
   created() {
@@ -182,6 +194,9 @@ export default {
     setLoading(loading) {
       this.loading = loading;
     },
+    setHint(hint) {
+      this.hint = hint;
+    },
     setTheme(theme) {
       this.theme = theme;
     },
@@ -193,9 +208,6 @@ export default {
     },
     setPagination(pagination) {
       this.pagination = pagination;
-    },
-    setPaginate(paginate) {
-      this.paginate = paginate;
     },
     changeTheme() {
       const settings = cache.get('settings');
@@ -212,7 +224,6 @@ export default {
         this.setKeepDays(settings.data.auth.keepDays);
         this.setStrict(settings.data.key.strict);
         this.setPagination(settings.data.key.pagination);
-        this.setPaginate(settings.data.key.paginate);
         return true;
       }
       return false;
@@ -223,7 +234,6 @@ export default {
         this.setKeepDays(7);
         this.setStrict(false);
         this.setPagination(false);
-        this.setPaginate(15);
       }
     },
     saveSettings() {

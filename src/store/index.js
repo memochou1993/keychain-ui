@@ -23,9 +23,8 @@ export default new Vuex.Store({
           keepDays: 7,
         },
         key: {
-          strict: true,
+          strict: false,
           pagination: false,
-          paginate: 15,
         },
       },
     },

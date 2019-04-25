@@ -167,6 +167,7 @@ export default {
         },
       ],
       page: 1,
+      paginate: 15,
       asking: false,
     };
   },
@@ -233,7 +234,7 @@ export default {
           q: this.query,
           with: '',
           page: this.page,
-          paginate: this.settings.data.key.paginate,
+          paginate: this.paginate,
         },
       })
         .then(({ data }) => {
