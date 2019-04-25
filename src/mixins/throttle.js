@@ -28,13 +28,20 @@ const throttle = {
     times() {
       return this.attempts.length;
     },
+    begin() {
+      return this.attempts[this.times - this.limit];
+    },
+    end() {
+      return this.attempts[this.times - 1];
+    },
+    remaining() {
+      return this.period - this.isExpended();
+    },
     isSuspended() {
       if (this.times < this.limit) {
         return false;
       }
-      const begin = this.attempts[this.times - this.limit];
-      const end = this.attempts[this.times - 1];
-      return moment.duration(moment(end).diff(begin)).seconds() < this.period;
+      return moment.duration(moment(this.end).diff(this.begin)).seconds() < this.period;
     },
   },
   methods: {
@@ -44,24 +51,23 @@ const throttle = {
     setAttempts(attempts) {
       this.attempts = attempts;
     },
+    isExpended() {
+      return moment.duration(moment().diff(this.end)).seconds();
+    },
     suspend() {
       const attempts = [...this.attempts, Date.now()];
       cookie.set('attempts', attempts, moment().add(this.period, 's').toDate());
       this.setAttempts(attempts);
     },
     countdown() {
-      const begin = this.attempts[this.times - 1];
-      const end = moment();
-      const duration = moment.duration(moment(end).diff(begin)).seconds();
-      const remaining = this.period - duration;
-      this.setCounter(remaining);
+      this.setCounter(this.remaining);
       const counter = setInterval(() => {
         this.setCounter(this.counter - 1);
       }, 1000 * 1);
       setTimeout(() => {
         this.setAttempts([]);
         clearInterval(counter);
-      }, 1000 * remaining);
+      }, 1000 * this.remaining);
     },
   },
 };
