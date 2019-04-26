@@ -45,7 +45,7 @@
                 class="text-xs-center px-0"
               >
                 <v-btn
-                  v-if="props.item.lock"
+                  :disabled="!props.item.lock"
                   icon
                   class="primary--text text--lighten-2"
                   @click="toggleKey(props.item)"
@@ -54,12 +54,6 @@
                     {{ `mdi-eye${isVisible(props.item) ? '' : '-off'}` }}
                   </v-icon>
                 </v-btn>
-                <v-icon
-                  v-else
-                  class="primary--text text--lighten-2"
-                >
-                  mdi-eye
-                </v-icon>
               </td>
               <td
                 class="text-xs-center px-0"

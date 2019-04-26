@@ -23,37 +23,5 @@ export default {
     TheToolbar,
     TheFooter,
   },
-  computed: {
-    ...mapState([
-      'error',
-    ]),
-  },
-  watch: {
-    error(value) {
-      if (value) {
-        this.abort(value.response.status);
-        this.setError(null);
-      }
-    },
-  },
-  methods: {
-    ...mapMutations([
-      'setError',
-    ]),
-    abort(status) {
-      switch (status) {
-        case 401:
-          this.$router.push({
-            name: 'error',
-            query: {
-              status,
-            },
-          });
-          break;
-        default:
-          break;
-      }
-    },
-  },
 };
 </script>
