@@ -85,7 +85,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', rootState.settings.data.key.pagination
+              commit('setKeys', rootState.settings.data.pagination.pagingType === 'pagination'
                 ? data.data
                 : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);

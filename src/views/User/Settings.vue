@@ -28,7 +28,6 @@
                 >
                   <v-radio-group
                     v-model="theme"
-                    row
                   >
                     <v-radio
                       color="primary"
@@ -61,7 +60,7 @@
                   class="py-0"
                 >
                   <span
-                    v-show="hint.keepDays"
+                    v-show="hints.keepDays"
                     class="warning--text"
                   >
                     This setting will take effect on next login.
@@ -96,11 +95,25 @@
                 <v-card-text
                   class="py-0"
                 >
-                  <v-switch
-                    v-model="pagination"
-                    color="primary"
-                    label="Use pagination instead of infinite scrolling"
-                  />
+                  <v-radio-group
+                    v-model="pagingType"
+                  >
+                    <v-radio
+                      color="primary"
+                      label="Load More Button"
+                      value="loadMoreButton"
+                    />
+                    <v-radio
+                      color="primary"
+                      label="Pagination"
+                      value="pagination"
+                    />
+                    <v-radio
+                      color="primary"
+                      label="Infinite Scroll"
+                      value="infiniteScroll"
+                    />
+                  </v-radio-group>
                 </v-card-text>
               </div>
             </v-form>
@@ -150,8 +163,8 @@ export default {
       theme: 'indigo',
       keepDays: 7,
       strict: false,
-      pagination: false,
-      hint: {
+      pagingType: 'loadMoreButton',
+      hints: {
         keepDays: false,
       },
     };
@@ -163,15 +176,15 @@ export default {
   },
   watch: {
     keepDays() {
-      let hint = {
+      let hints = {
         keepDays: false,
       };
       if (!this.settings || this.keepDays !== this.settings.data.auth.keepDays) {
-        hint = {
+        hints = {
           keepDays: true,
         };
       }
-      this.setHint({ ...this.hint, ...hint });
+      this.setHints({ ...this.hints, ...hints });
     },
   },
   created() {
@@ -184,9 +197,6 @@ export default {
     setLoading(loading) {
       this.loading = loading;
     },
-    setHint(hint) {
-      this.hint = hint;
-    },
     setTheme(theme) {
       this.theme = theme;
     },
@@ -196,8 +206,11 @@ export default {
     setStrict(strict) {
       this.strict = strict;
     },
-    setPagination(pagination) {
-      this.pagination = pagination;
+    setPagingType(pagingType) {
+      this.pagingType = pagingType;
+    },
+    setHints(hints) {
+      this.hints = hints;
     },
     changeTheme() {
       if (this.settings && this.theme !== this.settings.data.theme) {
@@ -211,7 +224,7 @@ export default {
         this.setTheme(this.settings.data.theme);
         this.setKeepDays(this.settings.data.auth.keepDays);
         this.setStrict(this.settings.data.key.strict);
-        this.setPagination(this.settings.data.key.pagination);
+        this.setPagingType(this.settings.data.pagination.pagingType);
         return true;
       }
       return false;
@@ -221,7 +234,7 @@ export default {
         this.setTheme('indigo');
         this.setKeepDays(7);
         this.setStrict(false);
-        this.setPagination(false);
+        this.setPagingType('loadMoreButton');
       }
     },
     saveSettings() {
@@ -236,7 +249,10 @@ export default {
         key: {
           lock: this.settings.data.key.lock,
           strict: this.strict,
-          pagination: this.pagination,
+        },
+        pagination: {
+          pagingType: this.pagingType,
+          paginate: this.paginate,
         },
       };
       cache.set('settings', settings);

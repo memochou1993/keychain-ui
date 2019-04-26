@@ -27,10 +27,16 @@ export default new Vuex.Store({
         key: {
           lock: false,
           strict: false,
-          pagination: false,
+        },
+        pagination: {
+          pagingType: 'loadMoreButton',
+          paginate: 15,
         },
       },
     },
+  },
+  getters: {
+    // settings...
   },
   mutations: {
     setError(state, error) {
