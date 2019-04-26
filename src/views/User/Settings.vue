@@ -96,7 +96,7 @@
                   class="py-0"
                 >
                   <v-radio-group
-                    v-model="pagingType"
+                    v-model="paging"
                   >
                     <v-radio
                       color="primary"
@@ -149,7 +149,7 @@
 
 <script>
 import cache from '@/helpers/cache';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -163,7 +163,7 @@ export default {
       theme: 'indigo',
       keepDays: 7,
       strict: false,
-      pagingType: 'loadMoreButton',
+      paging: 'loadMoreButton',
       hints: {
         keepDays: false,
       },
@@ -172,6 +172,10 @@ export default {
   computed: {
     ...mapState([
       'settings',
+    ]),
+    ...mapGetters([
+      'defaultTheme',
+      'defaultPaging',
     ]),
   },
   watch: {
@@ -206,14 +210,14 @@ export default {
     setStrict(strict) {
       this.strict = strict;
     },
-    setPagingType(pagingType) {
-      this.pagingType = pagingType;
+    setpaging(paging) {
+      this.paging = paging;
     },
     setHints(hints) {
       this.hints = hints;
     },
     changeTheme() {
-      if (this.settings && this.theme !== this.settings.data.theme) {
+      if (this.settings && this.theme !== this.defaultTheme) {
         setTimeout(() => {
           this.$router.go(0);
         }, 1000 * 0.75);
@@ -221,10 +225,10 @@ export default {
     },
     fillSettings() {
       if (this.settings) {
-        this.setTheme(this.settings.data.theme);
+        this.setTheme(this.defaultTheme);
         this.setKeepDays(this.settings.data.auth.keepDays);
         this.setStrict(this.settings.data.key.strict);
-        this.setPagingType(this.settings.data.pagination.pagingType);
+        this.setpaging(this.defaultPaging);
         return true;
       }
       return false;
@@ -234,7 +238,7 @@ export default {
         this.setTheme('indigo');
         this.setKeepDays(7);
         this.setStrict(false);
-        this.setPagingType('loadMoreButton');
+        this.setpaging('loadMoreButton');
       }
     },
     saveSettings() {
@@ -251,7 +255,7 @@ export default {
           strict: this.strict,
         },
         pagination: {
-          pagingType: this.pagingType,
+          paging: this.paging,
           paginate: this.paginate,
         },
       };

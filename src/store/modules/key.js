@@ -71,7 +71,7 @@ export default {
   },
   actions: {
     fetchKeys({
-      state, commit, rootState, rootGetters,
+      state, commit, rootGetters,
     }, { params }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -85,7 +85,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', rootState.settings.data.pagination.pagingType === 'pagination'
+              commit('setKeys', rootGetters.defaultPaging === 'pagination'
                 ? data.data
                 : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);

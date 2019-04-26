@@ -29,14 +29,19 @@ export default new Vuex.Store({
           strict: false,
         },
         pagination: {
-          pagingType: 'loadMoreButton',
+          paging: 'loadMoreButton',
           paginate: 15,
         },
       },
     },
   },
   getters: {
-    // settings...
+    defaultTheme(state) {
+      return state.settings.data.theme;
+    },
+    defaultPaging(state) {
+      return state.settings.data.pagination.paging;
+    },
   },
   mutations: {
     setError(state, error) {

@@ -87,6 +87,9 @@ export default {
       'attemption',
       'deprecatedKeys',
     ]),
+    ...mapGetters([
+      'defaultPaging',
+    ]),
     ...mapGetters('key', [
       'isUnlocked',
     ]),
@@ -137,7 +140,7 @@ export default {
       await this.refreshToken();
       await this.destroyKey()
         .then(() => {
-          if (this.pages > 1 && this.keys.length <= this.settings.data.pagination.paginate * 2 / 3) {
+          if (this.pages > 1 && this.keys.length <= this.defaultPaging * 2 / 3) {
             return this.setRefresh(this.refresh + 1);
           }
           if (!this.keys.length) {

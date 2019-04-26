@@ -86,7 +86,7 @@
             v-show="pages > 1"
           >
             <div
-              v-if="settings.data.pagination.pagingType === 'pagination'"
+              v-if="defaultPaging === 'pagination'"
             >
               <v-pagination
                 v-model="page"
@@ -96,7 +96,7 @@
               />
             </div>
             <div
-              v-if="settings.data.pagination.pagingType === 'infiniteScroll'"
+              v-if="defaultPaging === 'infiniteScroll'"
               ref="ask"
               v-scroll="scrollKeys"
             >
@@ -184,6 +184,9 @@ export default {
       'unlockedKeys',
       'exposedKeys',
     ]),
+    ...mapGetters([
+      'defaultPaging',
+    ]),
     ...mapGetters('key', [
       'isApproved',
     ]),
@@ -233,7 +236,7 @@ export default {
           q: this.query,
           with: '',
           page: this.page,
-          paginate: this.settings.data.pagination.paginate,
+          paginate: this.defaultPaginate,
         },
       })
         .then(({ data }) => {
