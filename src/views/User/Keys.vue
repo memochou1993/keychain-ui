@@ -98,7 +98,7 @@
             <div
               v-else
               ref="ask"
-              v-scroll="scroll"
+              v-scroll="scrollKeys"
             >
               <AppProgressCircular
                 v-show="!!keys.length"
@@ -301,7 +301,7 @@ export default {
         this.setAsking(false);
       }, 1000 * 1);
     },
-    scroll: _.debounce(function () {
+    scrollKeys: _.debounce(function () {
       if (this.$refs.ask) {
         this.askKeys();
       }
