@@ -292,20 +292,22 @@ export default {
     askKeys() {
       this.setAsking(true);
       const { innerHeight } = window;
-      const isAsking = this.$refs.ask.getBoundingClientRect().top < innerHeight;
+      const isAsking = this.$refs.ask.getBoundingClientRect().top * 3 / 4 < innerHeight;
       if (isAsking && !this.isLastPage) {
         this.setPage(this.page + 1);
         this.getKeys();
       }
-      setTimeout(() => {
-        this.setAsking(false);
-      }, 1000 * 1);
+      if (this.isLastPage) {
+        setTimeout(() => {
+          this.setAsking(false);
+        }, 1000 * 1);
+      }
     },
-    scrollKeys: _.debounce(function () {
+    scrollKeys: _.throttle(function () {
       if (this.$refs.ask) {
         this.askKeys();
       }
-    }, 1000 * 0.5),
+    }, 1000 * 1),
   },
 };
 </script>
