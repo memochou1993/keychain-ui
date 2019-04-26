@@ -243,7 +243,7 @@ export default {
       this.setSettings(cache.get('settings'));
       setTimeout(() => {
         this.setLoading(false);
-      }, 1000 * 0.5);
+      }, 1000 * 0.25);
     },
   },
 };

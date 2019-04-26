@@ -3,33 +3,31 @@ import Vuetify from 'vuetify';
 import colors from 'vuetify/lib/util/colors';
 import zhHant from 'vuetify/es5/locale/zh-Hant';
 import '@mdi/font/css/materialdesignicons.css';
-import cache from '@/helpers/cache';
+import store from '@/store/index';
 
-let settings = cache.get('settings');
-settings = settings ? settings.data.theme : 'classic';
-let primary;
-switch (settings) {
+let { theme } = store.state.settings.data;
+switch (theme) {
   case 'blue': {
-    primary = colors.blue;
+    theme = colors.blue;
     break;
   }
   case 'cyan': {
-    primary = colors.cyan;
+    theme = colors.cyan;
     break;
   }
   case 'teal': {
-    primary = colors.teal;
+    theme = colors.teal;
     break;
   }
   default: {
-    primary = colors.indigo;
+    theme = colors.indigo;
     break;
   }
 }
 
 Vue.use(Vuetify, {
   theme: {
-    primary,
+    primary: theme,
     secondary: colors.grey,
     accent: colors.purple,
     error: colors.red,
