@@ -39,6 +39,9 @@ export default new Vuex.Store({
     defaultTheme(state) {
       return state.settings.data.theme;
     },
+    defaultAuthKeep(state) {
+      return state.settings.data.auth.keep;
+    },
     defaultKeyLock(state) {
       return state.settings.data.key.lock;
     },

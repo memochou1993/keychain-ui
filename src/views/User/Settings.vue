@@ -250,7 +250,7 @@ export default {
       const settings = {
         theme: this.theme,
         auth: {
-          keep: this.settings.data.auth.keep,
+          keep: this.defaultAuthKeep,
           keepDays: this.keepDays || 1,
         },
         key: {

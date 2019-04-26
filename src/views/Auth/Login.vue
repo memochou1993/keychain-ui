@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
@@ -117,6 +117,9 @@ export default {
     ...mapState([
       'settings',
     ]),
+    ...mapGetters([
+      'defaultAuthKeep'
+    ]),
     errorMessage() {
       return this.isSuspended
         ? `Too many login attempts. Please try again in ${this.counter} seconds.`
@@ -125,7 +128,7 @@ export default {
   },
   watch: {
     keep(value) {
-      if (value !== this.settings.data.auth.keep) {
+      if (value !== this.defaultAuthKeep) {
         const { data } = this.settings;
         data.auth.keep = this.keep;
         cache.set('settings', data);
@@ -135,7 +138,7 @@ export default {
   },
   created() {
     cache.delete('keeper');
-    this.setKeep(this.settings.data.auth.keep);
+    this.setKeep(this.defaultAuthKeep);
   },
   methods: {
     ...mapMutations([
