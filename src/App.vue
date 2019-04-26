@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
 import TheToolbar from './components/TheToolbar.vue';
 import TheFooter from './components/TheFooter.vue';
 

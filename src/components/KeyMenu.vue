@@ -89,6 +89,7 @@ export default {
     ]),
     ...mapGetters([
       'defaultPaging',
+      'defaultPaginate',
     ]),
     ...mapGetters('key', [
       'isUnlocked',
@@ -140,7 +141,7 @@ export default {
       await this.refreshToken();
       await this.destroyKey()
         .then(() => {
-          if (this.pages > 1 && this.keys.length <= this.defaultPaging * 2 / 3) {
+          if (this.defaultPaging !== 'pagination' && this.pages > 1 && this.keys.length <= this.defaultPaginate * 2 / 3) {
             return this.setRefresh(this.refresh + 1);
           }
           if (!this.keys.length) {

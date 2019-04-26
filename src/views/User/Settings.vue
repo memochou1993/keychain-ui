@@ -23,11 +23,11 @@
                 fixed-tabs
               >
                 <v-tab
-                  v-for="(tab, index) in tabs"
+                  v-for="(item, index) in tabs"
                   :key="index"
-                  :href="`#${tab.href}`"
+                  :href="`#${item.href}`"
                 >
-                  {{ tab.title }}
+                  {{ item.title }}
                 </v-tab>
                 <v-tabs-slider
                   color="primary"
@@ -75,8 +75,8 @@
                             v-slot:activator="{ on }"
                           >
                             <v-icon
-                              v-on="on"
                               class="mx-2"
+                              v-on="on"
                             >
                               mdi-information-outline
                             </v-icon>
@@ -152,8 +152,8 @@
                             v-slot:activator="{ on }"
                           >
                             <v-icon
-                              v-on="on"
                               class="mx-2"
+                              v-on="on"
                             >
                               mdi-information-outline
                             </v-icon>

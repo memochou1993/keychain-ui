@@ -8,22 +8,22 @@
     >
       <v-list>
         <v-list-tile
-          v-for="(link, index) in links"
+          v-for="(item, index) in links"
           :key="index"
-          :to="link.to"
-          :class="[$route.name === link.to.name && 'secondary lighten-4']"
+          :to="item.to"
+          :class="[$route.name === item.to.name && 'secondary lighten-4']"
           exact
         >
           <v-list-tile-action>
             <v-icon>
-              {{ link.icon }}
+              {{ item.icon }}
             </v-icon>
           </v-list-tile-action>
           <v-list-tile-content
             class="subheading"
           >
             <v-list-tile-title>
-              {{ link.title }}
+              {{ item.title }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>

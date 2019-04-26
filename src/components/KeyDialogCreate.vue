@@ -83,7 +83,9 @@
 
 <script>
 import cache from '@/helpers/cache';
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
+import {
+  mapState, mapMutations, mapActions, mapGetters,
+} from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
 import AppNoData from '@/components/AppNoData.vue';

@@ -89,7 +89,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import {
+  mapState, mapGetters, mapMutations, mapActions,
+} from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
@@ -118,7 +120,7 @@ export default {
       'settings',
     ]),
     ...mapGetters([
-      'defaultKeep'
+      'defaultKeep',
     ]),
     errorMessage() {
       return this.isSuspended
