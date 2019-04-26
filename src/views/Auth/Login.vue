@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
@@ -128,6 +128,7 @@ export default {
   },
   watch: {
     keep(value) {
+      console.log(this.defaultAuthKeep);
       if (value !== this.defaultAuthKeep) {
         const { data } = this.settings;
         data.auth.keep = this.keep;

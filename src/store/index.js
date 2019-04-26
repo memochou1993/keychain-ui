@@ -42,6 +42,9 @@ export default new Vuex.Store({
     defaultAuthKeep(state) {
       return state.settings.data.auth.keep;
     },
+    defaultAuthKeepDays(state) {
+      return state.settings.data.auth.keepDays;
+    },
     defaultKeyLock(state) {
       return state.settings.data.key.lock;
     },

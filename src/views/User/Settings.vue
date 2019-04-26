@@ -175,6 +175,8 @@ export default {
     ]),
     ...mapGetters([
       'defaultTheme',
+      'defaultAuthKeep',
+      'defaultAuthKeepDays',
       'defaultKeyLock',
       'defaultKeyStrict',
       'defaultPaging',
@@ -186,7 +188,7 @@ export default {
       let hints = {
         keepDays: false,
       };
-      if (!this.settings || this.keepDays !== this.settings.data.auth.keepDays) {
+      if (!this.settings || this.keepDays !== this.defaultAuthKeepDays) {
         hints = {
           keepDays: true,
         };
@@ -229,7 +231,7 @@ export default {
     fillSettings() {
       if (this.settings) {
         this.setTheme(this.defaultTheme);
-        this.setKeepDays(this.settings.data.auth.keepDays);
+        this.setKeepDays(this.defaultAuthKeepDays);
         this.setStrict(this.defaultKeyStrict);
         this.setpaging(this.defaultPaging);
         return true;
