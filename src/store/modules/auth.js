@@ -39,7 +39,7 @@ export default {
           .then(({ data }) => {
             const keeper = cache.get('keeper');
             const date = keeper && keeper.data
-              ? moment(parseInt(keeper.createdAt, 10)).add(rootGetters.defaultAuthKeepDays, 'd').toDate()
+              ? moment(parseInt(keeper.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
               : null;
             cookie.set('payload', data, date);
             commit('setPayload', cookie.get('payload'));

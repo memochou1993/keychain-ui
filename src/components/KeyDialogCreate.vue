@@ -110,7 +110,7 @@ export default {
       'settings',
     ]),
     ...mapGetters([
-      'defaultKeyLock',
+      'defaultLock',
     ]),
     persistent() {
       return this.title || this.content || this.link;
@@ -123,16 +123,16 @@ export default {
       }
     },
     lock(value) {
-      if (value !== this.defaultKeyLock) {
+      if (value !== this.defaultLock) {
         const { data } = this.settings;
-        data.key.lock = this.lock;
+        data.lock = this.lock;
         cache.set('settings', data);
         this.setSettings({ ...this.settings, data });
       }
     },
   },
   created() {
-    this.setLock(this.defaultKeyLock);
+    this.setLock(this.defaultLock);
   },
   mounted() {
     setTimeout(() => {

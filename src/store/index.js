@@ -19,43 +19,37 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
+        lock: false,
+        strict: false,
+        keep: false,
+        keepDays: 7,
+        paging: 'loadMoreButton',
+        paginate: 15,
         theme: 'indigo',
-        auth: {
-          keep: false,
-          keepDays: 7,
-        },
-        key: {
-          lock: false,
-          strict: false,
-        },
-        pagination: {
-          paging: 'loadMoreButton',
-          paginate: 15,
-        },
       },
     },
   },
   getters: {
-    defaultTheme(state) {
-      return state.settings.data.theme;
+    defaultLock(state) {
+      return state.settings.data.lock;
     },
-    defaultAuthKeep(state) {
-      return state.settings.data.auth.keep;
+    defaultStrict(state) {
+      return state.settings.data.strict;
     },
-    defaultAuthKeepDays(state) {
-      return state.settings.data.auth.keepDays;
+    defaultKeep(state) {
+      return state.settings.data.keep;
     },
-    defaultKeyLock(state) {
-      return state.settings.data.key.lock;
-    },
-    defaultKeyStrict(state) {
-      return state.settings.data.key.strict;
+    defaultKeepDays(state) {
+      return state.settings.data.keepDays;
     },
     defaultPaging(state) {
-      return state.settings.data.pagination.paging;
+      return state.settings.data.paging;
     },
     defaultPaginate(state) {
-      return state.settings.data.pagination.paginate;
+      return state.settings.data.paginate;
+    },
+    defaultTheme(state) {
+      return state.settings.data.theme;
     },
   },
   mutations: {

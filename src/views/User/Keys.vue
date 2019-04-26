@@ -90,6 +90,7 @@
             >
               <v-pagination
                 v-model="page"
+                :disabled="loading"
                 :length="pages"
                 :total-visible="breakpoint.lgAndUp ? 9 : 5"
                 @input="getKeys"

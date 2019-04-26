@@ -10,112 +10,186 @@
       justify-center
     >
       <v-flex
-        md6
+        sm10
+        md8
       >
         <v-card>
           <v-card-text>
             <v-form
               v-if="!loading"
-              ref="form"
-              v-model="valid"
             >
-              <div>
-                <v-subheader>
-                  Color Theme
-                </v-subheader>
-                <v-card-text
-                  class="py-0"
+              <v-tabs
+                v-model="tab"
+                fixed-tabs
+              >
+                <v-tab
+                  v-for="(tab, index) in tabs"
+                  :key="index"
+                  :href="`#${tab.href}`"
                 >
-                  <v-radio-group
-                    v-model="theme"
+                  {{ tab.title }}
+                </v-tab>
+                <v-tabs-slider
+                  color="primary"
+                />
+                <v-tab-item
+                  transition="fade"
+                  reverse-transition="fade"
+                  value="general"
+                >
+                  <v-card
+                    flat
                   >
-                    <v-radio
-                      color="primary"
-                      label="Indigo"
-                      value="indigo"
-                    />
-                    <v-radio
-                      color="primary"
-                      label="Blue"
-                      value="blue"
-                    />
-                    <v-radio
-                      color="primary"
-                      label="Cyan"
-                      value="cyan"
-                    />
-                    <v-radio
-                      color="primary"
-                      label="Teal"
-                      value="teal"
-                    />
-                  </v-radio-group>
-                </v-card-text>
-              </div>
-              <div>
-                <v-subheader>
-                  Remember Me Expiration
-                </v-subheader>
-                <v-card-text
-                  class="py-0"
+                    <v-card-text>
+                      <v-subheader
+                        class="pa-0"
+                      >
+                        Access Control
+                      </v-subheader>
+                      <v-switch
+                        v-model="strict"
+                        color="primary"
+                        label="Always ask password"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item
+                  transition="fade"
+                  reverse-transition="fade"
+                  value="authentication"
                 >
-                  <span
-                    v-show="hints.keepDays"
-                    class="warning--text"
+                  <v-card
+                    flat
                   >
-                    This setting will take effect on next login.
-                  </span>
-                  <v-slider
-                    v-model="keepDays"
-                    :min="0"
-                    :max="14"
-                    :step="7"
-                    :tick-labels="['1 day', '7 days', '14 days']"
-                  />
-                </v-card-text>
-              </div>
-              <div>
-                <v-subheader>
-                  Access Control
-                </v-subheader>
-                <v-card-text
-                  class="py-0"
+                    <v-card-text>
+                      <v-subheader
+                        class="pa-0"
+                      >
+                        Remember Me Expiration
+                        <v-tooltip
+                          right
+                          color="warning lighten-2"
+                        >
+                          <template
+                            v-slot:activator="{ on }"
+                          >
+                            <v-icon
+                              v-on="on"
+                              class="mx-2"
+                            >
+                              mdi-information-outline
+                            </v-icon>
+                          </template>
+                          {{ hints.keepDays }}
+                        </v-tooltip>
+                      </v-subheader>
+                      <v-slider
+                        v-model="keepDays"
+                        :min="0"
+                        :max="14"
+                        :step="7"
+                        :tick-labels="['1 day', '7 days', '14 days']"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item
+                  transition="fade"
+                  reverse-transition="fade"
+                  value="pagination"
                 >
-                  <v-switch
-                    v-model="strict"
-                    color="primary"
-                    label="Always ask password"
-                  />
-                </v-card-text>
-              </div>
-              <div>
-                <v-subheader>
-                  Pagination
-                </v-subheader>
-                <v-card-text
-                  class="py-0"
-                >
-                  <v-radio-group
-                    v-model="paging"
+                  <v-card
+                    flat
                   >
-                    <v-radio
-                      color="primary"
-                      label="Load More Button"
-                      value="loadMoreButton"
-                    />
-                    <v-radio
-                      color="primary"
-                      label="Pagination"
-                      value="pagination"
-                    />
-                    <v-radio
-                      color="primary"
-                      label="Infinite Scroll"
-                      value="infiniteScroll"
-                    />
-                  </v-radio-group>
-                </v-card-text>
-              </div>
+                    <v-card-text>
+                      <v-subheader
+                        class="pa-0"
+                      >
+                        Paging Type
+                      </v-subheader>
+                      <v-radio-group
+                        v-model="paging"
+                        row
+                      >
+                        <v-radio
+                          color="primary"
+                          label="Load More Button"
+                          value="loadMoreButton"
+                        />
+                        <v-radio
+                          color="primary"
+                          label="Pagination"
+                          value="pagination"
+                        />
+                        <v-radio
+                          color="primary"
+                          label="Infinite Scroll"
+                          value="infiniteScroll"
+                        />
+                      </v-radio-group>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item
+                  transition="fade"
+                  reverse-transition="fade"
+                  value="theme"
+                >
+                  <v-card
+                    flat
+                  >
+                    <v-card-text>
+                      <v-subheader
+                        class="pa-0"
+                      >
+                        Colors
+                        <v-tooltip
+                          right
+                          color="warning lighten-2"
+                        >
+                          <template
+                            v-slot:activator="{ on }"
+                          >
+                            <v-icon
+                              v-on="on"
+                              class="mx-2"
+                            >
+                              mdi-information-outline
+                            </v-icon>
+                          </template>
+                          {{ hints.theme }}
+                        </v-tooltip>
+                      </v-subheader>
+                      <v-radio-group
+                        v-model="theme"
+                        row
+                      >
+                        <v-radio
+                          color="primary"
+                          label="Indigo"
+                          value="indigo"
+                        />
+                        <v-radio
+                          color="primary"
+                          label="Blue"
+                          value="blue"
+                        />
+                        <v-radio
+                          color="primary"
+                          label="Cyan"
+                          value="cyan"
+                        />
+                        <v-radio
+                          color="primary"
+                          label="Teal"
+                          value="teal"
+                        />
+                      </v-radio-group>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs>
             </v-form>
             <AppNoData
               v-else
@@ -133,7 +207,7 @@
             </v-btn>
             <v-spacer />
             <v-btn
-              :disabled="!valid || loading"
+              :disabled="loading"
               color="primary"
               class="white--text"
               @click="saveSettings"
@@ -159,13 +233,32 @@ export default {
   data() {
     return {
       loading: false,
-      valid: false,
-      theme: 'indigo',
-      keepDays: 7,
+      tab: '',
+      tabs: [
+        {
+          href: 'general',
+          title: 'General',
+        },
+        {
+          href: 'authentication',
+          title: 'Authentication',
+        },
+        {
+          href: 'pagination',
+          title: 'Pagination',
+        },
+        {
+          href: 'theme',
+          title: 'Theme',
+        },
+      ],
       strict: false,
+      keepDays: 7,
       paging: 'loadMoreButton',
+      theme: 'indigo',
       hints: {
-        keepDays: false,
+        keepDays: 'This setting will take effect on next login.',
+        theme: 'This setting will take effect after reloading the page.',
       },
     };
   },
@@ -174,27 +267,14 @@ export default {
       'settings',
     ]),
     ...mapGetters([
-      'defaultTheme',
-      'defaultAuthKeep',
-      'defaultAuthKeepDays',
-      'defaultKeyLock',
-      'defaultKeyStrict',
+      'defaultLock',
+      'defaultStrict',
+      'defaultKeep',
+      'defaultKeepDays',
       'defaultPaging',
       'defaultPaginate',
+      'defaultTheme',
     ]),
-  },
-  watch: {
-    keepDays() {
-      let hints = {
-        keepDays: false,
-      };
-      if (!this.settings || this.keepDays !== this.defaultAuthKeepDays) {
-        hints = {
-          keepDays: true,
-        };
-      }
-      this.setHints({ ...this.hints, ...hints });
-    },
   },
   created() {
     this.fillSettings();
@@ -206,69 +286,50 @@ export default {
     setLoading(loading) {
       this.loading = loading;
     },
-    setTheme(theme) {
-      this.theme = theme;
-    },
-    setKeepDays(keepDays) {
-      this.keepDays = keepDays;
+    setTab(tab) {
+      this.tab = tab;
     },
     setStrict(strict) {
       this.strict = strict;
     },
+    setKeepDays(keepDays) {
+      this.keepDays = keepDays;
+    },
     setpaging(paging) {
       this.paging = paging;
+    },
+    setTheme(theme) {
+      this.theme = theme;
     },
     setHints(hints) {
       this.hints = hints;
     },
-    changeTheme() {
-      if (this.settings && this.theme !== this.defaultTheme) {
-        setTimeout(() => {
-          this.$router.go(0);
-        }, 1000 * 0.75);
-      }
-    },
     fillSettings() {
-      if (this.settings) {
-        this.setTheme(this.defaultTheme);
-        this.setKeepDays(this.defaultAuthKeepDays);
-        this.setStrict(this.defaultKeyStrict);
-        this.setpaging(this.defaultPaging);
-        return true;
-      }
-      return false;
+      this.setStrict(this.defaultStrict);
+      this.setKeepDays(this.defaultKeepDays);
+      this.setpaging(this.defaultPaging);
+      this.setTheme(this.defaultTheme);
     },
     resetSettings() {
-      if (!this.fillSettings()) {
-        this.setTheme('indigo');
-        this.setKeepDays(7);
-        this.setStrict(false);
-        this.setpaging('loadMoreButton');
-      }
+      this.fillSettings();
     },
     saveSettings() {
       this.setLoading(true);
-      this.changeTheme();
+      this.setTab(this.tab);
       const settings = {
+        lock: this.defaultLock,
+        strict: this.strict,
+        keep: this.defaultKeep,
+        keepDays: this.keepDays || 1,
+        paging: this.paging,
+        paginate: this.defaultPaginate,
         theme: this.theme,
-        auth: {
-          keep: this.defaultAuthKeep,
-          keepDays: this.keepDays || 1,
-        },
-        key: {
-          lock: this.defaultKeyLock,
-          strict: this.strict,
-        },
-        pagination: {
-          paging: this.paging,
-          paginate: this.defaultPaginate,
-        },
       };
       cache.set('settings', settings);
       this.setSettings(cache.get('settings'));
       setTimeout(() => {
         this.setLoading(false);
-      }, 1000 * 0.25);
+      }, 1000 * 0.5);
     },
   },
 };

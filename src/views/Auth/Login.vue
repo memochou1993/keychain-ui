@@ -118,7 +118,7 @@ export default {
       'settings',
     ]),
     ...mapGetters([
-      'defaultAuthKeep'
+      'defaultKeep'
     ]),
     errorMessage() {
       return this.isSuspended
@@ -128,10 +128,9 @@ export default {
   },
   watch: {
     keep(value) {
-      console.log(this.defaultAuthKeep);
-      if (value !== this.defaultAuthKeep) {
+      if (value !== this.defaultKeep) {
         const { data } = this.settings;
-        data.auth.keep = this.keep;
+        data.keep = this.keep;
         cache.set('settings', data);
         this.setSettings({ ...this.settings, data });
       }
@@ -139,7 +138,7 @@ export default {
   },
   created() {
     cache.delete('keeper');
-    this.setKeep(this.defaultAuthKeep);
+    this.setKeep(this.defaultKeep);
   },
   methods: {
     ...mapMutations([

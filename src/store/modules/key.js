@@ -16,7 +16,7 @@ export default {
   },
   getters: {
     isApproved(state, getters, rootState, rootGetters) {
-      return !rootGetters.defaultKeyStrict && state.approved;
+      return !rootGetters.defaultStrict && state.approved;
     },
     isLocked(state, getters) {
       return !!state.selectedKey && !!state.selectedKey.lock && !getters.isApproved;
