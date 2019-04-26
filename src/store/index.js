@@ -39,6 +39,12 @@ export default new Vuex.Store({
     defaultTheme(state) {
       return state.settings.data.theme;
     },
+    defaultKeyLock(state) {
+      return state.settings.data.key.lock;
+    },
+    defaultKeyStrict(state) {
+      return state.settings.data.key.strict;
+    },
     defaultPaging(state) {
       return state.settings.data.pagination.paging;
     },

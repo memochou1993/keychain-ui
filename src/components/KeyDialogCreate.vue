@@ -83,7 +83,7 @@
 
 <script>
 import cache from '@/helpers/cache';
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
 import AppNoData from '@/components/AppNoData.vue';
@@ -109,6 +109,9 @@ export default {
     ...mapState([
       'settings',
     ]),
+    ...mapGetters([
+      'defaultKeyLock',
+    ]),
     persistent() {
       return this.title || this.content || this.link;
     },
@@ -120,7 +123,7 @@ export default {
       }
     },
     lock(value) {
-      if (value !== this.settings.data.key.lock) {
+      if (value !== this.defaultKeyLock) {
         const { data } = this.settings;
         data.key.lock = this.lock;
         cache.set('settings', data);
@@ -129,7 +132,7 @@ export default {
     },
   },
   created() {
-    this.setLock(this.settings.data.key.lock);
+    this.setLock(this.defaultKeyLock);
   },
   mounted() {
     setTimeout(() => {

@@ -175,6 +175,8 @@ export default {
     ]),
     ...mapGetters([
       'defaultTheme',
+      'defaultKeyLock',
+      'defaultKeyStrict',
       'defaultPaging',
       'defaultPaginate',
     ]),
@@ -228,7 +230,7 @@ export default {
       if (this.settings) {
         this.setTheme(this.defaultTheme);
         this.setKeepDays(this.settings.data.auth.keepDays);
-        this.setStrict(this.settings.data.key.strict);
+        this.setStrict(this.defaultKeyStrict);
         this.setpaging(this.defaultPaging);
         return true;
       }
@@ -252,7 +254,7 @@ export default {
           keepDays: this.keepDays || 1,
         },
         key: {
-          lock: this.settings.data.key.lock,
+          lock: this.defaultKeyLock,
           strict: this.strict,
         },
         pagination: {
