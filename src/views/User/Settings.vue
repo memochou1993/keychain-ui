@@ -176,6 +176,7 @@ export default {
     ...mapGetters([
       'defaultTheme',
       'defaultPaging',
+      'defaultPaginate',
     ]),
   },
   watch: {
@@ -256,7 +257,7 @@ export default {
         },
         pagination: {
           paging: this.paging,
-          paginate: this.paginate,
+          paginate: this.defaultPaginate,
         },
       };
       cache.set('settings', settings);

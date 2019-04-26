@@ -186,6 +186,7 @@ export default {
     ]),
     ...mapGetters([
       'defaultPaging',
+      'defaultPaginate',
     ]),
     ...mapGetters('key', [
       'isApproved',

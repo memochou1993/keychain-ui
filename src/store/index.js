@@ -42,6 +42,9 @@ export default new Vuex.Store({
     defaultPaging(state) {
       return state.settings.data.pagination.paging;
     },
+    defaultPaginate(state) {
+      return state.settings.data.pagination.paginate;
+    },
   },
   mutations: {
     setError(state, error) {
