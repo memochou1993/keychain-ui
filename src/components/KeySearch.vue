@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-text-field
-      v-model="query"
+      v-model="input"
       solo
       clearable
       placeholder="Search"
@@ -12,25 +12,36 @@
 
 <script>
 import _ from 'lodash';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
-      query: '',
+      input: '',
     };
   },
   watch: {
-    query() {
+    input() {
       this.queryKeys();
     },
+  },
+  computed: {
+    ...mapState([
+      'query',
+    ]),
+  },
+  created() {
+    this.setInput(this.query);
   },
   methods: {
     ...mapMutations([
       'setQuery',
     ]),
+    setInput(input) {
+      this.input = input;
+    },
     queryKeys: _.debounce(function () {
-      this.setQuery(this.query);
+      this.setQuery(this.input);
     }, 1000 * 0.5),
   },
 };
