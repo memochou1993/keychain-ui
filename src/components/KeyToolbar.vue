@@ -10,7 +10,7 @@
       >
         <v-flex
           xs6
-          md4
+          sm6
         >
           <div
             class="hidden-sm-and-up"
@@ -65,8 +65,8 @@
         <v-flex
           xs6
           offset-xs0
-          md4
-          offset-md4
+          sm4
+          offset-sm2
         >
           <KeySearch />
         </v-flex>
