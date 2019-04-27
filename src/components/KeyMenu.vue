@@ -114,7 +114,7 @@ export default {
       'destroyKey',
     ]),
     isDestroyed(rate) {
-      return this.keys.length <= this.defaultPaginate * rate
+      return this.keys.length <= this.defaultPaginate * rate;
     },
     attempt(attemption, key) {
       this.setAttemption(attemption);

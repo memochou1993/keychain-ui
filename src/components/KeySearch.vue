@@ -20,15 +20,15 @@ export default {
       input: '',
     };
   },
-  watch: {
-    input() {
-      this.queryKeys();
-    },
-  },
   computed: {
     ...mapState([
       'query',
     ]),
+  },
+  watch: {
+    input() {
+      this.queryKeys();
+    },
   },
   created() {
     this.setInput(this.query);
