@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     ...mapMutations('auth', [
-      'setPayload'
+      'setPayload',
     ]),
     ...mapActions('auth', [
       'destroyToken',
