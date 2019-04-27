@@ -69,7 +69,7 @@
                         Remember Me Expiration
                         <v-tooltip
                           right
-                          color="warning lighten-2"
+                          color="secondary"
                         >
                           <template
                             v-slot:activator="{ on }"
@@ -146,7 +146,7 @@
                         Colors
                         <v-tooltip
                           right
-                          color="warning lighten-2"
+                          color="secondary"
                         >
                           <template
                             v-slot:activator="{ on }"
