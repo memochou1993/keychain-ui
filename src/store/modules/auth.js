@@ -1,6 +1,5 @@
 import axios from 'axios';
 import moment from 'moment';
-import cache from '@/helpers/cache';
 import cookie from '@/helpers/cookie';
 
 export default {

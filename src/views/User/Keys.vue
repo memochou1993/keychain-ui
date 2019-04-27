@@ -80,25 +80,47 @@
             v-show="pages > 1"
           >
             <div
-              v-if="defaultPaging === 'pagination'"
+              v-if="isLoadMoreButton"
+            >
+              <v-btn
+                v-show="!!keys.length && askable"
+                :disabled="loading"
+                color="primary"
+                round
+                outline
+                class="require"
+                @click="loadKeys"
+              >
+                <div
+                  v-if="!loading"
+                >
+                  Load More
+                </div>
+                <AppProgressCircular
+                  v-else
+                  :size="20"
+                />
+              </v-btn>
+            </div>
+            <div
+              v-if="isPagination"
             >
               <v-pagination
                 v-model="page"
-                :disabled="loading"
                 :length="pages"
                 :total-visible="breakpoint.lgAndUp ? 9 : 5"
                 @input="getKeys"
               />
             </div>
             <div
-              v-if="defaultPaging === 'infiniteScroll'"
+              v-if="isInfiniteScroll"
               ref="ask"
               v-scroll="scrollKeys"
             >
               <AppProgressCircular
                 v-show="!!keys.length"
                 :color="isLastPage ? 'warning' : 'primary'"
-                :loading="asking"
+                :loading="askable"
               />
             </div>
           </div>
@@ -162,7 +184,7 @@ export default {
         },
       ],
       page: 1,
-      asking: false,
+      askable: true,
     };
   },
   computed: {
@@ -188,13 +210,22 @@ export default {
     isLastPage() {
       return this.page === this.pages;
     },
+    isLoadMoreButton() {
+      return this.defaultPaging === 'loadMoreButton';
+    },
+    isPagination() {
+      return this.defaultPaging === 'pagination';
+    },
+    isInfiniteScroll() {
+      return this.defaultPaging === 'infiniteScroll';
+    },
   },
   watch: {
     query() {
-      this.loadKeys();
+      this.fillKeys();
     },
     refresh() {
-      this.loadKeys();
+      this.fillKeys();
     },
     approved(value) {
       if (value) {
@@ -207,7 +238,7 @@ export default {
     },
   },
   created() {
-    this.loadKeys();
+    this.fillKeys();
   },
   methods: {
     ...mapMutations('key', [
@@ -255,8 +286,8 @@ export default {
     setPage(page) {
       this.page = page;
     },
-    setAsking(asking) {
-      this.asking = asking;
+    setAskable(askable) {
+      this.askable = askable;
     },
     isVisible(key) {
       return !key.lock || this.exposedKeys.includes(key.id);
@@ -281,35 +312,48 @@ export default {
       }
       return this.isExposed(key) ? this.filterExposedKeys(key.id) : this.pushExposedKeys(key.id);
     },
-    loadKeys() {
+    fillKeys() {
       this.setKeys([]);
       this.setPage(1);
+      this.setAskable(true);
       this.getKeys();
     },
     askKeys() {
-      this.setAsking(true);
-      const { innerHeight } = window;
-      const isAsking = this.$refs.ask.getBoundingClientRect().top * 3 / 4 < innerHeight;
-      if (isAsking && !this.isLastPage) {
-        this.setPage(this.page + 1);
-        this.getKeys();
-      }
+      this.setPage(this.page + 1);
+      this.getKeys();
+    },
+    loadKeys() {
+      this.askKeys();
       if (this.isLastPage) {
         setTimeout(() => {
-          this.setAsking(false);
+          this.setAskable(false);
         }, 1000 * 1);
       }
     },
     scrollKeys: _.throttle(function () {
-      if (this.$refs.ask) {
+      if (!this.$refs.ask) {
+        return false;
+      }
+      const { innerHeight } = window;
+      const asking = this.$refs.ask.getBoundingClientRect().top * 2 / 3 < innerHeight;
+      if (asking && !this.isLastPage) {
         this.askKeys();
       }
+      this.setAskable(true);
+      if (this.isLastPage) {
+        setTimeout(() => {
+          this.setAskable(false);
+        }, 1000 * 1);
+      }
+      return false;
     }, 1000 * 1),
   },
 };
 </script>
 
 <style lang="stylus" scoped>
+.require
+  width 160px
 .content
   width 280px
   overflow hidden
