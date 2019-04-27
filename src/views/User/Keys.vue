@@ -141,6 +141,7 @@ import {
 } from 'vuex';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
+import paging from '@/mixins/paging';
 import AppProgressLinear from '@/components/AppProgressLinear.vue';
 import AppProgressCircular from '@/components/AppProgressCircular.vue';
 import AppNoData from '@/components/AppNoData.vue';
@@ -166,6 +167,7 @@ export default {
   mixins: [
     api,
     common,
+    paging,
   ],
   data() {
     return {
@@ -201,7 +203,6 @@ export default {
       'exposedKeys',
     ]),
     ...mapGetters([
-      'defaultPaging',
       'defaultPaginate',
     ]),
     ...mapGetters('key', [
@@ -209,15 +210,6 @@ export default {
     ]),
     isLastPage() {
       return this.page === this.pages;
-    },
-    isLoadMoreButton() {
-      return this.defaultPaging === 'loadMoreButton';
-    },
-    isPagination() {
-      return this.defaultPaging === 'pagination';
-    },
-    isInfiniteScroll() {
-      return this.defaultPaging === 'infiniteScroll';
     },
   },
   watch: {

@@ -64,11 +64,13 @@ import {
 } from 'vuex';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
+import paging from '@/mixins/paging';
 
 export default {
   mixins: [
     api,
     common,
+    paging,
   ],
   props: {
     selectedKey: {
@@ -111,6 +113,9 @@ export default {
     ...mapActions('key', [
       'destroyKey',
     ]),
+    isDestroyed(rate) {
+      return this.keys.length <= this.defaultPaginate * rate
+    },
     attempt(attemption, key) {
       this.setAttemption(attemption);
       this.setSelectedKey(key);
@@ -140,10 +145,10 @@ export default {
       await this.refreshToken();
       await this.destroyKey()
         .then(() => {
-          if (this.defaultPaging !== 'pagination' && this.pages > 1 && this.keys.length <= this.defaultPaginate * 2 / 3) {
+          if (!this.keys.length) {
             return this.setRefresh(this.refresh + 1);
           }
-          if (!this.keys.length) {
+          if (this.isInfiniteScroll && this.pages > 1 && this.isDestroyed(2 / 3)) {
             return this.setRefresh(this.refresh + 1);
           }
           return true;
