@@ -65,8 +65,6 @@ export default {
           },
         })
           .then(({ data }) => {
-            cookie.delete('payload');
-            commit('setPayload', null);
             resolve(data);
           })
           .catch((error) => {
