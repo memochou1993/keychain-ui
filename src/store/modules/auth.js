@@ -27,7 +27,7 @@ export default {
   },
   actions: {
     fetchToken({
-      commit, rootGetters,
+      commit, rootState, rootGetters,
     }, { params }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -37,9 +37,8 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const keeper = cache.get('keeper');
-            const date = keeper && keeper.data
-              ? moment(parseInt(keeper.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
+            const date = rootGetters.defaultKeep
+              ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
               : null;
             cookie.set('payload', data, date);
             commit('setPayload', cookie.get('payload'));

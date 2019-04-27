@@ -134,12 +134,11 @@ export default {
         const { data } = this.settings;
         data.keep = this.keep;
         cache.set('settings', data);
-        this.setSettings({ ...this.settings, data });
+        this.setSettings(cache.get('settings'));
       }
     },
   },
   created() {
-    cache.delete('keeper');
     this.setKeep(this.defaultKeep);
   },
   methods: {
@@ -150,7 +149,8 @@ export default {
       'fetchToken',
     ]),
     async login() {
-      cache.set('keeper', this.keep);
+      cache.set('settings', this.settings.data);
+      this.setSettings(cache.get('settings'));
       await this.beforeProcess();
       await this.fetchToken({
         params: {

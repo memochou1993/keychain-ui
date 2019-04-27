@@ -79,7 +79,6 @@ export default {
   computed: {
     ...mapState([
       'refresh',
-      'settings',
     ]),
     ...mapState('key', [
       'keys',

@@ -21,10 +21,10 @@ const common = {
         return false;
       }
       const isCapsLock = event.getModifierState('CapsLock');
-      if (this.capsLock !== isCapsLock) {
-        this.setCapsLock(isCapsLock);
+      if (this.capsLock === isCapsLock) {
+        return false;
       }
-      return false;
+      return this.setCapsLock(isCapsLock);
     },
   },
 };

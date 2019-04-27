@@ -169,7 +169,6 @@ export default {
     ...mapState([
       'query',
       'refresh',
-      'settings',
     ]),
     ...mapState('key', [
       'keys',

@@ -129,7 +129,7 @@ export default {
         const { data } = this.settings;
         data.lock = this.lock;
         cache.set('settings', data);
-        this.setSettings({ ...this.settings, data });
+        this.setSettings(cache.get('settings'));
       }
     },
   },
