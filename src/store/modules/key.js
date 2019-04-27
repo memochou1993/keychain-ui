@@ -72,7 +72,7 @@ export default {
   actions: {
     fetchKeys({
       state, commit, rootGetters,
-    }, { params }) {
+    }, { params, args }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
         axios({
@@ -85,7 +85,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setKeys', rootGetters.defaultPaging === 'pagination'
+              commit('setKeys', args && !args.push
                 ? data.data
                 : [...state.keys, ...data.data]);
               commit('setPages', data.meta.last_page);

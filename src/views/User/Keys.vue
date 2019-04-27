@@ -255,7 +255,7 @@ export default {
     ...mapActions('key', [
       'fetchKeys',
     ]),
-    async getKeys() {
+    async getKeys(args = null) {
       await this.beforeProcess();
       await this.fetchKeys({
         params: {
@@ -264,6 +264,7 @@ export default {
           page: this.page,
           paginate: this.defaultPaginate,
         },
+        args,
       })
         .then(({ data }) => {
           setTimeout(() => {
@@ -320,7 +321,9 @@ export default {
     },
     askKeys() {
       this.setPage(this.page + 1);
-      this.getKeys();
+      this.getKeys({
+        push: true,
+      });
     },
     loadKeys() {
       this.askKeys();
