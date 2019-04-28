@@ -7,6 +7,10 @@ import store from './store/index';
 import './plugins/vuetify';
 import './stylus/main.styl';
 
+Vue.prototype.$app = {
+  name: 'keychain',
+};
+
 Vue.config.productionTip = false;
 
 Vue.use(VueAxios, axios);
