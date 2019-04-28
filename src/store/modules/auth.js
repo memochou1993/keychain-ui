@@ -5,7 +5,7 @@ import cookie from '@/helpers/cookie';
 export default {
   namespaced: true,
   state: {
-    user: null,
+    user: cookie.get('user'),
     payload: cookie.get('payload'),
   },
   getters: {
@@ -95,7 +95,7 @@ export default {
             const date = rootGetters.defaultKeep
               ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
               : null;
-            cookie.set('user', data, date);
+            cookie.set('user', data.data, date);
             commit('setUser', cookie.get('user'));
             resolve(data);
           })

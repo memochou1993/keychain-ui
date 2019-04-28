@@ -148,10 +148,12 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const { keys } = state;
-            keys.splice(0, 0, data.data);
-            commit('setKeys', keys);
-            commit('pushUnlockedKeys', data.data.id);
+            setTimeout(() => {
+              const { keys } = state;
+              keys.splice(0, 0, data.data);
+              commit('setKeys', keys);
+              commit('pushUnlockedKeys', data.data.id);
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
@@ -179,9 +181,11 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            const { keys } = state;
-            keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1, data.data);
-            commit('setKeys', keys);
+            setTimeout(() => {
+              const { keys } = state;
+              keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1, data.data);
+              commit('setKeys', keys);
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
@@ -208,9 +212,11 @@ export default {
           },
         })
           .then(({ data }) => {
-            const { keys } = state;
-            keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1);
-            commit('setKeys', keys);
+            setTimeout(() => {
+              const { keys } = state;
+              keys.splice(keys.map(key => key.id).indexOf(state.selectedKey.id), 1);
+              commit('setKeys', keys);
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
