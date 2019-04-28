@@ -35,6 +35,7 @@ export default {
   methods: {
     ...mapMutations('auth', [
       'setPayload',
+      'setUser',
     ]),
     ...mapActions('auth', [
       'destroyToken',
@@ -48,6 +49,8 @@ export default {
         .finally(() => {
           cookie.delete('payload');
           this.setPayload(null);
+          cookie.delete('user');
+          this.setUser(null);
           this.$router.push({
             name: 'auth.login',
           });

@@ -26,7 +26,7 @@ export default {
   },
   actions: {
     fetchToken({
-      commit, rootState, rootGetters,
+      commit, dispatch, rootState, rootGetters,
     }, { params }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -42,6 +42,9 @@ export default {
             cookie.set('payload', data, date);
             commit('setPayload', cookie.get('payload'));
             resolve(data);
+          })
+          .then(() => {
+            dispatch('fetchUser');
           })
           .catch((error) => {
             commit('setError', error, { root: true });
@@ -77,7 +80,7 @@ export default {
       });
     },
     fetchUser({
-      getters, commit,
+      getters, commit, rootState, rootGetters,
     }) {
       commit('setLoaded', false, { root: true });
       return new Promise((resolve, reject) => {
@@ -89,7 +92,11 @@ export default {
           },
         })
           .then(({ data }) => {
-            commit('setUser', data.data);
+            const date = rootGetters.defaultKeep
+              ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
+              : null;
+            cookie.set('user', data, date);
+            commit('setUser', cookie.get('user'));
             resolve(data);
           })
           .catch((error) => {

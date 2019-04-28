@@ -1,15 +1,15 @@
 import code from '@/helpers/code';
-import VueCookie from 'vue-cookie';
+import vueCookie from 'vue-cookie';
 
 const cookie = {
   set(key, value, date) {
-    VueCookie.set(key, code.encode(value), date ? { expires: date } : null);
+    vueCookie.set(key, code.encode(value), date ? { expires: date } : null);
   },
   get(key) {
-    return code.decode(VueCookie.get(key));
+    return code.decode(vueCookie.get(key));
   },
   delete(key) {
-    VueCookie.delete(key);
+    vueCookie.delete(key);
   },
 };
 
