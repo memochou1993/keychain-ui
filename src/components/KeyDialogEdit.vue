@@ -18,7 +18,6 @@
         <v-card-text>
           <v-form
             v-if="!loading"
-            ref="form"
             v-model="valid"
           >
             <v-text-field
@@ -62,9 +61,9 @@
             :disabled="loading"
             flat
             color="primary"
-            @click="$refs.form.reset()"
+            @click="resetKey"
           >
-            Clear
+            Reset
           </v-btn>
           <v-spacer />
           <v-btn
@@ -186,10 +185,7 @@ export default {
         });
     },
     process() {
-      this.setTitle(this.key.title);
-      this.setContent(this.key.content);
-      this.setLink(this.key.link);
-      this.setLock(this.key.lock);
+      this.fillKey();
     },
     processed() {
       this.setKey(null);
@@ -207,6 +203,15 @@ export default {
     },
     setLock(lock) {
       this.lock = lock;
+    },
+    resetKey() {
+      this.fillKey();
+    },
+    fillKey() {
+      this.setTitle(this.key.title);
+      this.setContent(this.key.content);
+      this.setLink(this.key.link);
+      this.setLock(this.key.lock);
     },
   },
 };
