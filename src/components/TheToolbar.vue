@@ -64,9 +64,9 @@ export default {
     links() {
       return [
         {
-          title: 'Profile',
+          title: 'Account',
           to: {
-            name: 'user.profile',
+            name: 'user.account',
           },
           icon: 'mdi-account-circle-outline',
           meta: {

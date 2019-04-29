@@ -28,9 +28,9 @@ export default new Router({
       },
     },
     {
-      path: '/profile',
-      name: 'user.profile',
-      component: () => import('@/views/User/Profile.vue'),
+      path: '/account',
+      name: 'user.account',
+      component: () => import('@/views/User/Account.vue'),
       meta: {
         requiresAuth: true,
       },
