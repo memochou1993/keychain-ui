@@ -41,7 +41,7 @@ const throttle = {
       if (this.times < this.limit) {
         return false;
       }
-      return moment.duration(moment(this.end).diff(this.begin)).seconds() < this.period;
+      return moment(this.end).diff(this.begin, 'seconds') < this.period;
     },
   },
   methods: {
@@ -52,7 +52,7 @@ const throttle = {
       this.attempts = attempts;
     },
     isExpended() {
-      return moment.duration(moment().diff(this.end)).seconds();
+      return moment().diff(this.end, 'seconds');
     },
     suspend() {
       const attempts = [...this.attempts, Date.now()];

@@ -38,7 +38,7 @@ const api = {
       });
     },
     isExpended() {
-      return moment.duration(moment().diff(this.payload.createdAt)).seconds();
+      return moment().diff(this.payload.createdAt, 'seconds');
     },
     isExpired() {
       return this.payload && this.isExpended() > this.payload.data.expires_in - this.buffer;
