@@ -14,9 +14,7 @@
         md8
       >
         <v-card>
-          <v-card-text
-            class="pb-0"
-          >
+          <v-card-text>
             <v-form
               v-if="!loading"
             >

@@ -10,14 +10,13 @@
       justify-center
     >
       <v-flex
-        sm8
-        md6
+        sm6
+        md4
       >
         <v-card>
           <v-card-text>
-            <v-form
+            <div
               v-if="!loading"
-              v-model="valid"
             >
               <v-tabs
                 v-model="tab"
@@ -42,14 +41,18 @@
                     flat
                   >
                     <v-card-text>
-                      <v-text-field
-                        v-model="name"
-                        :rules="[v => !!v || 'Name is required.']"
-                        type="text"
-                        label="Name"
-                        autofocus
-                        class="my-3"
-                      />
+                      <v-form
+                        v-model="validProfile"
+                      >
+                        <v-text-field
+                          v-model="name"
+                          :rules="[v => !!v || 'Name is required.']"
+                          type="text"
+                          label="Name"
+                          autofocus
+                          class="my-3"
+                        />
+                      </v-form>
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -58,10 +61,42 @@
                   reverse-transition="fade"
                   value="password"
                 >
-                  Password
+                  <v-card
+                    flat
+                  >
+                    <v-form
+                      v-model="validPassword"
+                    >
+                      <v-card-text>
+                        <v-text-field
+                          v-model="oldPassword"
+                          :rules="[v => !!v || 'Old password is required.']"
+                          type="password"
+                          label="Old password"
+                          autocomplete
+                          class="my-3"
+                        />
+                        <v-text-field
+                          v-model="newPassword"
+                          :rules="[v => v.length >= 8 || 'New password must be at least 8 characters.']"
+                          type="password"
+                          label="New password"
+                          autocomplete
+                          class="my-3"
+                        />
+                        <v-text-field
+                          :rules="[v => v === newPassword || 'Password confirmation doesn\'t match the password.']"
+                          type="password"
+                          label="Old password"
+                          autocomplete
+                          class="my-3"
+                        />
+                      </v-card-text>
+                    </v-form>
+                  </v-card>
                 </v-tab-item>
               </v-tabs>
-            </v-form>
+            </div>
             <AppNoData
               v-else
             />
@@ -78,7 +113,7 @@
             </v-btn>
             <v-spacer />
             <v-btn
-              :disabled="!valid || loading"
+              :disabled="disabled || loading"
               color="primary"
               class="white--text"
               @click="editUser"
@@ -117,9 +152,9 @@ export default {
           title: 'Password',
         },
       ],
-      valid: false,
+      validProfile: false,
+      validPassword: false,
       name: '',
-      email: '',
       oldPassword: '',
       newPassword: '',
     };
@@ -128,6 +163,21 @@ export default {
     ...mapState('user', [
       'user',
     ]),
+    isProfile() {
+      return this.tab === 'profile';
+    },
+    isPassword() {
+      return this.tab === 'password';
+    },
+    disabled() {
+      if (this.isProfile) {
+        return !this.validProfile;
+      }
+      if (this.isPassword) {
+        return !this.validPassword;
+      }
+      return true;
+    },
   },
   created() {
     this.getUser();
@@ -159,18 +209,6 @@ export default {
           }, 1000 * 0.25);
         });
     },
-    process() {
-      this.fillUser();
-    },
-    setName(name) {
-      this.name = name;
-    },
-    fillUser() {
-      this.setName(this.user.name);
-    },
-    resetUser() {
-      this.fillUser();
-    },
     async editUser() {
       await this.beforeProcess();
       await this.updateUser({
@@ -189,6 +227,18 @@ export default {
             this.setLoading(false);
           }, 1000 * 0.25);
         });
+    },
+    process() {
+      this.fillUser();
+    },
+    setName(name) {
+      this.name = name;
+    },
+    fillUser() {
+      this.setName(this.user.name);
+    },
+    resetUser() {
+      this.fillUser();
     },
   },
 };
