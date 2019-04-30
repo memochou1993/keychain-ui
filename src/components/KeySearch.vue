@@ -26,6 +26,9 @@ export default {
     ]),
   },
   watch: {
+    query(value) {
+      this.setInput(value);
+    },
     input() {
       this.queryKeys();
     },

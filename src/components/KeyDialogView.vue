@@ -13,7 +13,7 @@
             <div
               class="content"
             >
-              <span>{{ key.content }}</span>
+              <span>{{ key.content.replace(/(^|\s)(#[\S]+)/g, '').trim() }}</span>
             </div>
           </div>
           <AppNoData

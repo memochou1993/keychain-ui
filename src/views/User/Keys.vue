@@ -30,16 +30,36 @@
               <td
                 class="text-xs-left"
               >
-                {{ props.item.title }}
+                <div
+                  id="title"
+                  class="ellipsis"
+                >
+                  {{ props.item.title }}
+                </div>
               </td>
               <td
                 class="text-xs-left"
               >
                 <div
-                  class="content"
+                  id="content"
+                  class="ellipsis"
                 >
                   {{ isVisible(props.item) ? props.item.content.split('\n')[0] : '••••••••••' }}
                 </div>
+              </td>
+              <td
+                class="text-xs-left"
+              >
+                <v-chip
+                  v-for="(tag, index) in props.item.content.match(/(^|\s)(#[\S]+)/g)"
+                  :key="index"
+                  small
+                  outline
+                  color="primary"
+                  @click="queryKeys(tag.replace('#', ''))"
+                >
+                  {{ tag.replace('#', '') }}
+                </v-chip>
               </td>
               <td
                 class="text-xs-center px-0"
@@ -84,11 +104,11 @@
             >
               <v-btn
                 v-show="!!keys.length && askable"
+                id="require"
                 :disabled="loading"
                 color="primary"
                 round
                 outline
-                class="require"
                 @click="loadKeys"
               >
                 <div
@@ -179,6 +199,9 @@ export default {
           text: 'Content', value: 'content', align: 'left', sortable: false,
         },
         {
+          text: 'Tags', value: 'tags', align: 'left', sortable: false,
+        },
+        {
           text: '', value: '', align: 'center', sortable: false,
         },
         {
@@ -233,6 +256,9 @@ export default {
     this.fillKeys();
   },
   methods: {
+    ...mapMutations([
+      'setQuery',
+    ]),
     ...mapMutations('key', [
       'setKeys',
       'setDialog',
@@ -311,6 +337,9 @@ export default {
       this.setAskable(true);
       this.getKeys();
     },
+    queryKeys(query) {
+      this.setQuery(query);
+    },
     askKeys() {
       this.setPage(this.page + 1);
       this.getKeys({
@@ -347,20 +376,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.require
-  width 160px
-.content
-  width 280px
+.ellipsis
   overflow hidden
   white-space nowrap
   text-overflow ellipsis
+#require
+  width 160px
+#title
+  width 160px
+#content
+  width 280px
 @media screen and (max-width: 1264px)
-  .content
+  #content
     width 220px
 @media screen and (max-width: 960px)
-  .content
+  #content
     width 160px
 @media screen and (max-width: 600px)
-  .content
+  #content
     width 100px
 </style>
