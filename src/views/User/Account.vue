@@ -50,13 +50,6 @@
                         autofocus
                         class="my-3"
                       />
-                      <v-text-field
-                        v-model="email"
-                        :rules="[v => !!v || 'Email is required.']"
-                        type="text"
-                        label="Email"
-                        class="my-3"
-                      />
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -65,32 +58,7 @@
                   reverse-transition="fade"
                   value="password"
                 >
-                  <v-card
-                    flat
-                  >
-                    <v-card-text>
-                      <v-text-field
-                        v-model="oldPassword"
-                        :rules="[v => !!v || 'Old password is required.']"
-                        type="password"
-                        label="Old password"
-                        class="my-3"
-                      />
-                      <v-text-field
-                        v-model="newPassword"
-                        :rules="[v => v.length >= 8 || 'New password must be at least 8 characters.']"
-                        type="password"
-                        label="New password"
-                        class="my-3"
-                      />
-                      <v-text-field
-                        :rules="[v => v === newPassword || 'Password confirmation doesn\'t match the password.']"
-                        type="password"
-                        label="Old password"
-                        class="my-3"
-                      />
-                    </v-card-text>
-                  </v-card>
+                  Password
                 </v-tab-item>
               </v-tabs>
             </v-form>
@@ -104,7 +72,7 @@
               :disabled="loading"
               flat
               color="primary"
-              @click="resetAccount"
+              @click="resetUser"
             >
               Reset
             </v-btn>
@@ -113,6 +81,7 @@
               :disabled="!valid || loading"
               color="primary"
               class="white--text"
+              @click="editUser"
             >
               Update
             </v-btn>
@@ -166,6 +135,7 @@ export default {
   methods: {
     ...mapActions('user', [
       'fetchUser',
+      'updateUser',
     ]),
     async getUser() {
       await this.beforeProcess();
@@ -190,20 +160,35 @@ export default {
         });
     },
     process() {
-      this.fillAccount();
+      this.fillUser();
     },
     setName(name) {
       this.name = name;
     },
-    setEmail(email) {
-      this.email = email;
-    },
-    fillAccount() {
+    fillUser() {
       this.setName(this.user.name);
-      this.setEmail(this.user.email);
     },
-    resetAccount() {
-      this.fillAccount();
+    resetUser() {
+      this.fillUser();
+    },
+    async editUser() {
+      await this.beforeProcess();
+      await this.updateUser({
+        params: {
+          with: '',
+          name: this.name,
+          password: this.newPassword,
+        },
+      })
+        .catch((error) => {
+          this.setError(error);
+          this.setNoData(true);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 1000 * 0.25);
+        });
     },
   },
 };
