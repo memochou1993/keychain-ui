@@ -14,7 +14,7 @@
               v-if="enabled"
               v-model="password"
               :error="!!errorMessages.length"
-              :rules="[v => !!v || 'Password is required.']"
+              :rules="[v => !!v.trim() || 'Password is required.']"
               :loading="loading"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
               :error-messages="errorMessages"

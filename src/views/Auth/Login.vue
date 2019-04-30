@@ -33,7 +33,7 @@
               >
                 <v-text-field
                   v-model="username"
-                  :rules="[v => !!v || 'Username is required.']"
+                  :rules="[v => !!v.trim() || 'Username is required.']"
                   :autofocus="!error"
                   type="text"
                   label="Username"
@@ -41,7 +41,7 @@
                 />
                 <v-text-field
                   v-model="password"
-                  :rules="[v => !!v || 'Password is required.']"
+                  :rules="[v => !!v.trim() || 'Password is required.']"
                   :autofocus="!!error"
                   :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"

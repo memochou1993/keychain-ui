@@ -46,7 +46,7 @@
                       >
                         <v-text-field
                           v-model="name"
-                          :rules="[v => !!v || 'Name is required.']"
+                          :rules="[v => !!v.trim() || 'Name is required.']"
                           type="text"
                           label="Name"
                           autofocus
@@ -70,7 +70,7 @@
                       <v-card-text>
                         <v-text-field
                           v-model="oldPassword"
-                          :rules="[v => !!v || 'Old password is required.']"
+                          :rules="[v => !!v.trim() || 'Old password is required.']"
                           type="password"
                           label="Old password"
                           autocomplete
