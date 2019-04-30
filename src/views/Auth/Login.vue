@@ -10,8 +10,8 @@
       justify-center
     >
       <v-flex
-        md4
         sm6
+        md4
       >
         <v-alert
           v-if="!loading"
@@ -33,7 +33,7 @@
               >
                 <v-text-field
                   v-model="username"
-                  :rules="[v => !!v.trim() || 'Username is required.']"
+                  :rules="[v => (v && !!v.trim()) || 'Username is required.']"
                   :autofocus="!error"
                   type="text"
                   label="Username"
@@ -41,7 +41,7 @@
                 />
                 <v-text-field
                   v-model="password"
-                  :rules="[v => !!v.trim() || 'Password is required.']"
+                  :rules="[v => (v && !!v.trim()) || 'Password is required.']"
                   :autofocus="!!error"
                   :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"

@@ -13,6 +13,14 @@
         sm6
         md4
       >
+        <v-alert
+          v-if="!loading"
+          :type="`${!!error ? 'error' : 'success'}`"
+          :value="message"
+          outline
+        >
+          {{ message }}
+        </v-alert>
         <v-card>
           <v-card-text>
             <div
@@ -46,7 +54,7 @@
                       >
                         <v-text-field
                           v-model="name"
-                          :rules="[v => !!v.trim() || 'Name is required.']"
+                          :rules="rules.name"
                           type="text"
                           label="Name"
                           autofocus
@@ -70,7 +78,7 @@
                       <v-card-text>
                         <v-text-field
                           v-model="oldPassword"
-                          :rules="[v => !!v.trim() || 'Old password is required.']"
+                          :rules="rules.oldPassword"
                           type="password"
                           label="Old password"
                           autocomplete
@@ -78,16 +86,17 @@
                         />
                         <v-text-field
                           v-model="newPassword"
-                          :rules="[v => v.length >= 8 || 'New password must be at least 8 characters.']"
+                          :rules="rules.newPassword"
                           type="password"
                           label="New password"
                           autocomplete
                           class="my-3"
                         />
                         <v-text-field
-                          :rules="[v => v === newPassword || 'Password confirmation doesn\'t match the password.']"
+                          v-model="confirmNewPassword"
+                          :rules="rules.confirmNewPassword"
                           type="password"
-                          label="Old password"
+                          label="Confirm new password"
                           autocomplete
                           class="my-3"
                         />
@@ -107,7 +116,7 @@
               :disabled="loading"
               flat
               color="primary"
-              @click="resetUser"
+              @click="resetAccount"
             >
               Reset
             </v-btn>
@@ -116,7 +125,7 @@
               :disabled="disabled || loading"
               color="primary"
               class="white--text"
-              @click="editUser"
+              @click="updateAccount"
             >
               Update
             </v-btn>
@@ -141,6 +150,7 @@ export default {
   ],
   data() {
     return {
+      message: '',
       tab: '',
       tabs: [
         {
@@ -157,6 +167,23 @@ export default {
       name: '',
       oldPassword: '',
       newPassword: '',
+      confirmNewPassword: '',
+      rules: {
+        name: [
+          v => (v && !!v.trim()) || 'Name is required.',
+        ],
+        oldPassword: [
+          v => (v && !!v.trim()) || 'Old password is required.',
+          v => (v && v.length >= 8) || 'Old password must be at least 8 characters.',
+        ],
+        newPassword: [
+          v => (v && !!v.trim()) || 'New password is required.',
+          v => (v && v.length >= 8) || 'New password must be at least 8 characters.',
+        ],
+        confirmNewPassword: [
+          v => (v && v === this.newPassword) || 'Password confirmation doesn\'t match the password.',
+        ],
+      },
     };
   },
   computed: {
@@ -179,6 +206,12 @@ export default {
       return true;
     },
   },
+  watch: {
+    tab() {
+      this.setError(null);
+      this.setMessage('');
+    },
+  },
   created() {
     this.getUser();
   },
@@ -186,6 +219,7 @@ export default {
     ...mapActions('user', [
       'fetchUser',
       'updateUser',
+      'updatePassword',
     ]),
     async getUser() {
       await this.beforeProcess();
@@ -215,9 +249,13 @@ export default {
         params: {
           with: '',
           name: this.name,
-          password: this.newPassword,
+          old_password: this.oldPassword,
+          new_password: this.newPassword,
         },
       })
+        .then(() => {
+          this.setMessage('Profile updated successfully.');
+        })
         .catch((error) => {
           this.setError(error);
           this.setNoData(true);
@@ -228,17 +266,78 @@ export default {
           }, 1000 * 0.25);
         });
     },
+    async editPassword() {
+      if (this.newPassword !== this.confirmNewPassword) {
+        this.setError({});
+        this.setMessage('Password confirmation doesn\'t match the password.');
+        return false;
+      }
+      await this.beforeProcess();
+      await this.updatePassword({
+        params: {
+          with: '',
+          name: this.name,
+          old_password: this.oldPassword,
+          new_password: this.newPassword,
+        },
+      })
+        .then(() => {
+          this.setMessage('Password updated successfully.');
+          this.fillPassword();
+        })
+        .catch((error) => {
+          this.setMessage('Old password isn\'t valid.');
+          this.setError(error);
+          this.setNoData(true);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 1000 * 0.25);
+        });
+      return true;
+    },
     process() {
       this.fillUser();
+    },
+    setMessage(message) {
+      this.message = message;
     },
     setName(name) {
       this.name = name;
     },
+    setOldPassword(oldPassword) {
+      this.oldPassword = oldPassword;
+    },
+    setNewPassword(newPassword) {
+      this.newPassword = newPassword;
+    },
+    setConfirmNewPassword(confirmNewPassword) {
+      this.confirmNewPassword = confirmNewPassword;
+    },
     fillUser() {
       this.setName(this.user.name);
     },
-    resetUser() {
-      this.fillUser();
+    fillPassword() {
+      this.setOldPassword('');
+      this.setNewPassword('');
+      this.setConfirmNewPassword('');
+    },
+    resetAccount() {
+      if (this.isProfile) {
+        this.fillUser();
+      }
+      if (this.isPassword) {
+        this.fillPassword();
+      }
+    },
+    updateAccount() {
+      if (this.isProfile) {
+        this.editUser();
+      }
+      if (this.isPassword) {
+        this.editPassword();
+      }
     },
   },
 };
