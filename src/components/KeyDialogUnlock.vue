@@ -13,6 +13,7 @@
             <v-text-field
               v-if="enabled"
               v-model="password"
+              :disabled="isSuspended"
               :rules="rules.password"
               :loading="loading"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
@@ -38,17 +39,18 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
 import dialog from '@/mixins/dialog';
+import throttle from '@/mixins/throttle';
 
 export default {
   mixins: [
     api,
     common,
     dialog,
+    throttle,
   ],
   data() {
     return {
       valid: false,
-      errorMessages: [],
       password: '',
       rules: {
         password: [
@@ -63,16 +65,19 @@ export default {
       'attemption',
       'selectedKey',
     ]),
+    errorMessages() {
+      if (!this.error) {
+        return [];
+      }
+      return this.isSuspended
+        ? ['Too many unlock attempts. Please try again later.']
+        : ['The password is invalid.'];
+    },
   },
   watch: {
     enabled(value) {
       if (!value) {
         this.processed();
-      }
-    },
-    password(value) {
-      if (value && !!this.errorMessages.length) {
-        this.setErrorMessages([]);
       }
     },
   },
@@ -108,10 +113,10 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
+          this.suspend();
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');
-          this.setErrorMessages([...this.errorMessages, 'The password is invalid.']);
         })
         .finally(() => {
           setTimeout(() => {
@@ -142,9 +147,6 @@ export default {
     processed() {
       this.setDialog('');
       this.setAttemption('');
-    },
-    setErrorMessages(errorMessages) {
-      this.errorMessages = errorMessages;
     },
     setPassword(password) {
       this.password = password;
