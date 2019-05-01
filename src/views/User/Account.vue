@@ -59,6 +59,13 @@
                           autofocus
                           class="my-3"
                         />
+                        <v-text-field
+                          v-model="username"
+                          :rules="rules.username"
+                          type="text"
+                          label="Username"
+                          class="my-3"
+                        />
                       </v-form>
                     </v-card-text>
                   </v-card>
@@ -164,6 +171,7 @@ export default {
       validProfile: false,
       validPassword: false,
       name: '',
+      username: '',
       oldPassword: '',
       newPassword: '',
       confirmNewPassword: '',
@@ -171,9 +179,12 @@ export default {
         name: [
           v => (v && !!v.trim()) || 'Name is required.',
         ],
+        username: [
+          v => (v && !!v.trim()) || 'Username is required.',
+          v => (v && v.length >= 8) || 'Username must be at least 8 characters.',
+        ],
         oldPassword: [
           v => (v && !!v.trim()) || 'Old password is required.',
-          v => (v && v.length >= 8) || 'Old password must be at least 8 characters.',
         ],
         newPassword: [
           v => (v && !!v.trim()) || 'New password is required.',
@@ -254,6 +265,7 @@ export default {
         params: {
           with: '',
           name: this.name,
+          username: this.username,
           old_password: this.oldPassword,
           new_password: this.newPassword,
         },
@@ -282,6 +294,7 @@ export default {
         params: {
           with: '',
           name: this.name,
+          username: this.username,
           old_password: this.oldPassword,
           new_password: this.newPassword,
         },
@@ -311,6 +324,9 @@ export default {
     setName(name) {
       this.name = name;
     },
+    setUsername(username) {
+      this.username = username;
+    },
     setOldPassword(oldPassword) {
       this.oldPassword = oldPassword;
     },
@@ -322,6 +338,7 @@ export default {
     },
     fillUser() {
       this.setName(this.user.name);
+      this.setUsername(this.user.username);
     },
     fillPassword() {
       this.setOldPassword('');
