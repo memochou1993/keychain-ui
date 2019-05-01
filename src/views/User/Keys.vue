@@ -56,9 +56,9 @@
                   small
                   outline
                   color="primary"
-                  @click="queryKeys(tag.replace('#', ''))"
+                  @click="queryKeys(tag)"
                 >
-                  {{ tag.replace('#', '') }}
+                  {{ tag }}
                 </v-chip>
               </td>
               <td
@@ -199,7 +199,7 @@ export default {
           text: 'Content', value: 'content', align: 'left', sortable: false,
         },
         {
-          text: 'Tags', value: 'tags', align: 'left', sortable: false,
+          text: 'Hashtags', value: 'hashtags', align: 'left', sortable: false,
         },
         {
           text: '', value: '', align: 'center', sortable: false,
