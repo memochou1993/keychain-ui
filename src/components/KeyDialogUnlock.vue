@@ -13,7 +13,6 @@
             <v-text-field
               v-if="enabled"
               v-model="password"
-              :error="!!errorMessages.length"
               :rules="rules.password"
               :loading="loading"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
@@ -53,7 +52,7 @@ export default {
       password: '',
       rules: {
         password: [
-          v => (v && !!v.trim()) || 'Password is required.',
+          v => (v && !!v.trim()) || 'The password is required.',
         ],
       },
     };
@@ -112,7 +111,7 @@ export default {
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');
-          this.setErrorMessages([...this.errorMessages, 'Password is invalid.']);
+          this.setErrorMessages([...this.errorMessages, 'The password is invalid.']);
         })
         .finally(() => {
           setTimeout(() => {

@@ -25,7 +25,7 @@
           <v-form
             ref="form"
             v-model="valid"
-            @submit.prevent="login"
+            @submit.prevent="submit"
           >
             <v-card-text>
               <div
@@ -115,10 +115,10 @@ export default {
       keep: false,
       rules: {
         username: [
-          v => (v && !!v.trim()) || 'Username is required.',
+          v => (v && !!v.trim()) || 'The username is required.',
         ],
         password: [
-          v => (v && !!v.trim()) || 'Password is required.',
+          v => (v && !!v.trim()) || 'The password is required.',
         ],
       },
     };
@@ -157,8 +157,6 @@ export default {
       'fetchToken',
     ]),
     async login() {
-      cache.set('settings', this.settings.data);
-      this.setSettings(cache.get('settings'));
       await this.beforeProcess();
       await this.fetchToken({
         params: {
@@ -197,6 +195,11 @@ export default {
     setKeep(keep) {
       this.keep = keep;
     },
+    submit() {
+      cache.set('settings', this.settings.data);
+      this.setSettings(cache.get('settings'));
+      this.login();
+    }
   },
 };
 </script>

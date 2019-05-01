@@ -177,21 +177,21 @@ export default {
       confirmNewPassword: '',
       rules: {
         name: [
-          v => (v && !!v.trim()) || 'Name is required.',
+          v => (v && !!v.trim()) || 'The name is required.',
         ],
         username: [
-          v => (v && !!v.trim()) || 'Username is required.',
-          v => (v && v.length >= 8) || 'Username must be at least 8 characters.',
+          v => (v && !!v.trim()) || 'The username is required.',
+          v => (v && v.length >= 8) || 'The username must be at least 8 characters.',
         ],
         oldPassword: [
-          v => (v && !!v.trim()) || 'Old password is required.',
+          v => (v && !!v.trim()) || 'The old password is required.',
         ],
         newPassword: [
-          v => (v && !!v.trim()) || 'New password is required.',
-          v => (v && v.length >= 8) || 'New password must be at least 8 characters.',
+          v => (v && !!v.trim()) || 'The new password is required.',
+          v => (v && v.length >= 8) || 'The new password must be at least 8 characters.',
         ],
         confirmNewPassword: [
-          v => (v && v === this.newPassword) || 'Password confirmation doesn\'t match the password.',
+          v => (v && v === this.newPassword) || 'The password confirmation does not match.',
         ],
       },
     };

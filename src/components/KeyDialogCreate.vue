@@ -107,10 +107,10 @@ export default {
       lock: false,
       rules: {
         title: [
-          v => (v && !!v.trim()) || 'Title is required.',
+          v => (v && !!v.trim()) || 'The title is required.',
         ],
         content: [
-          v => (v && !!v.trim()) || 'Content is required.',
+          v => (v && !!v.trim()) || 'The content is required.',
         ],
       },
     };
