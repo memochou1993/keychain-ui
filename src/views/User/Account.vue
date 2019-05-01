@@ -182,6 +182,7 @@ export default {
         username: [
           v => (v && !!v.trim()) || 'The username is required.',
           v => (v && v.length >= 8) || 'The username must be at least 8 characters.',
+          v => (v && !!v.match(/^[a-z0-9]+$/i)) || 'The username may only contain letters and numbers.',
         ],
         oldPassword: [
           v => (v && !!v.trim()) || 'The old password is required.',
