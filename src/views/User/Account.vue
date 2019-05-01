@@ -232,10 +232,12 @@ export default {
     this.getUser();
   },
   methods: {
+    ...mapActions('auth', [
+      'resetPassword',
+    ]),
     ...mapActions('user', [
       'fetchUser',
       'updateUser',
-      'updatePassword',
     ]),
     async getUser() {
       await this.beforeProcess();
@@ -290,7 +292,7 @@ export default {
         return false;
       }
       await this.beforeProcess();
-      await this.updatePassword({
+      await this.resetPassword({
         params: {
           with: '',
           name: this.name,
