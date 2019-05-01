@@ -20,6 +20,14 @@ export default new Router({
       },
     },
     {
+      path: '/register',
+      name: 'auth.register',
+      component: () => import('@/views/Auth/Register.vue'),
+      meta: {
+        requiresVisitor: true,
+      },
+    },
+    {
       path: '/logout',
       name: 'auth.logout',
       component: () => import('@/views/Auth/Logout.vue'),

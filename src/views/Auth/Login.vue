@@ -11,14 +11,15 @@
     >
       <v-flex
         sm6
+        md4
       >
         <v-alert
-          v-if="!loading"
-          :value="!!error || isSuspended"
+          v-if="!!error || isSuspended"
+          :value="true"
           type="error"
           outline
         >
-          {{ errorMessage }}
+          {{ message }}
         </v-alert>
         <v-card>
           <v-form
@@ -32,7 +33,7 @@
               >
                 <v-text-field
                   v-model="username"
-                  :rules="[v => (v && !!v.trim()) || 'Username is required.']"
+                  :rules="rules.username"
                   :autofocus="!error"
                   type="text"
                   label="Username"
@@ -40,7 +41,7 @@
                 />
                 <v-text-field
                   v-model="password"
-                  :rules="[v => (v && !!v.trim()) || 'Password is required.']"
+                  :rules="rules.password"
                   :autofocus="!!error"
                   :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"
@@ -112,6 +113,14 @@ export default {
       username: '',
       password: '',
       keep: false,
+      rules: {
+        username: [
+          v => (v && !!v.trim()) || 'Username is required.',
+        ],
+        password: [
+          v => (v && !!v.trim()) || 'Password is required.',
+        ],
+      },
     };
   },
   computed: {
@@ -121,7 +130,7 @@ export default {
     ...mapGetters([
       'defaultKeep',
     ]),
-    errorMessage() {
+    message() {
       return this.isSuspended
         ? `Too many login attempts. Please try again in ${this.counter} seconds.`
         : 'Incorrect username or password.';

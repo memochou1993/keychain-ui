@@ -109,6 +109,28 @@ export default {
           });
       });
     },
+    storeUser({
+      commit,
+    }, { params }) {
+      commit('setLoaded', false, { root: true });
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'POST',
+          url: '/auth/register',
+          data: params,
+        })
+          .then(({ data }) => {
+            resolve(data);
+          })
+          .catch((error) => {
+            commit('setError', error, { root: true });
+            reject(error);
+          })
+          .finally(() => {
+            commit('setLoaded', true, { root: true });
+          });
+      });
+    },
     fetchUser({
       getters, commit, rootState, rootGetters,
     }) {

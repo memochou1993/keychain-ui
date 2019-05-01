@@ -23,7 +23,7 @@
             <v-text-field
               v-if="enabled"
               v-model="title"
-              :rules="[v => (v && !!v.trim()) || 'Title is required.']"
+              :rules="rules.title"
               type="text"
               label="Title"
               autofocus
@@ -31,7 +31,7 @@
             />
             <v-textarea
               v-model="content"
-              :rules="[v => (v && !!v.trim()) || 'Content is required.']"
+              :rules="rules.content"
               type="text"
               label="Content"
               auto-grow
@@ -101,6 +101,14 @@ export default {
       content: '',
       link: '',
       lock: false,
+      rules: {
+        title: [
+          v => (v && !!v.trim()) || 'Title is required.',
+        ],
+        content: [
+          v => (v && !!v.trim()) || 'Content is required.',
+        ],
+      },
     };
   },
   computed: {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
+      v-if="!!payload"
       v-model="drawer"
       :width="250"
       app
@@ -8,7 +9,7 @@
     >
       <v-list>
         <v-list-tile
-          v-for="(item, index) in links"
+          v-for="(item, index) in drawerLinks"
           :key="index"
           :to="item.to"
           :class="[$route.name === item.to.name && 'secondary lighten-4']"
@@ -44,6 +45,15 @@
       >
         Keychain
       </v-toolbar-title>
+      <v-spacer />
+      <v-btn
+        v-for="(item, index) in toolbarLinks"
+        :key="index"
+        :to="item.to"
+        outline
+      >
+        {{ item.title }}
+      </v-btn>
     </v-toolbar>
   </div>
 </template>
@@ -61,7 +71,38 @@ export default {
     ...mapState('auth', [
       'payload',
     ]),
-    links() {
+    toolbarLinks() {
+      return [
+        {
+          title: 'Login',
+          to: {
+            name: 'auth.login',
+          },
+          meta: {
+            requiresAuth: false,
+          },
+        },
+        {
+          title: 'Register',
+          to: {
+            name: 'auth.register',
+          },
+          meta: {
+            requiresAuth: false,
+          },
+        },
+        {
+          title: 'Logout',
+          to: {
+            name: 'auth.logout',
+          },
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ].filter(link => link.meta.requiresAuth === !!this.payload);
+    },
+    drawerLinks() {
       return [
         {
           title: 'Account',
@@ -89,26 +130,6 @@ export default {
             name: 'user.settings',
           },
           icon: 'mdi-settings-outline',
-          meta: {
-            requiresAuth: true,
-          },
-        },
-        {
-          title: 'Login',
-          to: {
-            name: 'auth.login',
-          },
-          icon: 'mdi-login-variant',
-          meta: {
-            requiresAuth: false,
-          },
-        },
-        {
-          title: 'Logout',
-          to: {
-            name: 'auth.logout',
-          },
-          icon: 'mdi-logout-variant',
           meta: {
             requiresAuth: true,
           },
