@@ -55,6 +55,7 @@
                           v-model="name"
                           :label="$t('fields.name')"
                           :rules="rules.name"
+                          :error-messages="errorMessages.name"
                           type="text"
                           autofocus
                           class="my-3"
@@ -63,6 +64,7 @@
                           v-model="username"
                           :label="$t('fields.username')"
                           :rules="rules.username"
+                          :error-messages="errorMessages.username"
                           type="text"
                           class="my-3"
                         />
@@ -86,6 +88,7 @@
                           v-model="oldPassword"
                           :label="$t('fields.oldPassword')"
                           :rules="rules.oldPassword"
+                          :error-messages="errorMessages.oldPassword"
                           type="password"
                           autocomplete
                           class="my-3"
@@ -94,6 +97,7 @@
                           v-model="newPassword"
                           :label="$t('fields.newPassword')"
                           :rules="rules.newPassword"
+                          :error-messages="errorMessages.newPassword"
                           type="password"
                           autocomplete
                           class="my-3"
@@ -102,6 +106,7 @@
                           v-model="confirmNewPassword"
                           :label="$t('fields.confirmNewPassword')"
                           :rules="rules.confirmNewPassword"
+                          :error-messages="errorMessages.confirmNewPassword"
                           type="password"
                           autocomplete
                           class="my-3"
@@ -197,6 +202,11 @@ export default {
           v => (v && v === this.newPassword) || this.$t('rules.confirmNewPassword'),
         ],
       },
+      errorMessages: {
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+      },
     };
   },
   computed: {
@@ -229,6 +239,26 @@ export default {
       if (this.isPassword) {
         this.fillUser();
       }
+    },
+    name() {
+      const name = '';
+      this.setErrorMessages({ ...this.errorMessages, name });
+    },
+    username() {
+      const username = '';
+      this.setErrorMessages({ ...this.errorMessages, username });
+    },
+    oldPassword() {
+      const oldPassword = '';
+      this.setErrorMessages({ ...this.errorMessages, oldPassword });
+    },
+    newPassword() {
+      const newPassword = '';
+      this.setErrorMessages({ ...this.errorMessages, newPassword });
+    },
+    confirmNewPassword() {
+      const confirmNewPassword = '';
+      this.setErrorMessages({ ...this.errorMessages, confirmNewPassword });
     },
   },
   created() {
@@ -276,9 +306,10 @@ export default {
         },
       })
         .then(() => {
-          this.setMessage('Profile updated successfully.');
+          this.setMessage(this.$t('messages.profile.update.success'));
         })
         .catch((error) => {
+          this.setErrorMessages(error.response.data.errors);
           this.setError(error);
           this.setNoData(true);
         })
@@ -289,11 +320,6 @@ export default {
         });
     },
     async editPassword() {
-      if (this.newPassword !== this.confirmNewPassword) {
-        this.setError({});
-        this.setMessage(this.$t('rules.confirmNewPassword'));
-        return false;
-      }
       await this.beforeProcess();
       await this.resetPassword({
         params: {
@@ -305,11 +331,12 @@ export default {
         },
       })
         .then(() => {
-          this.setMessage('Password updated successfully.');
+          this.setMessage(this.$t('messages.password.update.success'));
           this.fillPassword();
         })
         .catch((error) => {
-          this.setMessage('Old password isn\'t valid.');
+          const oldPassword = this.$t('messages.password.update.failed');
+          this.setErrorMessages({ ...this.errorMessages, oldPassword });
           this.setError(error);
           this.setNoData(true);
         })
@@ -341,6 +368,9 @@ export default {
     setConfirmNewPassword(confirmNewPassword) {
       this.confirmNewPassword = confirmNewPassword;
     },
+    setErrorMessages(errorMessages) {
+      this.errorMessages = errorMessages;
+    },
     fillUser() {
       this.setName(this.user.name);
       this.setUsername(this.user.username);
@@ -363,6 +393,10 @@ export default {
         this.editUser();
       }
       if (this.isPassword) {
+        if (this.newPassword !== this.confirmNewPassword) {
+          const confirmNewPassword = this.$t('rules.confirmNewPassword');
+          return this.setErrorMessages({ ...this.errorMessages, confirmNewPassword });
+        }
         this.editPassword();
       }
     },

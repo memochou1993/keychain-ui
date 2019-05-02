@@ -134,7 +134,7 @@ export default {
     ]),
     message() {
       return this.isSuspended
-        ? `${this.$t('messages.login.throttle')[0]} ${this.counter} ${this.$t('messages.login.throttle')[1]}`
+        ? `${this.$t('messages.login.throttle')} (${this.counter})`
         : this.$t('messages.login.failed');
     },
   },

@@ -219,7 +219,7 @@ export default {
     },
     submit() {
       if (this.password !== this.confirmPassword) {
-        const confirmPassword = this.$t('rules.confirmNewPassword');
+        const confirmPassword = this.$t('rules.confirmPassword');
         return this.setErrorMessages({ ...this.errorMessages, confirmPassword });
       }
       return this.register();

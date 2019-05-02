@@ -6,6 +6,7 @@ import store from '@/store/index';
 import '@mdi/font/css/materialdesignicons.css';
 
 let { theme } = store.state.settings.data;
+
 switch (theme) {
   case 'blue': {
     theme = colors.blue;

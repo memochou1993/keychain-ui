@@ -11,7 +11,7 @@ const common = {
   },
   methods: {
     capitalize(word) {
-      return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+      return `${word.charAt(0).toUpperCase()}${word.slice(1).toLowerCase()}`;
     },
     replaceTags(content) {
       return content.replace(/(^|\s)(#[\S]+)/g, '').trim();

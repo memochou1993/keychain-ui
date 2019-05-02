@@ -73,18 +73,29 @@ export default {
     required: '{f}不能留空。',
     min: '{f}不能小於 {n} 個字元。',
     alphaNum: '{f}只能以字母及數字組成。',
+    confirmPassword: '確認密碼與密碼不一致。',
     confirmNewPassword: '確認密碼與新密碼不一致。',
   },
   messages: {
     register: {
-      success: '註冊成功！',
+      success: '註冊成功。',
     },
     login: {
       failed: '錯誤的使用者名稱或密碼。',
       throttle: [
-        '嘗試登入次數過多，請',
-        '秒後再試。',
+        '嘗試登入次數過多，請稍後再試。',
       ],
+    },
+    profile: {
+      update: {
+        success: '個人資料已更新。',
+      },
+    },
+    password: {
+      update: {
+        success: '密碼已更新。',
+        failed: '舊密碼不正確。',
+      },
     },
     unlock: {
       failed: '錯誤的密碼。',
