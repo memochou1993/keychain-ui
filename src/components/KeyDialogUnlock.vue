@@ -74,8 +74,8 @@ export default {
         return [];
       }
       return this.isSuspended
-        ? [this.$t('messages.unlock.suspend')]
-        : [this.$t('messages.unlock.fail')];
+        ? [this.$t('messages.unlock.throttle')]
+        : [this.$t('messages.unlock.failed')];
     },
   },
   watch: {

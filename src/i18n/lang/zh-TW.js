@@ -80,15 +80,15 @@ export default {
       success: '註冊成功！',
     },
     login: {
-      fail: '錯誤的使用者名稱或密碼。',
-      suspend: [
+      failed: '錯誤的使用者名稱或密碼。',
+      throttle: [
         '嘗試登入次數過多，請',
         '秒後再試。',
       ],
     },
     unlock: {
-      fail: '錯誤的密碼。',
-      suspend: [
+      failed: '錯誤的密碼。',
+      throttle: [
         '嘗試解鎖次數過多，請稍後再試。',
       ],
     },

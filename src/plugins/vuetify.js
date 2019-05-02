@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import colors from 'vuetify/lib/util/colors';
 import zhHant from 'vuetify/es5/locale/zh-Hant';
-import '@mdi/font/css/materialdesignicons.css';
 import store from '@/store/index';
+import '@mdi/font/css/materialdesignicons.css';
 
 let { theme } = store.state.settings.data;
 switch (theme) {
