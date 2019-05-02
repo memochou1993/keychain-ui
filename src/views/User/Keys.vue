@@ -92,7 +92,7 @@
             >
               <AppNoData
                 :noData="noData"
-                message="No keys found"
+                :message="$tc('messages.key.noData', 2)"
               />
             </template>
           </v-data-table>

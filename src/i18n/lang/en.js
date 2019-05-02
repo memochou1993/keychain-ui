@@ -108,5 +108,8 @@ export default {
         'Too many unlock attempts. Please try again later.',
       ],
     },
+    key: {
+      noData: 'No key found. | No keys found.',
+    },
   },
 };

@@ -19,7 +19,7 @@
           <AppNoData
             v-else
             :noData="noData"
-            message="No key found"
+            :message="$tc('messages.key.noData', 1)"
           />
         </v-card-text>
       </v-card>
