@@ -383,6 +383,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+range = 20px
+title = 140px
+content = 200px
+
 .ellipsis
   overflow hidden
   white-space nowrap
@@ -390,16 +394,22 @@ export default {
 #require
   width 160px
 #title
-  width 160px
+  width title - range * 0
 #content
-  width 280px
+  width content - range * 0
 @media screen and (max-width: 1264px)
+  #title
+    width title - range * 1
   #content
-    width 220px
+    width content - range * 1
 @media screen and (max-width: 960px)
+  #title
+    width title - range * 2
   #content
-    width 160px
+    width content - range * 2
 @media screen and (max-width: 600px)
+  #title
+    width title - range * 3
   #content
-    width 100px
+    width content - range * 3
 </style>
