@@ -66,6 +66,7 @@ export default {
     update: '更新',
     refresh: '重新整理',
     search: '檢索',
+    load: '載入更多',
     view: '查看',
     edit: '編輯',
     remove: '移除',

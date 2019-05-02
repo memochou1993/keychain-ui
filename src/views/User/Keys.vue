@@ -118,7 +118,7 @@
                 <div
                   v-if="!loading"
                 >
-                  Load More
+                  {{ $t('actions.load') }}
                 </div>
                 <AppProgressCircular
                   v-else

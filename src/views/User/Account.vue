@@ -399,6 +399,7 @@ export default {
         }
         this.editPassword();
       }
+      return true;
     },
   },
 };
