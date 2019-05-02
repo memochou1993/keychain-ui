@@ -147,6 +147,8 @@ export default {
             const date = rootGetters.defaultKeep
               ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
               : null;
+            delete data.data.updated_at;
+            delete data.data.created_at;
             cookie.set('user', data.data, date);
             commit('setUser', cookie.get('user'));
             resolve(data);
