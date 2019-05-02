@@ -23,30 +23,30 @@
             <v-text-field
               v-if="enabled"
               v-model="title"
+              :label="$t('fields.title')"
               :rules="rules.title"
               type="text"
-              label="Title"
               autofocus
               class="my-3"
             />
             <v-textarea
               v-model="content"
+              :label="$t('fields.content')"
               :rules="rules.content"
               type="text"
-              label="Content"
               auto-grow
               class="my-3"
             />
             <v-text-field
               v-model="link"
+              :label="$t('fields.link')"
               type="text"
-              label="Link"
               class="my-3"
             />
             <v-switch
               v-model="lock"
+              :label="$t('fields.lock')"
               color="primary"
-              label="Lock"
             />
           </v-form>
           <AppNoData
@@ -63,7 +63,7 @@
             color="primary"
             @click="resetKey"
           >
-            Reset
+            {{ $t('actions.reset') }}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -72,7 +72,7 @@
             class="white--text"
             @click="editKey"
           >
-            Edit
+            {{ $t('actions.edit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -81,9 +81,12 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import {
+  mapState, mapMutations, mapActions,
+} from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
+import validation from '@/mixins/validation';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -93,6 +96,7 @@ export default {
   mixins: [
     api,
     dialog,
+    validation,
   ],
   data() {
     return {
@@ -103,10 +107,10 @@ export default {
       lock: false,
       rules: {
         title: [
-          v => (v && !!v.trim()) || 'The title is required.',
+          v => (v && !!v.trim()) || this.vt('title', 'required'),
         ],
         content: [
-          v => (v && !!v.trim()) || 'The content is required.',
+          v => (v && !!v.trim()) || this.vt('content', 'required'),
         ],
       },
     };

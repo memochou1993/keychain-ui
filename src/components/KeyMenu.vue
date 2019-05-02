@@ -35,14 +35,14 @@
           @click="viewKey"
         >
           <v-list-tile-title>
-            View
+            {{ $t('actions.view') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
           @click="editKey"
         >
           <v-list-tile-title>
-            Edit
+            {{ $t('actions.edit') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
@@ -50,7 +50,7 @@
           @click="removeKey"
         >
           <v-list-tile-title>
-            {{ isDeprecated ? 'Click to Confirm' : 'Remove' }}
+            {{ isDeprecated ? $t('actions.clickToConfirm') : $t('actions.remove') }}
           </v-list-tile-title>
         </v-list-tile>
       </v-list>

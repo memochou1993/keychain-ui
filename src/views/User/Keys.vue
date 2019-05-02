@@ -197,13 +197,13 @@ export default {
     return {
       headers: [
         {
-          text: 'Title', value: 'name', align: 'left', sortable: false,
+          text: this.$t('headers.title'), value: 'name', align: 'left', sortable: false,
         },
         {
-          text: 'Content', value: 'content', align: 'left', sortable: false,
+          text: this.$t('headers.content'), value: 'content', align: 'left', sortable: false,
         },
         {
-          text: 'Tags', value: 'tags', align: 'left', sortable: false,
+          text: this.$t('headers.tags'), value: 'tags', align: 'left', sortable: false,
         },
         {
           text: '', value: '', align: 'center', sortable: false,

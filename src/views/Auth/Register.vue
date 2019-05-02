@@ -35,44 +35,44 @@
               >
                 <v-text-field
                   v-model="name"
+                  :label="$t('fields.name')"
                   :rules="rules.name"
                   :error-messages="errorMessages.name"
                   type="text"
-                  label="Name"
                   autofocus
                   class="my-3"
                 />
                 <v-text-field
                   v-model="username"
+                  :label="$t('fields.username')"
                   :rules="rules.username"
                   :error-messages="errorMessages.username"
                   type="text"
-                  label="Username"
                   class="my-3"
                 />
                 <v-text-field
                   v-model="email"
+                  :label="$t('fields.email')"
                   :rules="rules.email"
                   :error-messages="errorMessages.email"
                   type="text"
-                  label="Email"
                   class="my-3"
                 />
                 <v-text-field
                   v-model="password"
+                  :label="$t('fields.password')"
                   :rules="rules.password"
                   :error-messages="errorMessages.password"
                   type="password"
-                  label="Password"
                   autocomplete
                   class="my-3"
                 />
                 <v-text-field
                   v-model="confirmPassword"
+                  :label="$t('fields.confirmPassword')"
                   :rules="rules.confirmPassword"
                   :error-messages="errorMessages.confirmPassword"
                   type="password"
-                  label="Confirm password"
                   autocomplete
                   class="my-3"
                 />
@@ -111,6 +111,7 @@
 <script>
 import { mapActions } from 'vuex';
 import api from '@/mixins/api';
+import validation from '@/mixins/validation';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -119,6 +120,7 @@ export default {
   },
   mixins: [
     api,
+    validation,
   ],
   data() {
     return {
@@ -131,22 +133,23 @@ export default {
       confirmPassword: '',
       rules: {
         name: [
-          v => (v && !!v.trim()) || 'The name field is required.',
+          v => (v && !!v.trim()) || this.vt('name', 'required'),
         ],
         username: [
-          v => (v && !!v.trim()) || 'The username field is required.',
-          v => (v && v.length >= 8) || 'The username must be at least 8 characters.',
-          v => (v && !!v.match(/^[a-z0-9]+$/i)) || 'The username may only contain letters and numbers.',
+          v => (v && !!v.trim()) || this.vt('username', 'required'),
+          v => (v && v.length >= 8) || this.vt('username', 'min', 8),
+          v => (v && !!v.match(/^[a-z0-9]+$/i)) || this.vt('username', 'alphaNum'),
         ],
         email: [
-          v => (v && !!v.trim()) || 'The email is required.',
+          v => (v && !!v.trim()) || this.vt('email', 'required'),
+          v => (v && !!v.match(/\S+@\S+\.\S+/)) || this.vt('email', 'email'),
         ],
         password: [
-          v => (v && !!v.trim()) || 'The password is required.',
-          v => (v && v.length >= 8) || 'The password must be at least 8 characters.',
+          v => (v && !!v.trim()) || this.vt('password', 'required'),
+          v => (v && v.length >= 8) || this.vt('newPassword', 'min', 8),
         ],
         confirmPassword: [
-          v => (v && v === this.password) || 'The password confirmation does not match.',
+          v => (v && v === this.password) || this.$t('rules.confirmNewPassword'),
         ],
       },
       errorMessages: {
@@ -195,7 +198,7 @@ export default {
         },
       })
         .then(() => {
-          this.setMessage('Registered successfully.');
+          this.setMessage(this.$t('messages.registered.success'));
         })
         .catch((error) => {
           this.setErrorMessages(error.response.data.errors);
@@ -216,7 +219,7 @@ export default {
     },
     submit() {
       if (this.password !== this.confirmPassword) {
-        const confirmPassword = 'Password confirmation doesn\'t match the password.';
+        const confirmPassword = this.$t('rules.confirmNewPassword');
         return this.setErrorMessages({ ...this.errorMessages, confirmPassword });
       }
       return this.register();

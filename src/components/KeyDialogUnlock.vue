@@ -13,13 +13,13 @@
             <v-text-field
               v-if="enabled"
               v-model="password"
-              :disabled="isSuspended"
+              :label="$t('fields.password')"
               :rules="rules.password"
               :loading="loading"
+              :disabled="isSuspended"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
               :error-messages="errorMessages"
               type="password"
-              label="Password"
               autofocus
               autocomplete
               validate-on-blur
@@ -35,11 +35,14 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import {
+  mapState, mapMutations, mapActions,
+} from 'vuex';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
 import dialog from '@/mixins/dialog';
 import throttle from '@/mixins/throttle';
+import validation from '@/mixins/validation';
 
 export default {
   mixins: [
@@ -47,6 +50,7 @@ export default {
     common,
     dialog,
     throttle,
+    validation,
   ],
   data() {
     return {
@@ -54,7 +58,7 @@ export default {
       password: '',
       rules: {
         password: [
-          v => (v && !!v.trim()) || 'The password is required.',
+          v => (v && !!v.trim()) || this.vt('password', 'required'),
         ],
       },
     };
@@ -70,8 +74,8 @@ export default {
         return [];
       }
       return this.isSuspended
-        ? ['Too many unlock attempts. Please try again later.']
-        : ['The password is invalid.'];
+        ? [this.$t('messages.unlock.suspend')]
+        : [this.$t('messages.unlock.fail')];
     },
   },
   watch: {

@@ -74,7 +74,7 @@ export default {
     toolbarLinks() {
       return [
         {
-          title: 'Login',
+          title: this.$t('links.login'),
           to: {
             name: 'auth.login',
           },
@@ -83,7 +83,7 @@ export default {
           },
         },
         {
-          title: 'Register',
+          title: this.$t('links.register'),
           to: {
             name: 'auth.register',
           },
@@ -92,7 +92,7 @@ export default {
           },
         },
         {
-          title: 'Logout',
+          title: this.$t('links.logout'),
           to: {
             name: 'auth.logout',
           },
@@ -105,7 +105,7 @@ export default {
     drawerLinks() {
       return [
         {
-          title: 'Account',
+          title: this.$t('links.account'),
           to: {
             name: 'user.account',
           },
@@ -115,7 +115,7 @@ export default {
           },
         },
         {
-          title: 'Keys',
+          title: this.$t('links.keys'),
           to: {
             name: 'user.keys',
           },
@@ -125,7 +125,7 @@ export default {
           },
         },
         {
-          title: 'Settings',
+          title: this.$t('links.settings'),
           to: {
             name: 'user.settings',
           },

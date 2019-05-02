@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios';
 import App from './App.vue';
 import router from './router';
 import store from './store/index';
+import i18n from './i18n/index';
 import './plugins/vuetify';
 import './stylus/main.styl';
 
@@ -53,5 +54,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App),
 }).$mount('#app');

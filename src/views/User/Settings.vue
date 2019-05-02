@@ -44,12 +44,12 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        Access Control
+                        {{ $t('settings.accessControl') }}
                       </v-subheader>
                       <v-switch
                         v-model="strict"
+                        :label="$t('settings.alwaysAskPassword')"
                         color="primary"
-                        label="Always ask password"
                       />
                     </v-card-text>
                   </v-card>
@@ -66,7 +66,7 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        Remember Me Expiration
+                        {{ $t('settings.rememberMeExpiration') }}
                         <v-tooltip
                           right
                           color="secondary"
@@ -89,7 +89,11 @@
                         :min="0"
                         :max="14"
                         :step="7"
-                        :tick-labels="['1 day', '7 days', '14 days']"
+                        :tick-labels="[
+                          $tc('settings.day', 1),
+                          $tc('settings.day', 7),
+                          $tc('settings.day', 14),
+                        ]"
                       />
                     </v-card-text>
                   </v-card>
@@ -106,25 +110,25 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        Paging Type
+                        {{ $t('settings.pagingType') }}
                       </v-subheader>
                       <v-radio-group
                         v-model="paging"
                         row
                       >
                         <v-radio
+                          :label="$t('settings.loadMoreButton')"
                           color="primary"
-                          label="Load More Button"
                           value="loadMoreButton"
                         />
                         <v-radio
+                          :label="$t('settings.pagination')"
                           color="primary"
-                          label="Pagination"
                           value="pagination"
                         />
                         <v-radio
+                          :label="$t('settings.infiniteScroll')"
                           color="primary"
-                          label="Infinite Scroll"
                           value="infiniteScroll"
                         />
                       </v-radio-group>
@@ -143,7 +147,7 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        Colors
+                        {{ $t('settings.colors') }}
                         <v-tooltip
                           right
                           color="secondary"
@@ -166,23 +170,23 @@
                         row
                       >
                         <v-radio
+                          :label="$t('settings.indigo')"
                           color="primary"
-                          label="Indigo"
                           value="indigo"
                         />
                         <v-radio
+                          :label="$t('settings.blue')"
                           color="primary"
-                          label="Blue"
                           value="blue"
                         />
                         <v-radio
+                          :label="$t('settings.cyan')"
                           color="primary"
-                          label="Cyan"
                           value="cyan"
                         />
                         <v-radio
+                          :label="$t('settings.teal')"
                           color="primary"
-                          label="Teal"
                           value="teal"
                         />
                       </v-radio-group>
@@ -203,7 +207,7 @@
               color="primary"
               @click="resetSettings"
             >
-              Reset
+              {{ $t('actions.reset') }}
             </v-btn>
             <v-spacer />
             <v-btn
@@ -212,7 +216,7 @@
               class="white--text"
               @click="saveSettings"
             >
-              Save
+              {{ $t('actions.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -236,20 +240,20 @@ export default {
       tab: '',
       tabs: [
         {
+          title: this.$t('tabs.general'),
           href: 'general',
-          title: 'General',
         },
         {
+          title: this.$t('tabs.authentication'),
           href: 'authentication',
-          title: 'Authentication',
         },
         {
+          title: this.$t('tabs.pagination'),
           href: 'pagination',
-          title: 'Pagination',
         },
         {
+          title: this.$t('tabs.theme'),
           href: 'theme',
-          title: 'Theme',
         },
       ],
       strict: false,
@@ -257,8 +261,8 @@ export default {
       paging: 'loadMoreButton',
       theme: 'indigo',
       hints: {
-        keepDays: 'This setting will take effect on next login.',
-        theme: 'This setting will take effect after reloading the page.',
+        keepDays: this.$t('settings.hints.keepDays'),
+        theme: this.$t('settings.hints.theme'),
       },
     };
   },

@@ -28,7 +28,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import {
+  mapState, mapMutations, mapActions,
+} from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
 import common from '@/mixins/common';

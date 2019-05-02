@@ -33,19 +33,19 @@
               >
                 <v-text-field
                   v-model="username"
+                  :label="$t('fields.username')"
                   :rules="rules.username"
                   :autofocus="!error"
                   type="text"
-                  label="Username"
                   class="my-3"
                 />
                 <v-text-field
                   v-model="password"
+                  :label="$t('fields.password')"
                   :rules="rules.password"
                   :autofocus="!!error"
                   :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
                   type="password"
-                  label="Password"
                   autocomplete
                   class="my-3"
                   @keyup="detectCapsLock"
@@ -53,8 +53,8 @@
                 />
                 <v-switch
                   v-model="keep"
+                  :label="$t('fields.rememberMe')"
                   color="primary"
-                  label="Remember me"
                 />
               </div>
               <AppNoData
@@ -69,7 +69,7 @@
                 color="primary"
                 @click="$refs.form.reset()"
               >
-                Clear
+                {{ $t('actions.clear') }}
               </v-btn>
               <v-spacer />
               <v-btn
@@ -78,7 +78,7 @@
                 color="primary"
                 class="white--text"
               >
-                Login
+                {{ $t('actions.login') }}
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -96,6 +96,7 @@ import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
 import throttle from '@/mixins/throttle';
+import validation from '@/mixins/validation';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -106,6 +107,7 @@ export default {
     api,
     common,
     throttle,
+    validation,
   ],
   data() {
     return {
@@ -115,10 +117,10 @@ export default {
       keep: false,
       rules: {
         username: [
-          v => (v && !!v.trim()) || 'The username is required.',
+          v => (v && !!v.trim()) || this.vt('username', 'required'),
         ],
         password: [
-          v => (v && !!v.trim()) || 'The password is required.',
+          v => (v && !!v.trim()) || this.vt('password', 'required'),
         ],
       },
     };
@@ -132,8 +134,8 @@ export default {
     ]),
     message() {
       return this.isSuspended
-        ? `Too many login attempts. Please try again in ${this.counter} seconds.`
-        : 'Incorrect username or password.';
+        ? `${this.$t('messages.login.suspend')[0]} ${this.counter} ${this.$t('messages.login.suspend')[1]}`
+        : this.$t('messages.login.fail');
     },
   },
   watch: {

@@ -2,9 +2,9 @@
   <div>
     <v-text-field
       v-model="input"
+      :placeholder="$t('actions.search')"
       solo
       clearable
-      placeholder="Search"
       hide-details
     />
   </div>

@@ -50,7 +50,7 @@
               outline
               @click="createKey"
             >
-              Create
+              {{ $t('actions.create') }}
             </v-btn>
             <v-btn
               :disabled="!loaded"
@@ -58,7 +58,7 @@
               outline
               @click="refreshKeys"
             >
-              Refresh
+              {{ $t('actions.refresh') }}
             </v-btn>
           </div>
         </v-flex>
