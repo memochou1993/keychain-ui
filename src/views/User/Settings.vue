@@ -44,6 +44,42 @@
                       <v-subheader
                         class="pa-0"
                       >
+                        {{ $t('settings.language') }}
+                        <v-tooltip
+                          right
+                          color="secondary"
+                        >
+                          <template
+                            v-slot:activator="{ on }"
+                          >
+                            <v-icon
+                              class="mx-2"
+                              v-on="on"
+                            >
+                              mdi-information-outline
+                            </v-icon>
+                          </template>
+                          {{ hints.language }}
+                        </v-tooltip>
+                      </v-subheader>
+                      <v-radio-group
+                        v-model="language"
+                        row
+                      >
+                        <v-radio
+                          :label="$t('settings.en')"
+                          color="primary"
+                          value="en"
+                        />
+                        <v-radio
+                          :label="$t('settings.zhTW')"
+                          color="primary"
+                          value="zhTW"
+                        />
+                      </v-radio-group>
+                      <v-subheader
+                        class="pa-0"
+                      >
                         {{ $t('settings.accessControl') }}
                       </v-subheader>
                       <v-switch
@@ -256,11 +292,13 @@ export default {
           href: 'theme',
         },
       ],
+      language: 'en',
       strict: false,
       keepDays: 7,
       paging: 'loadMoreButton',
       theme: 'indigo',
       hints: {
+        language: this.$t('settings.hints.language'),
         keepDays: this.$t('settings.hints.keepDays'),
         theme: this.$t('settings.hints.theme'),
       },
@@ -271,6 +309,7 @@ export default {
       'settings',
     ]),
     ...mapGetters([
+      'defaultLanguage',
       'defaultLock',
       'defaultStrict',
       'defaultKeep',
@@ -293,6 +332,9 @@ export default {
     setTab(tab) {
       this.tab = tab;
     },
+    setLanguage(language) {
+      this.language = language;
+    },
     setStrict(strict) {
       this.strict = strict;
     },
@@ -309,6 +351,7 @@ export default {
       this.hints = hints;
     },
     fillSettings() {
+      this.setLanguage(this.defaultLanguage);
       this.setStrict(this.defaultStrict);
       this.setKeepDays(this.defaultKeepDays);
       this.setpaging(this.defaultPaging);
@@ -321,6 +364,7 @@ export default {
       this.setLoading(true);
       this.setTab(this.tab);
       const settings = {
+        language: this.language,
         lock: this.defaultLock,
         strict: this.strict,
         keep: this.defaultKeep,

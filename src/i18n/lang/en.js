@@ -16,6 +16,9 @@ export default {
     theme: 'Theme',
   },
   settings: {
+    language: 'Language',
+    en: 'English',
+    zhTW: '中文',
     accessControl: 'Access Control',
     alwaysAskPassword: 'Always Ask Password',
     rememberMeExpiration: 'Remember Me Expiration',
@@ -30,6 +33,7 @@ export default {
     cyan: 'Cyan',
     teal: 'Teal',
     hints: {
+      language: 'This setting will take effect after reloading the page.',
       keepDays: 'This setting will take effect on next login.',
       theme: 'This setting will take effect after reloading the page.',
     },

@@ -6,7 +6,7 @@ import zhTW from '@/i18n/lang/zh-TW';
 
 Vue.use(VueI18n);
 
-const { locale } = store.state.settings.data;
+const locale = store.state.settings.data.language;
 
 const messages = {
   en,

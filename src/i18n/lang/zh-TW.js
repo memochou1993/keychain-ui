@@ -16,6 +16,9 @@ export default {
     theme: '主題',
   },
   settings: {
+    language: '語言',
+    en: 'English',
+    zhTW: '中文',
     accessControl: '存取控制',
     alwaysAskPassword: '總是詢問密碼',
     rememberMeExpiration: '「記住我」有效期限',
@@ -30,6 +33,7 @@ export default {
     cyan: '青色',
     teal: '藍綠色',
     hints: {
+      language: '此設定在重新整理頁面後生效。',
       keepDays: '此設定在下一次登入時生效。',
       theme: '此設定在重新整理頁面後生效。',
     },

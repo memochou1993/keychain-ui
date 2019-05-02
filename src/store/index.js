@@ -21,7 +21,7 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
-        locale: 'en', // en|zhTW (temp)
+        language: 'zhTW',
         lock: false,
         strict: false,
         keep: false,
@@ -33,6 +33,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    defaultLanguage(state) {
+      return state.settings.data.language;
+    },
     defaultLock(state) {
       return state.settings.data.lock;
     },
