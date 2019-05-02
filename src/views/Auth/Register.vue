@@ -220,7 +220,7 @@ export default {
         return this.setErrorMessages({ ...this.errorMessages, confirmPassword });
       }
       return this.register();
-    }
+    },
   },
 };
 </script>

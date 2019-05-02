@@ -13,6 +13,9 @@ const common = {
     capitalize(word) {
       return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
     },
+    replaceTags(content) {
+      return content.replace(/(^|\s)(#[\S]+)/g, '').trim();
+    },
     setCapsLock(capsLock) {
       this.capsLock = capsLock;
     },

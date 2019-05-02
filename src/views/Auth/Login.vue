@@ -199,7 +199,7 @@ export default {
       cache.set('settings', this.settings.data);
       this.setSettings(cache.get('settings'));
       this.login();
-    }
+    },
   },
 };
 </script>

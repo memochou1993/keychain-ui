@@ -44,22 +44,26 @@
                   id="content"
                   class="ellipsis"
                 >
-                  {{ isVisible(props.item) ? props.item.content.split('\n')[0] : '••••••••••' }}
+                  {{ summarizeKey(props.item) }}
                 </div>
               </td>
               <td
                 class="text-xs-left"
               >
-                <v-chip
-                  v-for="(tag, index) in props.item.content.match(/(^|\s)(#[\S]+)/g)"
-                  :key="index"
-                  small
-                  outline
-                  color="primary"
-                  @click="queryKeys(tag)"
+                <div
+                  v-if="props.item.tags"
                 >
-                  {{ tag }}
-                </v-chip>
+                  <v-chip
+                    v-for="(tag, index) in props.item.tags.split(',')"
+                    :key="index"
+                    small
+                    outline
+                    color="primary"
+                    @click="queryKeys(tag)"
+                  >
+                    {{ tag }}
+                  </v-chip>
+                </div>
               </td>
               <td
                 class="text-xs-center px-0"
@@ -323,6 +327,9 @@ export default {
     attempt(attemption, key) {
       this.setAttemption(attemption);
       this.setSelectedKey(key);
+    },
+    summarizeKey(key) {
+      return this.isVisible(key) ? this.replaceTags(key.content.split('\n')[0]) : '••••••••••';
     },
     toggleKey(key) {
       this.attempt('toggle', key);

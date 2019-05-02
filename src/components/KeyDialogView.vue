@@ -11,9 +11,9 @@
             class="my-3"
           >
             <div
-              class="content"
+              id="content"
             >
-              <span>{{ key.content.replace(/(^|\s)(#[\S]+)/g, '').trim() }}</span>
+              <span>{{ replaceTags(key.content) }}</span>
             </div>
           </div>
           <AppNoData
@@ -31,6 +31,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import api from '@/mixins/api';
 import dialog from '@/mixins/dialog';
+import common from '@/mixins/common';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
@@ -40,6 +41,7 @@ export default {
   mixins: [
     api,
     dialog,
+    common,
   ],
   computed: {
     ...mapState('key', [
@@ -97,7 +99,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.content
+#content
   white-space pre-wrap
   word-break break-all
 </style>
