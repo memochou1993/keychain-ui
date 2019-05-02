@@ -1,8 +1,7 @@
 import Vue from 'vue';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 import App from './App.vue';
 import router from './router';
+import axios from './axios/index';
 import store from './store/index';
 import i18n from './i18n/index';
 import './plugins/vuetify';
@@ -13,9 +12,6 @@ Vue.prototype.$app = {
 };
 
 Vue.config.productionTip = false;
-
-Vue.use(VueAxios, axios);
-axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
 Vue.directive('scroll', {
   inserted(el, binding) {
@@ -54,6 +50,7 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
+  axios,
   i18n,
   render: h => h(App),
 }).$mount('#app');

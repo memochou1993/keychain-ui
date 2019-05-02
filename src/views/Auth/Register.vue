@@ -198,7 +198,7 @@ export default {
         },
       })
         .then(() => {
-          this.setMessage(this.$t('messages.registered.success'));
+          this.setMessage(this.$t('messages.register.success'));
         })
         .catch((error) => {
           this.setErrorMessages(error.response.data.errors);
