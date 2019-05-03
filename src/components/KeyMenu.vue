@@ -28,7 +28,7 @@
           target="_blank"
         >
           <v-list-tile-title>
-            Open Link
+            {{ $t('actions.openLink') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile

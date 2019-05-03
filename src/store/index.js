@@ -21,7 +21,7 @@ export default new Vuex.Store({
     refresh: 0,
     settings: cache.get('settings') || {
       data: {
-        language: 'zhTW',
+        language: 'en',
         lock: false,
         strict: false,
         keep: false,

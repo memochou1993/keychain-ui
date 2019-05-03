@@ -8,6 +8,7 @@ Vue.use(VueAxios, axios);
 const languages = {
   en: 'en',
   zhTW: 'zh-TW',
+  ja: 'ja',
 };
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;

@@ -76,6 +76,11 @@
                           color="primary"
                           value="zhTW"
                         />
+                        <v-radio
+                          :label="$t('settings.ja')"
+                          color="primary"
+                          value="ja"
+                        />
                       </v-radio-group>
                       <v-subheader
                         class="pa-0"
@@ -93,7 +98,7 @@
                 <v-tab-item
                   transition="fade"
                   reverse-transition="fade"
-                  value="authentication"
+                  value="login"
                 >
                   <v-card
                     flat
@@ -280,8 +285,8 @@ export default {
           href: 'general',
         },
         {
-          title: this.$t('tabs.authentication'),
-          href: 'authentication',
+          title: this.$t('tabs.login'),
+          href: 'login',
         },
         {
           title: this.$t('tabs.pagination'),
