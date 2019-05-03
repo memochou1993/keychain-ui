@@ -103,5 +103,5 @@ export default {
 <style lang="stylus" scoped>
 #content
   white-space pre-wrap
-  word-break break-all
+  word-break break-word
 </style>
