@@ -89,9 +89,7 @@ export default {
     },
     login: {
       failed: 'Incorrect username or password.',
-      throttle: [
-        'Too many login attempts. Please try again later.',
-      ],
+      throttle: 'Too many login attempts. Please try again later.',
     },
     profile: {
       update: {
@@ -106,9 +104,7 @@ export default {
     },
     unlock: {
       failed: 'Incorrect password.',
-      throttle: [
-        'Too many unlock attempts. Please try again later.',
-      ],
+      throttle: 'Too many unlock attempts. Please try again later.',
     },
     key: {
       noData: 'No key found. | No keys found.',

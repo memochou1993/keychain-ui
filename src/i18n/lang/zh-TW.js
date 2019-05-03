@@ -89,9 +89,7 @@ export default {
     },
     login: {
       failed: '錯誤的使用者名稱或密碼。',
-      throttle: [
-        '嘗試登入次數過多，請稍後再試。',
-      ],
+      throttle: '嘗試登入次數過多，請稍後再試。',
     },
     profile: {
       update: {
@@ -106,9 +104,7 @@ export default {
     },
     unlock: {
       failed: '錯誤的密碼。',
-      throttle: [
-        '嘗試解鎖次數過多，請稍後再試。',
-      ],
+      throttle: '嘗試解鎖次數過多，請稍後再試。',
     },
     key: {
       noData: '沒有發現任何鑰匙。',

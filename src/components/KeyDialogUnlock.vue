@@ -67,7 +67,13 @@ export default {
       'selectedKey',
     ]),
     errorMessages() {
-      return this.error ? [this.$t('messages.unlock.failed')] : [];
+      if (this.status === 401) {
+        return [this.$t('messages.unlock.failed')];
+      }
+      if (this.status === 429) {
+        return [this.$t('messages.unlock.throttle')];
+      }
+      return [];
     },
   },
   watch: {

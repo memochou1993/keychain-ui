@@ -131,7 +131,13 @@ export default {
       'defaultKeep',
     ]),
     message() {
-      return this.$t('messages.login.failed');
+      if (this.status === 401) {
+        return this.$t('messages.login.failed');
+      }
+      if (this.status === 429) {
+        return this.$t('messages.login.throttle');
+      }
+      return '';
     },
   },
   watch: {

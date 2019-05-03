@@ -14,6 +14,12 @@ const api = {
     ...mapState('auth', [
       'payload',
     ]),
+    status() {
+      if (this.error && this.error.response) {
+        return this.error.response.status;
+      }
+      return 0;
+    },
   },
   methods: {
     ...mapActions('auth', [
