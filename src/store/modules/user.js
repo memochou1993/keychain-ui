@@ -1,4 +1,6 @@
 import axios from 'axios';
+import moment from 'moment';
+import cookie from '@/helpers/cookie';
 
 export default {
   namespaced: true,
@@ -55,7 +57,13 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setUser', data.data);
+              const date = rootGetters.defaultKeep
+                ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
+                : null;
+              delete data.data.updated_at;
+              delete data.data.created_at;
+              cookie.set('user', data.data, date);
+              commit('setUser', cookie.get('user'));
             }, 1000 * 0.25);
             resolve(data);
           })

@@ -93,9 +93,6 @@ export default {
           data: params,
         })
           .then(({ data }) => {
-            setTimeout(() => {
-              commit('setUser', data.data);
-            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
