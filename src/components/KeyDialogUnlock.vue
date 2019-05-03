@@ -16,7 +16,6 @@
               :label="$t('fields.password')"
               :rules="rules.password"
               :loading="loading"
-              :disabled="isSuspended"
               :append-icon="`mdi-format-letter-case${capsLock ? '-upper' : '-lower'}`"
               :error-messages="errorMessages"
               type="password"
@@ -41,7 +40,6 @@ import {
 import api from '@/mixins/api';
 import common from '@/mixins/common';
 import dialog from '@/mixins/dialog';
-import throttle from '@/mixins/throttle';
 import validation from '@/mixins/validation';
 
 export default {
@@ -49,7 +47,6 @@ export default {
     api,
     common,
     dialog,
-    throttle,
     validation,
   ],
   data() {
@@ -70,12 +67,7 @@ export default {
       'selectedKey',
     ]),
     errorMessages() {
-      if (!this.error) {
-        return [];
-      }
-      return this.isSuspended
-        ? [this.$t('messages.unlock.throttle')]
-        : [this.$t('messages.unlock.failed')];
+      return this.error ? [this.$t('messages.unlock.failed')] : [];
     },
   },
   watch: {
@@ -117,7 +109,6 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.suspend();
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');

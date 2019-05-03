@@ -14,7 +14,7 @@
         md4
       >
         <v-alert
-          v-if="!!error || isSuspended"
+          v-if="!!error"
           :value="true"
           type="error"
           outline
@@ -73,7 +73,7 @@
               </v-btn>
               <v-spacer />
               <v-btn
-                :disabled="!valid || loading || isSuspended"
+                :disabled="!valid || loading"
                 type="submit"
                 color="primary"
                 class="white--text"
@@ -95,7 +95,6 @@ import {
 import cache from '@/helpers/cache';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
-import throttle from '@/mixins/throttle';
 import validation from '@/mixins/validation';
 import AppNoData from '@/components/AppNoData.vue';
 
@@ -106,7 +105,6 @@ export default {
   mixins: [
     api,
     common,
-    throttle,
     validation,
   ],
   data() {
@@ -133,9 +131,7 @@ export default {
       'defaultKeep',
     ]),
     message() {
-      return this.isSuspended
-        ? `${this.$t('messages.login.throttle')} (${this.counter})`
-        : this.$t('messages.login.failed');
+      return this.$t('messages.login.failed');
     },
   },
   watch: {
@@ -175,7 +171,6 @@ export default {
           }, 1000 * 0.25);
         })
         .catch((error) => {
-          this.suspend();
           this.setError(error);
           this.setNoData(true);
           this.setPassword('');
@@ -198,8 +193,6 @@ export default {
       this.keep = keep;
     },
     submit() {
-      cache.set('settings', this.settings.data);
-      this.setSettings(cache.get('settings'));
       this.login();
     },
   },
