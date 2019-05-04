@@ -28,7 +28,7 @@ export default {
         })
           .then(({ data }) => {
             setTimeout(() => {
-              commit('setUser', data.data);
+              commit('setUser', data);
             }, 1000 * 0.25);
             resolve(data);
           })

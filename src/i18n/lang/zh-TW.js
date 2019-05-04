@@ -61,6 +61,7 @@ export default {
   },
   actions: {
     login: '登入',
+    register: '註冊',
     clear: '重設',
     create: '新增',
     reset: '重設',

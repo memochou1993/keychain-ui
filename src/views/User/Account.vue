@@ -371,8 +371,8 @@ export default {
       this.errorMessages = errorMessages;
     },
     fillUser() {
-      this.setName(this.user.name);
-      this.setUsername(this.user.username);
+      this.setName(this.user.data.name);
+      this.setUsername(this.user.data.username);
     },
     fillPassword() {
       this.setOldPassword('');

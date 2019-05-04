@@ -89,7 +89,7 @@
                 color="primary"
                 @click="$refs.form.reset()"
               >
-                Clear
+                {{ $t('actions.clear') }}
               </v-btn>
               <v-spacer />
               <v-btn
@@ -98,7 +98,7 @@
                 color="primary"
                 class="white--text"
               >
-                Register
+                {{ $t('actions.register') }}
               </v-btn>
             </v-card-actions>
           </v-form>

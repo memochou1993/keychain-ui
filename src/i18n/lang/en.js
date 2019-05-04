@@ -61,6 +61,7 @@ export default {
   },
   actions: {
     login: 'Login',
+    register: 'Register',
     clear: 'Clear',
     create: 'Create',
     reset: 'Reset',

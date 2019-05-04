@@ -61,6 +61,7 @@ export default {
   },
   actions: {
     login: 'ログイン',
+    register: 'アカウントを作成',
     clear: 'クリア',
     create: '作成',
     reset: 'リセット',
