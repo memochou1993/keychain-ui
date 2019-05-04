@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import cache from '@/helpers/cache';
 import cookie from '@/helpers/cookie';
 
 export default {
@@ -64,6 +65,8 @@ export default {
               delete data.data.created_at;
               cookie.set('user', data.data, date);
               commit('setUser', cookie.get('user'));
+              cache.set('settings', JSON.parse(data.data.settings));
+              commit('setSettings', cache.get('settings'), { root: true });
             }, 1000 * 0.25);
             resolve(data);
           })

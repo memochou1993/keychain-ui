@@ -267,14 +267,19 @@
 </template>
 
 <script>
-import cache from '@/helpers/cache';
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import {
+  mapState, mapGetters, mapActions,
+} from 'vuex';
+import api from '@/mixins/api';
 import AppNoData from '@/components/AppNoData.vue';
 
 export default {
   components: {
     AppNoData,
   },
+  mixins: [
+    api,
+  ],
   data() {
     return {
       loading: false,
@@ -328,14 +333,34 @@ export default {
     this.fillSettings();
   },
   methods: {
-    ...mapMutations([
-      'setSettings',
+    ...mapActions('user', [
+      'updateUser',
     ]),
-    setLoading(loading) {
-      this.loading = loading;
-    },
-    setTab(tab) {
-      this.tab = tab;
+    async editSettings() {
+      await this.beforeProcess();
+      await this.updateUser({
+        params: {
+          settings: JSON.stringify({
+            language: this.language,
+            lock: this.defaultLock,
+            strict: this.strict,
+            keep: this.defaultKeep,
+            keepDays: this.keepDays || 1,
+            paging: this.paging,
+            paginate: this.defaultPaginate,
+            theme: this.theme,
+          }),
+        },
+      })
+        .catch((error) => {
+          this.setError(error);
+          this.setNoData(true);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setLoading(false);
+          }, 1000 * 0.25);
+        });
     },
     setLanguage(language) {
       this.language = language;
@@ -346,7 +371,7 @@ export default {
     setKeepDays(keepDays) {
       this.keepDays = keepDays;
     },
-    setpaging(paging) {
+    setPaging(paging) {
       this.paging = paging;
     },
     setTheme(theme) {
@@ -359,30 +384,14 @@ export default {
       this.setLanguage(this.defaultLanguage);
       this.setStrict(this.defaultStrict);
       this.setKeepDays(this.defaultKeepDays);
-      this.setpaging(this.defaultPaging);
+      this.setPaging(this.defaultPaging);
       this.setTheme(this.defaultTheme);
     },
     resetSettings() {
       this.fillSettings();
     },
     saveSettings() {
-      this.setLoading(true);
-      this.setTab(this.tab);
-      const settings = {
-        language: this.language,
-        lock: this.defaultLock,
-        strict: this.strict,
-        keep: this.defaultKeep,
-        keepDays: this.keepDays || 1,
-        paging: this.paging,
-        paginate: this.defaultPaginate,
-        theme: this.theme,
-      };
-      cache.set('settings', settings);
-      this.setSettings(cache.get('settings'));
-      setTimeout(() => {
-        this.setLoading(false);
-      }, 1000 * 0.5);
+      this.editSettings();
     },
   },
 };

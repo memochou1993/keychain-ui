@@ -345,7 +345,6 @@ export default {
             this.setLoading(false);
           }, 1000 * 0.25);
         });
-      return true;
     },
     process() {
       this.fillUser();

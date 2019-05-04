@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import cache from '@/helpers/cache';
 import cookie from '@/helpers/cookie';
 
 export default {
@@ -51,7 +52,9 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true, { root: true });
+            setTimeout(() => {
+              commit('setLoaded', true, { root: true });
+            }, 1000 * 0.25);
           });
       });
     },
@@ -75,7 +78,9 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true, { root: true });
+            setTimeout(() => {
+              commit('setLoaded', true, { root: true });
+            }, 1000 * 0.25);
           });
       });
     },
@@ -124,7 +129,9 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true, { root: true });
+            setTimeout(() => {
+              commit('setLoaded', true, { root: true });
+            }, 1000 * 0.25);
           });
       });
     },
@@ -141,13 +148,17 @@ export default {
           },
         })
           .then(({ data }) => {
-            const date = rootGetters.defaultKeep
-              ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
-              : null;
-            delete data.data.updated_at;
-            delete data.data.created_at;
-            cookie.set('user', data.data, date);
-            commit('setUser', cookie.get('user'));
+            setTimeout(() => {
+              const date = rootGetters.defaultKeep
+                ? moment(parseInt(rootState.settings.createdAt, 10)).add(rootGetters.defaultKeepDays, 'd').toDate()
+                : null;
+              delete data.data.updated_at;
+              delete data.data.created_at;
+              cookie.set('user', data.data, date);
+              commit('setUser', cookie.get('user'));
+              cache.set('settings', JSON.parse(data.data.settings));
+              commit('setSettings', cache.get('settings'), { root: true });
+            }, 1000 * 0.25);
             resolve(data);
           })
           .catch((error) => {
@@ -155,7 +166,9 @@ export default {
             reject(error);
           })
           .finally(() => {
-            commit('setLoaded', true, { root: true });
+            setTimeout(() => {
+              commit('setLoaded', true, { root: true });
+            }, 1000 * 0.25);
           });
       });
     },

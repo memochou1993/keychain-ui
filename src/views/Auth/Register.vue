@@ -131,6 +131,16 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      settings: {
+        language: 'en',
+        lock: false,
+        strict: false,
+        keep: false,
+        keepDays: 7,
+        paging: 'loadMoreButton',
+        paginate: 15,
+        theme: 'indigo',
+      },
       rules: {
         name: [
           v => (v && !!v.trim()) || this.vt('name', 'required'),
@@ -195,6 +205,7 @@ export default {
           username: this.username,
           email: this.email,
           password: this.password,
+          settings: JSON.stringify(this.settings),
         },
       })
         .then(() => {

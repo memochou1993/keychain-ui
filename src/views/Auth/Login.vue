@@ -89,10 +89,7 @@
 </template>
 
 <script>
-import {
-  mapState, mapGetters, mapMutations, mapActions,
-} from 'vuex';
-import cache from '@/helpers/cache';
+import { mapActions } from 'vuex';
 import api from '@/mixins/api';
 import common from '@/mixins/common';
 import validation from '@/mixins/validation';
@@ -124,12 +121,6 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      'settings',
-    ]),
-    ...mapGetters([
-      'defaultKeep',
-    ]),
     message() {
       if (this.status === 401) {
         return this.$t('messages.login.failed');
@@ -140,23 +131,7 @@ export default {
       return '';
     },
   },
-  watch: {
-    keep(value) {
-      if (value !== this.defaultKeep) {
-        const { data } = this.settings;
-        data.keep = this.keep;
-        cache.set('settings', data);
-        this.setSettings(cache.get('settings'));
-      }
-    },
-  },
-  created() {
-    this.setKeep(this.defaultKeep);
-  },
   methods: {
-    ...mapMutations([
-      'setSettings',
-    ]),
     ...mapActions('auth', [
       'fetchToken',
     ]),
@@ -194,9 +169,6 @@ export default {
     },
     setPassword(password) {
       this.password = password;
-    },
-    setKeep(keep) {
-      this.keep = keep;
     },
     submit() {
       this.login();
