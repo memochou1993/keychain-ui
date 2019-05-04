@@ -46,6 +46,12 @@
         Keychain
       </v-toolbar-title>
       <v-spacer />
+      <div
+        v-if="user"
+        class="mx-3"
+      >
+        Hi, {{ user.data.name }}
+      </div>
       <v-btn
         v-for="(item, index) in toolbarLinks"
         :key="index"
@@ -69,6 +75,7 @@ export default {
   },
   computed: {
     ...mapState('auth', [
+      'user',
       'payload',
     ]),
     toolbarLinks() {
