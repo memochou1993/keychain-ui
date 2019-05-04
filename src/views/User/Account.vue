@@ -231,14 +231,14 @@ export default {
   },
   watch: {
     tab() {
-      this.setError(null);
-      this.setMessage('');
       if (this.isProfile) {
         this.fillPassword();
       }
       if (this.isPassword) {
         this.fillUser();
       }
+      this.setError(null);
+      this.setMessage('');
     },
     name() {
       const name = '';

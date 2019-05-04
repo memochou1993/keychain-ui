@@ -150,9 +150,19 @@ export default {
       }
     },
   },
+  created() {
+    this.setApproved(false);
+    this.setUnlockedKeys([]);
+    this.setExposedKeys([]);
+  },
   methods: {
     ...mapMutations([
       'setSettings',
+    ]),
+    ...mapMutations('key', [
+      'setApproved',
+      'setUnlockedKeys',
+      'setExposedKeys',
     ]),
     ...mapActions('auth', [
       'fetchToken',
