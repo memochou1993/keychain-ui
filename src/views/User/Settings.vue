@@ -45,22 +45,6 @@
                         class="pa-0"
                       >
                         {{ $t('settings.language') }}
-                        <v-tooltip
-                          right
-                          color="secondary"
-                        >
-                          <template
-                            v-slot:activator="{ on }"
-                          >
-                            <v-icon
-                              class="mx-2"
-                              v-on="on"
-                            >
-                              mdi-information-outline
-                            </v-icon>
-                          </template>
-                          {{ hints.language }}
-                        </v-tooltip>
                       </v-subheader>
                       <v-radio-group
                         v-model="language"
@@ -189,22 +173,6 @@
                         class="pa-0"
                       >
                         {{ $t('settings.colors') }}
-                        <v-tooltip
-                          right
-                          color="secondary"
-                        >
-                          <template
-                            v-slot:activator="{ on }"
-                          >
-                            <v-icon
-                              class="mx-2"
-                              v-on="on"
-                            >
-                              mdi-information-outline
-                            </v-icon>
-                          </template>
-                          {{ hints.theme }}
-                        </v-tooltip>
                       </v-subheader>
                       <v-radio-group
                         v-model="theme"
@@ -212,23 +180,23 @@
                       >
                         <v-radio
                           :label="$t('settings.indigo')"
+                          :value="colors.indigo"
                           color="primary"
-                          value="indigo"
                         />
                         <v-radio
                           :label="$t('settings.blue')"
+                          :value="colors.blue"
                           color="primary"
-                          value="blue"
                         />
                         <v-radio
                           :label="$t('settings.cyan')"
+                          :value="colors.cyan"
                           color="primary"
-                          value="cyan"
                         />
                         <v-radio
                           :label="$t('settings.teal')"
+                          :value="colors.teal"
                           color="primary"
-                          value="teal"
                         />
                       </v-radio-group>
                     </v-card-text>
@@ -267,6 +235,7 @@
 </template>
 
 <script>
+import colors from 'vuetify/lib/util/colors';
 import {
   mapState, mapGetters, mapActions,
 } from 'vuex';
@@ -284,33 +253,14 @@ export default {
     return {
       loading: false,
       tab: '',
-      tabs: [
-        {
-          title: this.$t('tabs.general'),
-          href: 'general',
-        },
-        {
-          title: this.$t('tabs.login'),
-          href: 'login',
-        },
-        {
-          title: this.$t('tabs.pagination'),
-          href: 'pagination',
-        },
-        {
-          title: this.$t('tabs.theme'),
-          href: 'theme',
-        },
-      ],
       language: 'en',
       strict: false,
       keepDays: 7,
       paging: 'loadMoreButton',
       theme: 'indigo',
+      colors,
       hints: {
-        language: this.$t('settings.hints.language'),
         keepDays: this.$t('settings.hints.keepDays'),
-        theme: this.$t('settings.hints.theme'),
       },
     };
   },
@@ -328,6 +278,26 @@ export default {
       'defaultPaginate',
       'defaultTheme',
     ]),
+    tabs() {
+      return [
+        {
+          title: this.$t('tabs.general'),
+          href: 'general',
+        },
+        {
+          title: this.$t('tabs.login'),
+          href: 'login',
+        },
+        {
+          title: this.$t('tabs.pagination'),
+          href: 'pagination',
+        },
+        {
+          title: this.$t('tabs.theme'),
+          href: 'theme',
+        },
+      ];
+    },
   },
   created() {
     this.fillSettings();
@@ -358,6 +328,8 @@ export default {
         })
         .finally(() => {
           setTimeout(() => {
+            this.$i18n.locale = this.language;
+            this.$vuetify.theme.primary = this.theme;
             this.setLoading(false);
           }, 1000 * 0.25);
         });

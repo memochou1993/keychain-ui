@@ -34,9 +34,7 @@ export default {
     cyan: 'Cyan',
     teal: 'Teal',
     hints: {
-      language: 'This setting will take effect after reloading the page.',
       keepDays: 'This setting will take effect on next login.',
-      theme: 'This setting will take effect after reloading the page.',
     },
   },
   headers: {

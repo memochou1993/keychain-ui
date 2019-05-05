@@ -34,9 +34,7 @@ export default {
     cyan: 'シアン',
     teal: 'ティール',
     hints: {
-      language: 'この設定は再読み込み時に有効になります',
-      keepDays: 'この設定は再ログイン時に有効になります',
-      theme: 'この設定は再読み込み時に有効になります',
+      keepDays: 'この設定は再ログイン時に有効になります。',
     },
   },
   headers: {

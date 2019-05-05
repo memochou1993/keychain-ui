@@ -34,9 +34,7 @@ export default {
     cyan: '青色',
     teal: '藍綠色',
     hints: {
-      language: '此設定在重新整理頁面後生效。',
       keepDays: '此設定在下一次登入時生效。',
-      theme: '此設定在重新整理頁面後生效。',
     },
   },
   headers: {
