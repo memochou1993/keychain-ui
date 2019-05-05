@@ -7,7 +7,7 @@ import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify, {
   theme: {
-    primary: store.state.settings.data.theme,
+    primary: store.state.settings.data.theme || colors.indigo,
     secondary: colors.grey,
     accent: colors.purple,
     error: colors.red,

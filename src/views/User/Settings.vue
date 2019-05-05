@@ -372,7 +372,7 @@ export default {
       this.setStrict(this.defaultStrict);
       this.setKeepDays(this.defaultKeepDays);
       this.setPaging(this.defaultPaging);
-      this.setTheme(this.defaultTheme);
+      this.setTheme(this.defaultTheme || colors.indigo);
     },
     resetSettings() {
       this.fillSettings();
