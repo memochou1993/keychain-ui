@@ -105,6 +105,7 @@ export default {
     email: '{f}必須是有效的電子郵件地址。',
     required: '{f}不能留空。',
     min: '{f}不能小於 {n} 個字元。',
+    max: '{f}不能大於 {n} 個字元。',
     alphaNum: '{f}只能以字母及數字組成。',
     confirmPassword: '確認密碼與密碼不一致。',
     confirmNewPassword: '確認密碼與新密碼不一致。',

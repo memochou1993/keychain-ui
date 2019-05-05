@@ -105,6 +105,7 @@ export default {
     email: 'The {f} must be a valid email address.',
     required: 'The {f} is required.',
     min: 'The {f} must be at least {n} characters.',
+    max: 'The {f} may not be greater than {n} characters.',
     alphaNum: 'The {f} may only contain letters and numbers.',
     confirmPassword: 'The password confirmation does not match.',
     confirmNewPassword: 'The password confirmation does not match.',

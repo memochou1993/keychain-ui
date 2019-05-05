@@ -185,6 +185,7 @@ export default {
       rules: {
         name: [
           v => (v && !!v.trim()) || this.vt('name', 'required'),
+          v => (v && v.length <= 20) || this.vt('username', 'max', 20),
         ],
         username: [
           v => (v && !!v.trim()) || this.vt('username', 'required'),

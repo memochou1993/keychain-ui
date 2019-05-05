@@ -1,9 +1,11 @@
 import { mapGetters } from 'vuex';
 
 const validation = {
-  ...mapGetters([
-    'defaultLanguage',
-  ]),
+  computed: {
+    ...mapGetters([
+      'defaultLanguage',
+    ]),
+  },
   methods: {
     vt(field, rule, number = 0) {
       let f = this.$t(`fields.${field}`);
