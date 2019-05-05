@@ -272,7 +272,7 @@ export default {
       strict: false,
       keepDays: 7,
       paging: 'loadMoreButton',
-      theme: 'indigo',
+      theme: colors.indigo,
       colors,
       hints: {
         keepDays: this.$t('settings.hints.keepDays'),

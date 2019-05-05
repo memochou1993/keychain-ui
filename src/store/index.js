@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import colors from 'vuetify/lib/util/colors';
 import cache from '@/helpers/cache';
 import auth from './modules/auth';
 import user from './modules/user';
@@ -28,7 +29,7 @@ export default new Vuex.Store({
         keepDays: 7,
         paging: 'loadMoreButton',
         paginate: 15,
-        theme: 'indigo',
+        theme: colors.indigo,
       },
     },
   },

@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import colors from 'vuetify/lib/util/colors';
 import { mapActions } from 'vuex';
 import api from '@/mixins/api';
 import validation from '@/mixins/validation';
@@ -139,7 +140,7 @@ export default {
         keepDays: 7,
         paging: 'loadMoreButton',
         paginate: 15,
-        theme: 'indigo',
+        theme: colors.indigo,
       },
       rules: {
         name: [
