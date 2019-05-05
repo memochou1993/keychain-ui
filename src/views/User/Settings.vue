@@ -274,9 +274,6 @@ export default {
       paging: 'loadMoreButton',
       theme: colors.indigo,
       colors,
-      hints: {
-        keepDays: this.$t('settings.hints.keepDays'),
-      },
     };
   },
   computed: {
@@ -312,6 +309,11 @@ export default {
           href: 'theme',
         },
       ];
+    },
+    hints() {
+      return {
+        keepDays: this.$t('settings.hints.keepDays'),
+      };
     },
   },
   created() {
