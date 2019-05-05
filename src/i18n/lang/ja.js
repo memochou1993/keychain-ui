@@ -16,23 +16,50 @@ export default {
     theme: 'テーマ',
   },
   settings: {
-    language: '言語',
-    en: 'English',
-    zhTW: '中文',
-    ja: '日本語',
-    accessControl: 'アクセス制御',
-    alwaysAskPassword: '常にパスワードを要求する',
-    rememberMeExpiration: 'ログイン状態の保存期間',
-    day: '{n} 日',
-    pagingType: 'ページングタイプ',
-    loadMoreButton: '「もっと見る」ボタン',
-    pagination: 'ページネーション',
-    infiniteScroll: '無限スクロール',
-    colors: 'カラー',
-    indigo: 'インディゴ',
-    blue: 'ブルー',
-    cyan: 'シアン',
-    teal: 'ティール',
+    general: {
+      language: {
+        title: '言語',
+        languages: {
+          en: 'English',
+          zhTW: '中文',
+          ja: '日本語',
+        },
+      },
+      accessControl: {
+        title: 'アクセス制御',
+        alwaysAskPassword: '常にパスワードを要求する',
+      },
+    },
+    login: {
+      rememberMeExpiration: {
+        title: 'ログイン状態の保存期間',
+        day: '{n} 日',
+      },
+    },
+    pagination: {
+      types: {
+        title: 'ページングタイプ',
+        types: {
+          loadMoreButton: '「もっと見る」ボタン',
+          pagination: 'ページネーション',
+          infiniteScroll: '無限スクロール',
+        },
+      },
+    },
+    theme: {
+      primaryColor: {
+        title: 'カラー',
+        colors: {
+          indigo: 'インディゴ',
+          purple: 'パープル',
+          blue: 'ブルー',
+          cyan: 'シアン',
+          teal: 'ティール',
+          amber: 'アンバー',
+          orange: 'オレンジ',
+        },
+      },
+    },
     hints: {
       keepDays: 'この設定は再ログイン時に有効になります。',
     },

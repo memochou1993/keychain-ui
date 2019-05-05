@@ -16,23 +16,50 @@ export default {
     theme: 'Theme',
   },
   settings: {
-    language: 'Language',
-    en: 'English',
-    zhTW: '中文',
-    ja: '日本語',
-    accessControl: 'Access Control',
-    alwaysAskPassword: 'Always require a password',
-    rememberMeExpiration: 'Remember Me Expiration',
-    day: '{n} day | {n} days',
-    pagingType: 'Paging Type',
-    loadMoreButton: 'Load more button',
-    pagination: 'Pagination',
-    infiniteScroll: 'Infinite scroll',
-    colors: 'Colors',
-    indigo: 'Indigo',
-    blue: 'Blue',
-    cyan: 'Cyan',
-    teal: 'Teal',
+    general: {
+      language: {
+        title: 'Language',
+        languages: {
+          en: 'English',
+          zhTW: '中文',
+          ja: '日本語',
+        },
+      },
+      accessControl: {
+        title: 'Access Control',
+        alwaysAskPassword: 'Always require a password',
+      },
+    },
+    login: {
+      rememberMeExpiration: {
+        title: 'Remember Me Expiration',
+        day: '{n} day | {n} days',
+      },
+    },
+    pagination: {
+      types: {
+        title: 'Paging Type',
+        types: {
+          loadMoreButton: 'Load more button',
+          pagination: 'Pagination',
+          infiniteScroll: 'Infinite scroll',
+        },
+      },
+    },
+    theme: {
+      primaryColor: {
+        title: 'Primary Color',
+        colors: {
+          indigo: 'Indigo',
+          purple: 'Purple',
+          blue: 'Blue',
+          cyan: 'Cyan',
+          teal: 'Teal',
+          amber: 'Amber',
+          orange: 'Orange',
+        },
+      },
+    },
     hints: {
       keepDays: 'This setting will take effect on next login.',
     },

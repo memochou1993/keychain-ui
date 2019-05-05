@@ -44,24 +44,24 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        {{ $t('settings.language') }}
+                        {{ $t('settings.general.language.title') }}
                       </v-subheader>
                       <v-radio-group
                         v-model="language"
                         row
                       >
                         <v-radio
-                          :label="$t('settings.en')"
+                          :label="$t('settings.general.language.languages.en')"
                           color="primary"
                           value="en"
                         />
                         <v-radio
-                          :label="$t('settings.zhTW')"
+                          :label="$t('settings.general.language.languages.zhTW')"
                           color="primary"
                           value="zhTW"
                         />
                         <v-radio
-                          :label="$t('settings.ja')"
+                          :label="$t('settings.general.language.languages.ja')"
                           color="primary"
                           value="ja"
                         />
@@ -69,11 +69,11 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        {{ $t('settings.accessControl') }}
+                        {{ $t('settings.general.accessControl.title') }}
                       </v-subheader>
                       <v-switch
                         v-model="strict"
-                        :label="$t('settings.alwaysAskPassword')"
+                        :label="$t('settings.general.accessControl.alwaysAskPassword')"
                         color="primary"
                       />
                     </v-card-text>
@@ -91,7 +91,7 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        {{ $t('settings.rememberMeExpiration') }}
+                        {{ $t('settings.login.rememberMeExpiration.title') }}
                         <v-tooltip
                           right
                           color="secondary"
@@ -115,9 +115,9 @@
                         :max="14"
                         :step="7"
                         :tick-labels="[
-                          $tc('settings.day', 1),
-                          $tc('settings.day', 7),
-                          $tc('settings.day', 14),
+                          $tc('settings.login.rememberMeExpiration.day', 1),
+                          $tc('settings.login.rememberMeExpiration.day', 7),
+                          $tc('settings.login.rememberMeExpiration.day', 14),
                         ]"
                       />
                     </v-card-text>
@@ -135,24 +135,24 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        {{ $t('settings.pagingType') }}
+                        {{ $t('settings.pagination.types.title') }}
                       </v-subheader>
                       <v-radio-group
                         v-model="paging"
                         row
                       >
                         <v-radio
-                          :label="$t('settings.loadMoreButton')"
+                          :label="$t('settings.pagination.types.types.loadMoreButton')"
                           color="primary"
                           value="loadMoreButton"
                         />
                         <v-radio
-                          :label="$t('settings.pagination')"
+                          :label="$t('settings.pagination.types.types.pagination')"
                           color="primary"
                           value="pagination"
                         />
                         <v-radio
-                          :label="$t('settings.infiniteScroll')"
+                          :label="$t('settings.pagination.types.types.infiniteScroll')"
                           color="primary"
                           value="infiniteScroll"
                         />
@@ -172,30 +172,45 @@
                       <v-subheader
                         class="pa-0"
                       >
-                        {{ $t('settings.colors') }}
+                        {{ $t('settings.theme.primaryColor.title') }}
                       </v-subheader>
                       <v-radio-group
                         v-model="theme"
                         row
                       >
                         <v-radio
-                          :label="$t('settings.indigo')"
+                          :label="$t('settings.theme.primaryColor.colors.indigo')"
                           :value="colors.indigo"
                           color="primary"
                         />
                         <v-radio
-                          :label="$t('settings.blue')"
+                          :label="$t('settings.theme.primaryColor.colors.purple')"
+                          :value="colors.purple"
+                          color="primary"
+                        />
+                        <v-radio
+                          :label="$t('settings.theme.primaryColor.colors.blue')"
                           :value="colors.blue"
                           color="primary"
                         />
                         <v-radio
-                          :label="$t('settings.cyan')"
+                          :label="$t('settings.theme.primaryColor.colors.cyan')"
                           :value="colors.cyan"
                           color="primary"
                         />
                         <v-radio
-                          :label="$t('settings.teal')"
+                          :label="$t('settings.theme.primaryColor.colors.teal')"
                           :value="colors.teal"
+                          color="primary"
+                        />
+                        <v-radio
+                          :label="$t('settings.theme.primaryColor.colors.amber')"
+                          :value="colors.amber"
+                          color="primary"
+                        />
+                        <v-radio
+                          :label="$t('settings.theme.primaryColor.colors.orange')"
+                          :value="colors.orange"
                           color="primary"
                         />
                       </v-radio-group>

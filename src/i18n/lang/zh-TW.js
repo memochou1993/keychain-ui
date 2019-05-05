@@ -16,23 +16,50 @@ export default {
     theme: '主題',
   },
   settings: {
-    language: '語言',
-    en: 'English',
-    zhTW: '中文',
-    ja: '日本語',
-    accessControl: '存取控制',
-    alwaysAskPassword: '總是詢問密碼',
-    rememberMeExpiration: '「記住我」有效期限',
-    day: '{n} 天',
-    pagingType: '分頁類型',
-    loadMoreButton: '「載入更多」按鈕',
-    pagination: '頁碼',
-    infiniteScroll: '無限滾動',
-    colors: '顏色',
-    indigo: '靛藍色',
-    blue: '藍色',
-    cyan: '青色',
-    teal: '藍綠色',
+    general: {
+      language: {
+        title: '語言',
+        languages: {
+          en: 'English',
+          zhTW: '中文',
+          ja: '日本語',
+        },
+      },
+      accessControl: {
+        title: '存取控制',
+        alwaysAskPassword: '總是詢問密碼',
+      },
+    },
+    login: {
+      rememberMeExpiration: {
+        title: '「記住我」有效期限',
+        day: '{n} 天',
+      },
+    },
+    pagination: {
+      types: {
+        title: '分頁類型',
+        types: {
+          loadMoreButton: '「載入更多」按鈕',
+          pagination: '頁碼',
+          infiniteScroll: '無限滾動',
+        },
+      },
+    },
+    theme: {
+      primaryColor: {
+        title: '顏色',
+        colors: {
+          indigo: '靛藍色',
+          purple: '紫色',
+          blue: '藍色',
+          cyan: '青色',
+          teal: '藍綠色',
+          amber: '橙黃色',
+          orange: '橘色',
+        },
+      },
+    },
     hints: {
       keepDays: '此設定在下一次登入時生效。',
     },
