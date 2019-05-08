@@ -145,7 +145,7 @@ export default {
       await this.refreshToken();
       await this.destroyKey()
         .then(() => {
-          if (!this.keys.length) {
+          if (this.keys.length <= 1) {
             return this.setRefresh(this.refresh + 1);
           }
           if (this.isInfiniteScroll && this.pages > 1 && this.isDestroyed(2 / 3)) {
