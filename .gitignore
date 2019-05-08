@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-sync.sh
 
 # Local env files
 .env.local
