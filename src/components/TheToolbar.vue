@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-if="!!payload"
       v-model="drawer"
       :width="250"
       app
@@ -9,7 +8,7 @@
     >
       <v-list>
         <v-list-tile
-          v-for="(item, index) in drawerLinks"
+          v-for="(item, index) in links"
           :key="index"
           :to="item.to"
           :class="[$route.name === item.to.name && 'secondary lighten-4']"
@@ -48,18 +47,9 @@
       <v-spacer />
       <div
         v-if="user"
-        class="mx-3"
       >
         Hi, {{ user.data.name }}
       </div>
-      <v-btn
-        v-for="(item, index) in toolbarLinks"
-        :key="index"
-        :to="item.to"
-        outline
-      >
-        {{ item.title }}
-      </v-btn>
     </v-toolbar>
   </div>
 </template>
@@ -78,13 +68,14 @@ export default {
       'user',
       'payload',
     ]),
-    toolbarLinks() {
+    links() {
       return [
         {
           title: this.$t('links.login'),
           to: {
             name: 'auth.login',
           },
+          icon: 'mdi-login-variant',
           meta: {
             requiresAuth: false,
           },
@@ -94,23 +85,11 @@ export default {
           to: {
             name: 'auth.register',
           },
+          icon: 'mdi-account-plus-outline',
           meta: {
             requiresAuth: false,
           },
         },
-        {
-          title: this.$t('links.logout'),
-          to: {
-            name: 'auth.logout',
-          },
-          meta: {
-            requiresAuth: true,
-          },
-        },
-      ].filter(link => link.meta.requiresAuth === !!this.payload);
-    },
-    drawerLinks() {
-      return [
         {
           title: this.$t('links.account'),
           to: {
@@ -137,6 +116,16 @@ export default {
             name: 'user.settings',
           },
           icon: 'mdi-settings-outline',
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          title: this.$t('links.logout'),
+          to: {
+            name: 'auth.logout',
+          },
+          icon: 'mdi-logout-variant',
           meta: {
             requiresAuth: true,
           },
