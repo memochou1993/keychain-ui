@@ -385,8 +385,8 @@ export default {
 
 <style lang="stylus" scoped>
 range = 20px
-title = 140px
-content = 200px
+title = 200px
+content = 140px
 
 .ellipsis
   overflow hidden

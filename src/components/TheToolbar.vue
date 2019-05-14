@@ -36,7 +36,6 @@
       clipped-left
     >
       <v-toolbar-side-icon
-        class="hidden-lg-and-up"
         @click.stop="setDrawer(!drawer)"
       />
       <v-toolbar-title
