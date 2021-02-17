@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    container_name: keychain-client
+    container_name: keychain-ui
     build: .
     restart: always
     env_file: .env
