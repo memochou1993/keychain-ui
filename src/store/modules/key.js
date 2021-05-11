@@ -114,7 +114,7 @@ export default {
           headers: {
             Authorization: rootGetters['auth/authorization'],
           },
-          params,
+          data: params,
         })
           .then(({ data }) => {
             setTimeout(() => {
