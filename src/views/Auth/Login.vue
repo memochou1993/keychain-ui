@@ -173,6 +173,7 @@ export default {
           grant_type: 'password',
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
+          token: await this.fetchRecaptchaToken(),
         },
       })
         .then(() => {
@@ -201,6 +202,11 @@ export default {
     },
     submit() {
       this.login();
+    },
+    async fetchRecaptchaToken() {
+      await this.$recaptchaLoaded();
+      const token = await this.$recaptcha('login');
+      return token;
     },
   },
 };

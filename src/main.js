@@ -5,6 +5,7 @@ import store from './store/index';
 import i18n from './i18n/index';
 import './plugins/vuetify';
 import './plugins/axios';
+import './plugins/recaptcha';
 import './stylus/main.styl';
 
 Vue.prototype.$app = {
