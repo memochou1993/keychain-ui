@@ -370,7 +370,6 @@ export default {
       this.hints = hints;
     },
     fillSettings() {
-      console.log(this.defaultLanguage);
       this.setLanguage(this.defaultLanguage);
       this.setStrict(this.defaultStrict);
       this.setKeepDays(this.defaultKeepDays);
