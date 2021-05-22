@@ -154,7 +154,7 @@ export default {
                 : null;
               cookie.set('user', data.data, date);
               commit('setUser', cookie.get('user'));
-              cache.set('settings', JSON.parse(data.data.settings));
+              cache.set('settings', JSON.parse(data.data.settings) || rootState.settings.data);
               commit('setSettings', cache.get('settings'), { root: true });
             }, 1000 * 0.25);
             resolve(data);
