@@ -1,4 +1,5 @@
 import moment from 'moment';
+import cookie from '@/helpers/cookie';
 import { mapState, mapActions } from 'vuex';
 
 const api = {
@@ -39,7 +40,14 @@ const api = {
         this.setError(null);
         this.setNoData(false);
         this.setLoading(true);
-        await this.refreshToken();
+        try {
+          await this.refreshToken();
+        } catch (error) {
+          cookie.delete('payload');
+          cookie.delete('user');
+          window.location.href = '/';
+          return;
+        }
         resolve();
       });
     },
