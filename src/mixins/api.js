@@ -62,6 +62,11 @@ const api = {
         },
       });
     },
+    async getRecaptchaToken(action) {
+      await this.$recaptchaLoaded();
+      const token = await this.$recaptcha(action);
+      return token;
+    },
   },
 };
 

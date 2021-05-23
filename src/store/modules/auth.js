@@ -170,5 +170,25 @@ export default {
           });
       });
     },
+    verify({
+      commit,
+    }, { params }) {
+      commit('setLoaded', false, { root: true });
+      return new Promise((resolve) => {
+        axios({
+          method: 'POST',
+          url: '/auth/verify',
+          data: params,
+        })
+          .then(({ data }) => {
+            resolve(data);
+          })
+          .finally(() => {
+            setTimeout(() => {
+              commit('setLoaded', true, { root: true });
+            }, 1000 * 0.25);
+          });
+      });
+    },
   },
 };

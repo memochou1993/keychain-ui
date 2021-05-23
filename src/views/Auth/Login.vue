@@ -163,9 +163,19 @@ export default {
     ]),
     ...mapActions('auth', [
       'fetchToken',
+      'verify',
     ]),
     async login() {
       await this.beforeProcess();
+      const { success } = await this.verify({
+        params: {
+          token: await this.getRecaptchaToken('login'),
+        },
+      });
+      if (!success) {
+        this.setLoading(false);
+        return;
+      }
       await this.fetchToken({
         params: {
           username: this.username,
@@ -173,7 +183,6 @@ export default {
           grant_type: 'password',
           client_id: process.env.VUE_APP_API_CLIENT_ID,
           client_secret: process.env.VUE_APP_API_CLIENT_SECRET,
-          token: await this.fetchRecaptchaToken(),
         },
       })
         .then(() => {
@@ -202,11 +211,6 @@ export default {
     },
     submit() {
       this.login();
-    },
-    async fetchRecaptchaToken() {
-      await this.$recaptchaLoaded();
-      const token = await this.$recaptcha('login');
-      return token;
     },
   },
 };

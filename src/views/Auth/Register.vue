@@ -197,9 +197,19 @@ export default {
   methods: {
     ...mapActions('auth', [
       'storeUser',
+      'verify',
     ]),
     async register() {
       await this.beforeProcess();
+      const { success } = await this.verify({
+        params: {
+          token: await this.getRecaptchaToken('register'),
+        },
+      });
+      if (!success) {
+        this.setLoading(false);
+        return;
+      }
       await this.storeUser({
         params: {
           name: this.name,
