@@ -131,6 +131,9 @@ export default {
         case 'toggle':
           this.toggleKey();
           break;
+        case 'copy':
+          this.copyContent();
+          break;
         case 'view':
           this.viewKey();
           break;
@@ -161,6 +164,10 @@ export default {
     toggleKey() {
       this.setDialog('');
       this.pushExposedKeys(this.key.id);
+    },
+    copyContent() {
+      this.setDialog('');
+      this.$nextTick(() => this.$copyText(this.key.content));
     },
     viewKey() {
       this.setDialog('view');

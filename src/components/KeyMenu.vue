@@ -22,13 +22,10 @@
         dense
       >
         <v-list-tile
-          v-if="selectedKey.link"
-          :href="selectedKey.link"
-          color="info darken-2"
-          target="_blank"
+          @click="copyContent"
         >
           <v-list-tile-title>
-            {{ $t('actions.openLink') }}
+            {{ $t('actions.copy') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
@@ -43,6 +40,16 @@
         >
           <v-list-tile-title>
             {{ $t('actions.edit') }}
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile
+          v-if="selectedKey.link"
+          :href="selectedKey.link"
+          color="info darken-2"
+          target="_blank"
+        >
+          <v-list-tile-title>
+            {{ $t('actions.openLink') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
@@ -119,6 +126,14 @@ export default {
     attempt(attemption, key) {
       this.setAttemption(attemption);
       this.setSelectedKey(key);
+    },
+    copyContent() {
+      this.attempt('copy', this.selectedKey);
+      if (!this.isUnlocked) {
+        this.setDialog('unlock');
+        return;
+      }
+      this.$copyText(this.selectedKey.content);
     },
     viewKey() {
       this.attempt('view', this.selectedKey);

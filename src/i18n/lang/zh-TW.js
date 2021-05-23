@@ -95,6 +95,7 @@ export default {
     search: '檢索',
     load: '載入更多',
     openLink: '打開連結',
+    copy: '複製',
     view: '查看',
     edit: '編輯',
     remove: '移除',

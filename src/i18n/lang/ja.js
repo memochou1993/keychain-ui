@@ -95,6 +95,7 @@ export default {
     search: '検索',
     load: 'もっと見る',
     openLink: 'リンクを開く',
+    copy: 'コピー',
     view: '表示',
     edit: '編集',
     remove: '削除',
