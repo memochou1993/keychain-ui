@@ -161,7 +161,7 @@ export default {
         this.setDialog('unlock');
         return;
       }
-      this.$copyText(this.selectedKey.content);
+      this.$copyText(this.replaceTags(this.selectedKey.content));
     },
     viewKey() {
       this.attempt('view', this.selectedKey);

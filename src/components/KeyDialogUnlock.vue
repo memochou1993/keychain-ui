@@ -167,7 +167,7 @@ export default {
     },
     copyContent() {
       this.setDialog('');
-      this.$nextTick(() => this.$copyText(this.key.content));
+      this.$nextTick(() => this.$copyText(this.replaceTags(this.key.content)));
     },
     viewKey() {
       this.setDialog('view');
