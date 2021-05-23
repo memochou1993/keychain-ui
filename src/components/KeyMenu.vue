@@ -25,6 +25,12 @@
           @click="copyContent"
         >
           <v-list-tile-title>
+            <v-icon
+              small
+              class="mr-2"
+            >
+              mdi-content-copy
+            </v-icon>
             {{ $t('actions.copy') }}
           </v-list-tile-title>
         </v-list-tile>
@@ -32,6 +38,12 @@
           @click="viewKey"
         >
           <v-list-tile-title>
+            <v-icon
+              small
+              class="mr-2"
+            >
+              mdi-file-document-outline
+            </v-icon>
             {{ $t('actions.view') }}
           </v-list-tile-title>
         </v-list-tile>
@@ -39,6 +51,12 @@
           @click="editKey"
         >
           <v-list-tile-title>
+            <v-icon
+              small
+              class="mr-2"
+            >
+              mdi-pencil
+            </v-icon>
             {{ $t('actions.edit') }}
           </v-list-tile-title>
         </v-list-tile>
@@ -49,14 +67,28 @@
           target="_blank"
         >
           <v-list-tile-title>
+            <v-icon
+              color="info darken-2"
+              small
+              class="mr-2"
+            >
+              mdi-link
+            </v-icon>
             {{ $t('actions.openLink') }}
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          :color="`warning ${isDeprecated ? 'darken-4' : 'darken-2'}`"
+          :color="`warning ${isDeprecated ? 'darken-4' : 'darken-1'}`"
           @click="removeKey"
         >
           <v-list-tile-title>
+            <v-icon
+              :color="`warning ${isDeprecated ? 'darken-4' : 'darken-1'}`"
+              small
+              class="mr-2"
+            >
+              mdi-trash-can-outline
+            </v-icon>
             {{ isDeprecated ? $t('actions.clickToConfirm') : $t('actions.remove') }}
           </v-list-tile-title>
         </v-list-tile>
