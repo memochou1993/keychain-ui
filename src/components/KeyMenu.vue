@@ -63,12 +63,10 @@
         <v-list-tile
           v-if="selectedKey.link"
           :href="selectedKey.link"
-          color="info darken-2"
           target="_blank"
         >
           <v-list-tile-title>
             <v-icon
-              color="info darken-2"
               small
               class="mr-2"
             >
@@ -78,12 +76,10 @@
           </v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          :color="`warning ${isDeprecated ? 'darken-4' : 'darken-1'}`"
           @click="removeKey"
         >
           <v-list-tile-title>
             <v-icon
-              :color="`warning ${isDeprecated ? 'darken-4' : 'darken-1'}`"
               small
               class="mr-2"
             >
